@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 178 234" width="1068" height="1404" font-family="Arial, Helvetica, sans-serif">
 <defs><marker id="ar" viewBox="0 0 6 6" refX="3" refY="3" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L6,3 L0,6 z" fill="#616161"/></marker></defs>
 <rect width="178" height="234" fill="#ffffff"/>
-<text x="89.0" y="7" font-size="3.6" text-anchor="middle" fill="#212121" font-weight="bold">KIDBOX — layout propuesto · espec. v0.5 (supuesto, escala 1:1 en mm)</text>
+<text x="89.0" y="7" font-size="3.6" text-anchor="middle" fill="#212121" font-weight="bold">KIDBOX — layout propuesto · espec. v0.6 (supuesto, escala 1:1 en mm)</text>
 <text x="89.0" y="11.2" font-size="2.0" text-anchor="middle" fill="#424242" font-weight="normal">Base Game★Mite · RP2350-Plus · TFT ILI9341 2.4" (sin SD ni táctil) · DAC PCM5102A · 9 pulsadores 6×6 · todo THT, 2 capas</text>
 <text x="16" y="17.5" font-size="2.8" text-anchor="start" fill="#1b5e20" font-weight="bold">1 · CARA FRONTAL (Top) — lo que ve el niño</text>
 <g transform="translate(16,24)">
@@ -136,11 +136,9 @@
 <circle cx="125" cy="8" r="0.45" fill="#ffe0b2" stroke="#6d4c00" stroke-width="0.15"/>
 <circle cx="127" cy="8" r="0.45" fill="#ffe0b2" stroke="#6d4c00" stroke-width="0.15"/>
 <text x="129" y="8.5" font-size="1.3" text-anchor="start" fill="#546e7a" font-weight="normal">SW10 ON/OFF por detrás</text>
-<circle cx="38.8" cy="9.3" r="1.6" fill="#fff" stroke="#e65100" stroke-width="0.3" stroke-dasharray="0.6 0.4"/>
-<circle cx="111.2" cy="9.3" r="1.6" fill="#fff" stroke="#e65100" stroke-width="0.3" stroke-dasharray="0.6 0.4"/>
-<circle cx="38.8" cy="46.7" r="1.6" fill="#fff" stroke="#e65100" stroke-width="0.3" stroke-dasharray="0.6 0.4"/>
-<circle cx="111.2" cy="46.7" r="1.6" fill="#fff" stroke="#e65100" stroke-width="0.3" stroke-dasharray="0.6 0.4"/>
-<text x="75" y="48.4" font-size="1.3" text-anchor="middle" fill="#e65100" font-weight="normal">módulo 78 × 43 mm · H5–H8 = separadores de la pantalla (posición por medir)</text>
+<circle cx="41.4" cy="9.6" r="1.6" fill="#fff" stroke="#e65100" stroke-width="0.3" stroke-dasharray="0.6 0.4"/>
+<circle cx="41.4" cy="46.4" r="1.6" fill="#fff" stroke="#e65100" stroke-width="0.3" stroke-dasharray="0.6 0.4"/>
+<text x="75" y="48.4" font-size="1.3" text-anchor="middle" fill="#e65100" font-weight="normal">módulo 78 × 43 mm · H5/H6 = separadores M3 de la pantalla (lado de J4)</text>
 <text x="75" y="4.3" font-size="1.3" text-anchor="middle" fill="#546e7a" font-weight="normal">▲ USB-C sale por arriba (cara posterior)</text>
 <text x="48.5" y="63.6" font-size="1.3" text-anchor="middle" fill="#546e7a" font-weight="normal">▼ jack de audífonos (cara posterior)</text>
 <text x="118" y="63.2" font-size="1.4" text-anchor="middle" fill="#2e7d32" font-weight="normal">KIDBOX v1.0 · basado en Game★Mite (CC BY 4.0)</text>
@@ -204,17 +202,17 @@
 <circle cx="136.75" cy="56.25" r="0.6" fill="#cfd8dc"/>
 <circle cx="143.25" cy="51.75" r="0.6" fill="#cfd8dc"/>
 <circle cx="143.25" cy="56.25" r="0.6" fill="#cfd8dc"/>
-<rect x="88" y="10" width="20" height="30" rx="2" fill="#fff3e0" stroke="#e65100" stroke-width="0.3" stroke-dasharray="1 0.6"/>
-<text x="98" y="21" font-size="1.7" text-anchor="middle" fill="#bf360c" font-weight="bold">BATERÍA</text>
-<text x="98" y="23.4" font-size="1.4" text-anchor="middle" fill="#bf360c" font-weight="bold">LiPo 902030</text>
-<text x="98" y="25.8" font-size="1.3" text-anchor="middle" fill="#bf360c" font-weight="normal">500 mAh</text>
-<text x="98" y="28" font-size="1.3" text-anchor="middle" fill="#bf360c" font-weight="normal">20 × 30 × 9 mm</text>
-<text x="98" y="31.5" font-size="1.2" text-anchor="middle" fill="#bf360c" font-weight="normal">zona sin patas</text>
-<text x="98" y="33.2" font-size="1.2" text-anchor="middle" fill="#bf360c" font-weight="normal">ni componentes;</text>
-<text x="98" y="34.9" font-size="1.2" text-anchor="middle" fill="#bf360c" font-weight="normal">vías tapadas</text>
-<text x="98" y="37.6" font-size="1.1" text-anchor="middle" fill="#bf360c" font-weight="normal">bolsillo en la carcasa</text>
-<path d="M88 14 C 87 12, 87 10, 86 9" fill="none" stroke="#e65100" stroke-width="0.3" stroke-dasharray="0.6 0.4"/>
-<text x="98" y="8.6" font-size="1.1" text-anchor="middle" fill="#e65100" font-weight="normal">cable corto a la RP2350-Plus</text>
+<rect x="88" y="12.5" width="20" height="30" rx="2" fill="#fff3e0" stroke="#e65100" stroke-width="0.3" stroke-dasharray="1 0.6"/>
+<text x="98" y="23.5" font-size="1.7" text-anchor="middle" fill="#bf360c" font-weight="bold">BATERÍA</text>
+<text x="98" y="25.9" font-size="1.4" text-anchor="middle" fill="#bf360c" font-weight="bold">LiPo 902030</text>
+<text x="98" y="28.3" font-size="1.3" text-anchor="middle" fill="#bf360c" font-weight="normal">500 mAh</text>
+<text x="98" y="30.5" font-size="1.3" text-anchor="middle" fill="#bf360c" font-weight="normal">20 × 30 × 9 mm</text>
+<text x="98" y="34.0" font-size="1.2" text-anchor="middle" fill="#bf360c" font-weight="normal">zona sin patas</text>
+<text x="98" y="35.7" font-size="1.2" text-anchor="middle" fill="#bf360c" font-weight="normal">ni componentes;</text>
+<text x="98" y="37.4" font-size="1.2" text-anchor="middle" fill="#bf360c" font-weight="normal">vías tapadas</text>
+<text x="98" y="40.1" font-size="1.1" text-anchor="middle" fill="#bf360c" font-weight="normal">bolsillo en la carcasa</text>
+<path d="M88 40 C 87 44, 87 48, 86 50" fill="none" stroke="#e65100" stroke-width="0.3" stroke-dasharray="0.6 0.4"/>
+<text x="98" y="46.5" font-size="1.1" text-anchor="middle" fill="#e65100" font-weight="normal">cable al conector MX1.25 (abajo del módulo)</text>
 <rect x="120.7" y="5.8" width="8.6" height="4.4" rx="0.4" fill="#b0bec5" stroke="#37474f" stroke-width="0.25"/>
 <rect x="123.6" y="6.8" width="2.8" height="2.4" fill="#546e7a"/>
 <circle cx="123" cy="8" r="0.45" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>

@@ -1,6 +1,7 @@
 # Genera layout_propuesto.svg (KIDBOX, espec. v0.5) a escala 1 unidad = 1 mm.
 # v0.4: USB-C de la RP2350-Plus hacia el borde SUPERIOR (como un control de PlayStation),
 #       pantalla girada 180° (J3 a la derecha), DAC a la izquierda con el jack hacia el borde INFERIOR.
+# v0.6: solo separadores H5/H6 (lado J4) y bateria en y 12.5-42.5.
 # v0.5: cruceta 2 mm a la izquierda, SW10 recto en la cara posterior, bateria detras de la pantalla, separadores de pantalla.
 # Uso: python gen_layout.py <salida.svg>
 import sys
@@ -65,7 +66,7 @@ a(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {VBW} {VBH}" width="{VB
 a('<defs><marker id="ar" viewBox="0 0 6 6" refX="3" refY="3" markerWidth="4" markerHeight="4" orient="auto-start-reverse">'
   '<path d="M0,0 L6,3 L0,6 z" fill="#616161"/></marker></defs>')
 a(f'<rect width="{VBW}" height="{VBH}" fill="#ffffff"/>')
-text(VBW / 2, 7, "KIDBOX — layout propuesto · espec. v0.5 (supuesto, escala 1:1 en mm)", 3.6, weight="bold")
+text(VBW / 2, 7, "KIDBOX — layout propuesto · espec. v0.6 (supuesto, escala 1:1 en mm)", 3.6, weight="bold")
 text(VBW / 2, 11.2, "Base Game★Mite · RP2350-Plus · TFT ILI9341 2.4\" (sin SD ni táctil) · DAC PCM5102A · 9 pulsadores 6×6 · todo THT, 2 capas", 2.0, color="#424242")
 
 # ---------- Vista 1: cara frontal ----------
@@ -109,9 +110,9 @@ for dx in (-2, 0, 2):
     pad(125 + dx, 8, r=0.45, color="#ffe0b2")
 text(129, 8.5, "SW10 ON/OFF por detrás", 1.3, anchor="start", color="#546e7a")
 # separadores de la pantalla (H5-H8), posicion por medir
-for (hx, hy) in [(38.8, 9.3), (111.2, 9.3), (38.8, 46.7), (111.2, 46.7)]:
+for (hx, hy) in [(41.4, 9.6), (41.4, 46.4)]:
     a(f'<circle cx="{hx}" cy="{hy}" r="1.6" fill="#fff" stroke="{PEND}" stroke-width="0.3" stroke-dasharray="0.6 0.4"/>')
-text(75, 48.4, "módulo 78 × 43 mm · H5–H8 = separadores de la pantalla (posición por medir)", 1.3, color=PEND)
+text(75, 48.4, "módulo 78 × 43 mm · H5/H6 = separadores M3 de la pantalla (lado de J4)", 1.3, color=PEND)
 # marcas de salidas por la cara posterior
 text(75, 4.3, "▲ USB-C sale por arriba (cara posterior)", 1.3, color="#546e7a")
 text(48.5, 63.6, "▼ jack de audífonos (cara posterior)", 1.3, color="#546e7a")
@@ -129,17 +130,17 @@ a('<rect x="36" y="6.5" width="78" height="43" rx="1" fill="none" stroke="#e5737
 for b in BTNS:
     button(*b, ghost=True)
 # bateria (en la carcasa), lado derecho
-a(f'<rect x="88" y="10" width="20" height="30" rx="2" fill="#fff3e0" stroke="{PEND}" stroke-width="0.3" stroke-dasharray="1 0.6"/>')
-text(98, 21, "BATERÍA", 1.7, weight="bold", color="#bf360c")
-text(98, 23.4, "LiPo 902030", 1.4, weight="bold", color="#bf360c")
-text(98, 25.8, "500 mAh", 1.3, color="#bf360c")
-text(98, 28, "20 × 30 × 9 mm", 1.3, color="#bf360c")
-text(98, 31.5, "zona sin patas", 1.2, color="#bf360c")
-text(98, 33.2, "ni componentes;", 1.2, color="#bf360c")
-text(98, 34.9, "vías tapadas", 1.2, color="#bf360c")
-text(98, 37.6, "bolsillo en la carcasa", 1.1, color="#bf360c")
-a(f'<path d="M88 14 C 87 12, 87 10, 86 9" fill="none" stroke="{PEND}" stroke-width="0.3" stroke-dasharray="0.6 0.4"/>')
-text(98, 8.6, "cable corto a la RP2350-Plus", 1.1, color=PEND)
+a(f'<rect x="88" y="12.5" width="20" height="30" rx="2" fill="#fff3e0" stroke="{PEND}" stroke-width="0.3" stroke-dasharray="1 0.6"/>')
+text(98, 23.5, "BATERÍA", 1.7, weight="bold", color="#bf360c")
+text(98, 25.9, "LiPo 902030", 1.4, weight="bold", color="#bf360c")
+text(98, 28.3, "500 mAh", 1.3, color="#bf360c")
+text(98, 30.5, "20 × 30 × 9 mm", 1.3, color="#bf360c")
+text(98, 34.0, "zona sin patas", 1.2, color="#bf360c")
+text(98, 35.7, "ni componentes;", 1.2, color="#bf360c")
+text(98, 37.4, "vías tapadas", 1.2, color="#bf360c")
+text(98, 40.1, "bolsillo en la carcasa", 1.1, color="#bf360c")
+a(f'<path d="M88 40 C 87 44, 87 48, 86 50" fill="none" stroke="{PEND}" stroke-width="0.3" stroke-dasharray="0.6 0.4"/>')
+text(98, 46.5, "cable al conector MX1.25 (abajo del módulo)", 1.1, color=PEND)
 # SW10 recto en la cara posterior
 a('<rect x="120.7" y="5.8" width="8.6" height="4.4" rx="0.4" fill="#b0bec5" stroke="#37474f" stroke-width="0.25"/>')
 a('<rect x="123.6" y="6.8" width="2.8" height="2.4" fill="#546e7a"/>')
