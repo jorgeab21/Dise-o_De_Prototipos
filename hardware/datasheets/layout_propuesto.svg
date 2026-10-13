@@ -1,0 +1,324 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 178 230" width="1068" height="1380" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ar" viewBox="0 0 6 6" refX="3" refY="3" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L6,3 L0,6 z" fill="#616161"/></marker></defs>
+<rect width="178" height="230" fill="#ffffff"/>
+<text x="89.0" y="7" font-size="3.6" text-anchor="middle" fill="#212121" font-weight="bold">KIDBOX — layout propuesto v0.4 (supuesto, escala 1:1 en mm)</text>
+<text x="89.0" y="11.2" font-size="2.0" text-anchor="middle" fill="#424242" font-weight="normal">Base Game★Mite · RP2350-Plus · TFT ILI9341 2.4" (sin SD ni táctil) · DAC PCM5102A · 9 pulsadores 6×6 · todo THT, 2 capas</text>
+<text x="16" y="17.5" font-size="2.8" text-anchor="start" fill="#1b5e20" font-weight="bold">1 · CARA FRONTAL (Top) — lo que ve el niño</text>
+<g transform="translate(16,24)">
+<line x1="0" y1="-2.2" x2="150" y2="-2.2" stroke="#616161" stroke-width="0.2" marker-start="url(#ar)" marker-end="url(#ar)"/>
+<text x="75.0" y="-3.0" font-size="2.0" text-anchor="middle" fill="#424242" font-weight="normal">150 mm</text>
+<line x1="-2.6" y1="0" x2="-2.6" y2="65" stroke="#616161" stroke-width="0.2" marker-start="url(#ar)" marker-end="url(#ar)"/>
+<text x="-3.5" y="32.5" font-size="2.0" text-anchor="middle" fill="#424242" font-weight="normal" transform="rotate(-90 -3.5 32.5)">65 mm</text>
+<rect x="0" y="0" width="150" height="65" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="0.5"/>
+<circle cx="4" cy="4" r="2.6" fill="none" stroke="#9e9e9e" stroke-width="0.2" stroke-dasharray="0.6 0.4"/>
+<circle cx="4" cy="4" r="1.1" fill="#fff" stroke="#424242" stroke-width="0.25"/>
+<circle cx="146" cy="4" r="2.6" fill="none" stroke="#9e9e9e" stroke-width="0.2" stroke-dasharray="0.6 0.4"/>
+<circle cx="146" cy="4" r="1.1" fill="#fff" stroke="#424242" stroke-width="0.25"/>
+<circle cx="4" cy="61" r="2.6" fill="none" stroke="#9e9e9e" stroke-width="0.2" stroke-dasharray="0.6 0.4"/>
+<circle cx="4" cy="61" r="1.1" fill="#fff" stroke="#424242" stroke-width="0.25"/>
+<circle cx="146" cy="61" r="2.6" fill="none" stroke="#9e9e9e" stroke-width="0.2" stroke-dasharray="0.6 0.4"/>
+<circle cx="146" cy="61" r="1.1" fill="#fff" stroke="#424242" stroke-width="0.25"/>
+<rect x="36" y="6.5" width="78" height="43" rx="1" fill="#ffcdd2" stroke="#c62828" stroke-width="0.35"/>
+<rect x="48.5" y="9.65" width="49" height="36.7" fill="#263238"/>
+<text x="73" y="25.5" font-size="2.6" text-anchor="middle" fill="#ffffff" font-weight="bold">PANTALLA ILI9341 2.4"</text>
+<text x="73" y="29" font-size="1.8" text-anchor="middle" fill="#eceff1" font-weight="normal">320 × 240 · área activa ≈ 49 × 37 mm</text>
+<text x="73" y="32.2" font-size="1.6" text-anchor="middle" fill="#cfd8dc" font-weight="normal">montada girada 180° (setRotation)</text>
+<text x="75" y="48.3" font-size="1.4" text-anchor="middle" fill="#b71c1c" font-weight="normal">módulo 78 × 43 mm: x 36–114 · y 6.5–49.5</text>
+<circle cx="111.5" cy="11.49" r="0.8" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="111.5" cy="14.030000000000001" r="0.8" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="111.5" cy="16.57" r="0.8" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="111.5" cy="19.11" r="0.8" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="111.5" cy="21.65" r="0.8" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="111.5" cy="24.189999999999998" r="0.8" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="111.5" cy="26.73" r="0.8" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="111.5" cy="29.270000000000003" r="0.8" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="111.5" cy="31.810000000000002" r="0.8" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="111.5" cy="34.35" r="0.8" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="111.5" cy="36.89" r="0.8" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="111.5" cy="39.43" r="0.8" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="111.5" cy="41.97" r="0.8" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<rect x="110.7" y="43.71000000000001" width="1.6" height="1.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="109.6" y="10.2" font-size="1.5" text-anchor="end" fill="#b71c1c" font-weight="bold">J3 1×14</text>
+<text x="112.9" y="45" font-size="1.2" text-anchor="start" fill="#b71c1c" font-weight="normal">1</text>
+<circle cx="38.5" cy="24.19" r="0.8" fill="#ffe0b2" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="38.5" cy="26.73" r="0.8" fill="#ffe0b2" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="38.5" cy="29.270000000000003" r="0.8" fill="#ffe0b2" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="38.5" cy="31.810000000000002" r="0.8" fill="#ffe0b2" stroke="#6d4c00" stroke-width="0.15"/>
+<rect x="37.2" y="22.6" width="2.6" height="10.8" fill="none" stroke="#e65100" stroke-width="0.25" stroke-dasharray="0.6 0.4"/>
+<text x="40.6" y="36.2" font-size="1.4" text-anchor="start" fill="#e65100" font-weight="bold">J4 1×4</text>
+<text x="40.6" y="38" font-size="1.2" text-anchor="start" fill="#e65100" font-weight="normal">solo apoyo</text>
+<text x="40.6" y="39.6" font-size="1.2" text-anchor="start" fill="#e65100" font-weight="normal">(por medir)</text>
+<polygon points="15.5,14.5 24.5,14.5 24.5,25.5 35,25.5 35,34.5 24.5,34.5 24.5,45.5 15.5,45.5 15.5,34.5 5,34.5 5,25.5 15.5,25.5" fill="none" stroke="#6a1b9a" stroke-width="0.3" stroke-dasharray="1 0.6"/>
+<circle cx="138" cy="25" r="5" fill="none" stroke="#6a1b9a" stroke-width="0.3" stroke-dasharray="1 0.6"/>
+<circle cx="126" cy="35" r="5" fill="none" stroke="#6a1b9a" stroke-width="0.3" stroke-dasharray="1 0.6"/>
+<rect x="60.5" y="55.2" width="11" height="5.6" rx="2.8" fill="none" stroke="#6a1b9a" stroke-width="0.3" stroke-dasharray="1 0.6"/>
+<rect x="78.5" y="55.2" width="11" height="5.6" rx="2.8" fill="none" stroke="#6a1b9a" stroke-width="0.3" stroke-dasharray="1 0.6"/>
+<rect x="17" y="17" width="6" height="6" fill="#eceff1" stroke="#455a64" stroke-width="0.25"/>
+<circle cx="20" cy="20" r="1.75" fill="#90a4ae"/>
+<circle cx="16.75" cy="17.75" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="16.75" cy="22.25" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="23.25" cy="17.75" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="23.25" cy="22.25" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="20" y="26.4" font-size="1.9" text-anchor="middle" fill="#212121" font-weight="bold">UP</text>
+<text x="20" y="16.4" font-size="1.3" text-anchor="middle" fill="#616161" font-weight="normal">SW3</text>
+<rect x="17" y="37" width="6" height="6" fill="#eceff1" stroke="#455a64" stroke-width="0.25"/>
+<circle cx="20" cy="40" r="1.75" fill="#90a4ae"/>
+<circle cx="16.75" cy="37.75" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="16.75" cy="42.25" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="23.25" cy="37.75" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="23.25" cy="42.25" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="20" y="46.4" font-size="1.9" text-anchor="middle" fill="#212121" font-weight="bold">DOWN</text>
+<text x="20" y="36.4" font-size="1.3" text-anchor="middle" fill="#616161" font-weight="normal">SW1</text>
+<rect x="7" y="27" width="6" height="6" fill="#eceff1" stroke="#455a64" stroke-width="0.25"/>
+<circle cx="10" cy="30" r="1.75" fill="#90a4ae"/>
+<circle cx="6.75" cy="27.75" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="6.75" cy="32.25" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="13.25" cy="27.75" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="13.25" cy="32.25" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="10" y="36.4" font-size="1.9" text-anchor="middle" fill="#212121" font-weight="bold">LEFT</text>
+<text x="10" y="26.4" font-size="1.3" text-anchor="middle" fill="#616161" font-weight="normal">SW2</text>
+<rect x="27" y="27" width="6" height="6" fill="#eceff1" stroke="#455a64" stroke-width="0.25"/>
+<circle cx="30" cy="30" r="1.75" fill="#90a4ae"/>
+<circle cx="26.75" cy="27.75" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="26.75" cy="32.25" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="33.25" cy="27.75" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="33.25" cy="32.25" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="30" y="36.4" font-size="1.9" text-anchor="middle" fill="#212121" font-weight="bold">RIGHT</text>
+<text x="30" y="26.4" font-size="1.3" text-anchor="middle" fill="#616161" font-weight="normal">SW4</text>
+<rect x="135" y="22" width="6" height="6" fill="#eceff1" stroke="#455a64" stroke-width="0.25"/>
+<circle cx="138" cy="25" r="1.75" fill="#90a4ae"/>
+<circle cx="134.75" cy="22.75" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="134.75" cy="27.25" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="141.25" cy="22.75" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="141.25" cy="27.25" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="138" y="31.4" font-size="1.9" text-anchor="middle" fill="#212121" font-weight="bold">A</text>
+<text x="138" y="21.4" font-size="1.3" text-anchor="middle" fill="#616161" font-weight="normal">SW8</text>
+<rect x="123" y="32" width="6" height="6" fill="#eceff1" stroke="#455a64" stroke-width="0.25"/>
+<circle cx="126" cy="35" r="1.75" fill="#90a4ae"/>
+<circle cx="122.75" cy="32.75" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="122.75" cy="37.25" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="129.25" cy="32.75" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="129.25" cy="37.25" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="126" y="41.4" font-size="1.9" text-anchor="middle" fill="#212121" font-weight="bold">B</text>
+<text x="126" y="31.4" font-size="1.3" text-anchor="middle" fill="#616161" font-weight="normal">SW7</text>
+<rect x="63" y="55" width="6" height="6" fill="#eceff1" stroke="#455a64" stroke-width="0.25"/>
+<circle cx="66" cy="58" r="1.75" fill="#90a4ae"/>
+<circle cx="62.75" cy="55.75" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="62.75" cy="60.25" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="69.25" cy="55.75" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="69.25" cy="60.25" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="66" y="64.4" font-size="1.9" text-anchor="middle" fill="#212121" font-weight="bold">SELECT</text>
+<text x="66" y="54.4" font-size="1.3" text-anchor="middle" fill="#616161" font-weight="normal">SW5</text>
+<rect x="81" y="55" width="6" height="6" fill="#eceff1" stroke="#455a64" stroke-width="0.25"/>
+<circle cx="84" cy="58" r="1.75" fill="#90a4ae"/>
+<circle cx="80.75" cy="55.75" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="80.75" cy="60.25" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="87.25" cy="55.75" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="87.25" cy="60.25" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="84" y="64.4" font-size="1.9" text-anchor="middle" fill="#212121" font-weight="bold">START</text>
+<text x="84" y="54.4" font-size="1.3" text-anchor="middle" fill="#616161" font-weight="normal">SW6</text>
+<rect x="137" y="51" width="6" height="6" fill="#eceff1" stroke="#455a64" stroke-width="0.25"/>
+<circle cx="140" cy="54" r="1.75" fill="#90a4ae"/>
+<circle cx="136.75" cy="51.75" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="136.75" cy="56.25" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="143.25" cy="51.75" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="143.25" cy="56.25" r="0.6" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="140" y="60.4" font-size="1.9" text-anchor="middle" fill="#212121" font-weight="bold">RESET</text>
+<text x="140" y="50.4" font-size="1.3" text-anchor="middle" fill="#616161" font-weight="normal">SW9</text>
+<rect x="109.8" y="53" width="4.4" height="2" rx="1" fill="#ffe082" stroke="#795548" stroke-width="0.15"/>
+<circle cx="110.75" cy="54" r="0.55" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="113.25" cy="54" r="0.55" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="112" y="57" font-size="1.3" text-anchor="middle" fill="#5d4037" font-weight="normal">C2</text>
+<rect x="127.8" y="49" width="4.4" height="2" rx="1" fill="#ffe082" stroke="#795548" stroke-width="0.15"/>
+<circle cx="128.75" cy="50" r="0.55" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="131.25" cy="50" r="0.55" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="130" y="53" font-size="1.3" text-anchor="middle" fill="#5d4037" font-weight="normal">C1</text>
+<rect x="120.5" y="1.2" width="9" height="3.8" fill="#b0bec5" stroke="#37474f" stroke-width="0.25"/>
+<rect x="123.6" y="-1.4" width="2.8" height="2.8" fill="#546e7a"/>
+<circle cx="123" cy="3.1" r="0.45" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="125" cy="3.1" r="0.45" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="127" cy="3.1" r="0.45" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="131" y="4" font-size="1.5" text-anchor="start" fill="#212121" font-weight="bold">SW10 ON/OFF</text>
+<text x="131" y="5.9" font-size="1.2" text-anchor="start" fill="#e65100" font-weight="normal">(modelo por definir)</text>
+<text x="75" y="4.3" font-size="1.3" text-anchor="middle" fill="#546e7a" font-weight="normal">▲ USB-C sale por arriba (cara posterior)</text>
+<text x="48.5" y="63.6" font-size="1.3" text-anchor="middle" fill="#546e7a" font-weight="normal">▼ jack de audífonos (cara posterior)</text>
+<text x="118" y="63.2" font-size="1.4" text-anchor="middle" fill="#2e7d32" font-weight="normal">KIDBOX v0.1 · basado en Game★Mite (CC BY 4.0)</text>
+</g>
+<text x="16" y="99" font-size="2.8" text-anchor="start" fill="#1b5e20" font-weight="bold">2 · CARA POSTERIOR (Bottom) — dibujada "a través" desde el frente, como en KiCad</text>
+<text x="16" y="102.4" font-size="1.7" text-anchor="start" fill="#616161" font-weight="normal">Vista real desde atrás = espejo izquierda↔derecha. Los botones y la pantalla del frente aparecen en gris como referencia.</text>
+<text x="91" y="106.7" font-size="1.6" text-anchor="middle" fill="#263238" font-weight="normal">▼ USB-C: cargar y programar por el borde superior (se puede jugar mientras carga)</text>
+<g transform="translate(16,108)">
+<rect x="0" y="0" width="150" height="65" rx="4" fill="#e8f5e9" stroke="#2e7d32" stroke-width="0.5"/>
+<circle cx="4" cy="4" r="2.6" fill="none" stroke="#9e9e9e" stroke-width="0.2" stroke-dasharray="0.6 0.4"/>
+<circle cx="4" cy="4" r="1.1" fill="#fff" stroke="#424242" stroke-width="0.25"/>
+<circle cx="146" cy="4" r="2.6" fill="none" stroke="#9e9e9e" stroke-width="0.2" stroke-dasharray="0.6 0.4"/>
+<circle cx="146" cy="4" r="1.1" fill="#fff" stroke="#424242" stroke-width="0.25"/>
+<circle cx="4" cy="61" r="2.6" fill="none" stroke="#9e9e9e" stroke-width="0.2" stroke-dasharray="0.6 0.4"/>
+<circle cx="4" cy="61" r="1.1" fill="#fff" stroke="#424242" stroke-width="0.25"/>
+<circle cx="146" cy="61" r="2.6" fill="none" stroke="#9e9e9e" stroke-width="0.2" stroke-dasharray="0.6 0.4"/>
+<circle cx="146" cy="61" r="1.1" fill="#fff" stroke="#424242" stroke-width="0.25"/>
+<rect x="36" y="6.5" width="78" height="43" rx="1" fill="none" stroke="#e57373" stroke-width="0.25" stroke-dasharray="0.8 0.6"/>
+<rect x="17" y="17" width="6" height="6" fill="none" stroke="#90a4ae" stroke-width="0.2" stroke-dasharray="0.5 0.4"/>
+<circle cx="16.75" cy="17.75" r="0.6" fill="#cfd8dc"/>
+<circle cx="16.75" cy="22.25" r="0.6" fill="#cfd8dc"/>
+<circle cx="23.25" cy="17.75" r="0.6" fill="#cfd8dc"/>
+<circle cx="23.25" cy="22.25" r="0.6" fill="#cfd8dc"/>
+<rect x="17" y="37" width="6" height="6" fill="none" stroke="#90a4ae" stroke-width="0.2" stroke-dasharray="0.5 0.4"/>
+<circle cx="16.75" cy="37.75" r="0.6" fill="#cfd8dc"/>
+<circle cx="16.75" cy="42.25" r="0.6" fill="#cfd8dc"/>
+<circle cx="23.25" cy="37.75" r="0.6" fill="#cfd8dc"/>
+<circle cx="23.25" cy="42.25" r="0.6" fill="#cfd8dc"/>
+<rect x="7" y="27" width="6" height="6" fill="none" stroke="#90a4ae" stroke-width="0.2" stroke-dasharray="0.5 0.4"/>
+<circle cx="6.75" cy="27.75" r="0.6" fill="#cfd8dc"/>
+<circle cx="6.75" cy="32.25" r="0.6" fill="#cfd8dc"/>
+<circle cx="13.25" cy="27.75" r="0.6" fill="#cfd8dc"/>
+<circle cx="13.25" cy="32.25" r="0.6" fill="#cfd8dc"/>
+<rect x="27" y="27" width="6" height="6" fill="none" stroke="#90a4ae" stroke-width="0.2" stroke-dasharray="0.5 0.4"/>
+<circle cx="26.75" cy="27.75" r="0.6" fill="#cfd8dc"/>
+<circle cx="26.75" cy="32.25" r="0.6" fill="#cfd8dc"/>
+<circle cx="33.25" cy="27.75" r="0.6" fill="#cfd8dc"/>
+<circle cx="33.25" cy="32.25" r="0.6" fill="#cfd8dc"/>
+<rect x="135" y="22" width="6" height="6" fill="none" stroke="#90a4ae" stroke-width="0.2" stroke-dasharray="0.5 0.4"/>
+<circle cx="134.75" cy="22.75" r="0.6" fill="#cfd8dc"/>
+<circle cx="134.75" cy="27.25" r="0.6" fill="#cfd8dc"/>
+<circle cx="141.25" cy="22.75" r="0.6" fill="#cfd8dc"/>
+<circle cx="141.25" cy="27.25" r="0.6" fill="#cfd8dc"/>
+<rect x="123" y="32" width="6" height="6" fill="none" stroke="#90a4ae" stroke-width="0.2" stroke-dasharray="0.5 0.4"/>
+<circle cx="122.75" cy="32.75" r="0.6" fill="#cfd8dc"/>
+<circle cx="122.75" cy="37.25" r="0.6" fill="#cfd8dc"/>
+<circle cx="129.25" cy="32.75" r="0.6" fill="#cfd8dc"/>
+<circle cx="129.25" cy="37.25" r="0.6" fill="#cfd8dc"/>
+<rect x="63" y="55" width="6" height="6" fill="none" stroke="#90a4ae" stroke-width="0.2" stroke-dasharray="0.5 0.4"/>
+<circle cx="62.75" cy="55.75" r="0.6" fill="#cfd8dc"/>
+<circle cx="62.75" cy="60.25" r="0.6" fill="#cfd8dc"/>
+<circle cx="69.25" cy="55.75" r="0.6" fill="#cfd8dc"/>
+<circle cx="69.25" cy="60.25" r="0.6" fill="#cfd8dc"/>
+<rect x="81" y="55" width="6" height="6" fill="none" stroke="#90a4ae" stroke-width="0.2" stroke-dasharray="0.5 0.4"/>
+<circle cx="80.75" cy="55.75" r="0.6" fill="#cfd8dc"/>
+<circle cx="80.75" cy="60.25" r="0.6" fill="#cfd8dc"/>
+<circle cx="87.25" cy="55.75" r="0.6" fill="#cfd8dc"/>
+<circle cx="87.25" cy="60.25" r="0.6" fill="#cfd8dc"/>
+<rect x="137" y="51" width="6" height="6" fill="none" stroke="#90a4ae" stroke-width="0.2" stroke-dasharray="0.5 0.4"/>
+<circle cx="136.75" cy="51.75" r="0.6" fill="#cfd8dc"/>
+<circle cx="136.75" cy="56.25" r="0.6" fill="#cfd8dc"/>
+<circle cx="143.25" cy="51.75" r="0.6" fill="#cfd8dc"/>
+<circle cx="143.25" cy="56.25" r="0.6" fill="#cfd8dc"/>
+<rect x="112" y="40" width="30" height="20" rx="2" fill="#fff3e0" stroke="#e65100" stroke-width="0.3" stroke-dasharray="1 0.6"/>
+<text x="127" y="48.5" font-size="1.7" text-anchor="middle" fill="#bf360c" font-weight="bold">BATERÍA LiPo 902030</text>
+<text x="127" y="51.2" font-size="1.4" text-anchor="middle" fill="#bf360c" font-weight="normal">500 mAh · 30 × 20 × 9 mm</text>
+<text x="127" y="53.7" font-size="1.3" text-anchor="middle" fill="#bf360c" font-weight="normal">va en la carcasa, NO en la PCB</text>
+<path d="M112 46 C 100 44, 96 30, 87 22" fill="none" stroke="#e65100" stroke-width="0.3" stroke-dasharray="0.8 0.5"/>
+<text x="100" y="29.5" font-size="1.2" text-anchor="start" fill="#e65100" font-weight="normal">cable → conector de la</text>
+<text x="100" y="31" font-size="1.2" text-anchor="start" fill="#e65100" font-weight="normal">RP2350-Plus (por medir)</text>
+<rect x="64.5" y="2.5" width="21" height="51" rx="1.2" fill="#d1c4e9" stroke="#4527a0" stroke-width="0.35"/>
+<rect x="71" y="0.2" width="8" height="4.6" rx="1" fill="#78909c" stroke="#263238" stroke-width="0.2"/>
+<text x="75" y="3.3" font-size="1.3" text-anchor="middle" fill="#ffffff" font-weight="bold">USB-C</text>
+<text x="88" y="13" font-size="1.7" text-anchor="start" fill="#311b92" font-weight="bold">U1 RP2350-Plus</text>
+<text x="88" y="15.2" font-size="1.3" text-anchor="start" fill="#311b92" font-weight="normal">21 × 51 mm, sobre 2 tiras 1×20</text>
+<text x="88" y="4.4" font-size="1.3" text-anchor="start" fill="#e65100" font-weight="bold">pin 1 = GP0 (CS)</text>
+<text x="88" y="6.1" font-size="1.1" text-anchor="start" fill="#e65100" font-weight="normal">[VERIFICAR con foto]</text>
+<rect x="83.14" y="3.12" width="1.5" height="1.5" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="83.89" cy="6.41" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="82.7" y="6.86" font-size="1.2" text-anchor="end" fill="#311b92" font-weight="normal">GP1 RST</text>
+<circle cx="83.89" cy="8.95" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="83.89" cy="11.49" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="82.7" y="11.94" font-size="1.2" text-anchor="end" fill="#311b92" font-weight="normal">GP2 DC</text>
+<circle cx="83.89" cy="14.030000000000001" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="82.7" y="14.48" font-size="1.2" text-anchor="end" fill="#311b92" font-weight="normal">GP3 MOSI</text>
+<circle cx="83.89" cy="16.57" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="83.89" cy="19.11" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="83.89" cy="21.650000000000002" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="83.89" cy="24.19" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="82.7" y="24.64" font-size="1.2" text-anchor="end" fill="#311b92" font-weight="normal">GP6 SCK</text>
+<circle cx="83.89" cy="26.73" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="83.89" cy="29.27" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="82.7" y="29.72" font-size="1.2" text-anchor="end" fill="#311b92" font-weight="normal">GP8 DOWN</text>
+<circle cx="83.89" cy="31.810000000000002" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="82.7" y="32.260000000000005" font-size="1.2" text-anchor="end" fill="#311b92" font-weight="normal">GP9 LEFT</text>
+<circle cx="83.89" cy="34.35" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="83.89" cy="36.89" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="82.7" y="37.34" font-size="1.2" text-anchor="end" fill="#311b92" font-weight="normal">GP10 UP</text>
+<circle cx="83.89" cy="39.43" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="82.7" y="39.88" font-size="1.2" text-anchor="end" fill="#311b92" font-weight="normal">GP11 RIGHT</text>
+<circle cx="83.89" cy="41.97" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="82.7" y="42.42" font-size="1.2" text-anchor="end" fill="#311b92" font-weight="normal">GP12 SEL</text>
+<circle cx="83.89" cy="44.51" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="82.7" y="44.96" font-size="1.2" text-anchor="end" fill="#311b92" font-weight="normal">GP13 START</text>
+<circle cx="83.89" cy="47.05" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="83.89" cy="49.589999999999996" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="82.7" y="50.04" font-size="1.2" text-anchor="end" fill="#311b92" font-weight="normal">GP14 B</text>
+<circle cx="83.89" cy="52.129999999999995" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="82.7" y="52.58" font-size="1.2" text-anchor="end" fill="#311b92" font-weight="normal">GP15 A</text>
+<circle cx="66.11" cy="52.13" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="66.11" cy="49.59" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="66.11" cy="47.050000000000004" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="66.11" cy="44.510000000000005" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="66.11" cy="41.97" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="66.11" cy="39.43000000000001" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="67.3" y="39.88000000000001" font-size="1.2" text-anchor="start" fill="#311b92" font-weight="normal">GP20 BCK</text>
+<circle cx="66.11" cy="36.89" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="67.3" y="37.34" font-size="1.2" text-anchor="start" fill="#311b92" font-weight="normal">GP21 LCK</text>
+<circle cx="66.11" cy="34.35" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="66.11" cy="31.810000000000002" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="67.3" y="32.260000000000005" font-size="1.2" text-anchor="start" fill="#311b92" font-weight="normal">GP22 DIN</text>
+<circle cx="66.11" cy="29.270000000000003" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="67.3" y="29.720000000000002" font-size="1.2" text-anchor="start" fill="#311b92" font-weight="normal">RUN</text>
+<circle cx="66.11" cy="26.730000000000004" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="67.3" y="27.180000000000003" font-size="1.2" text-anchor="start" fill="#311b92" font-weight="normal">GP26 LED</text>
+<circle cx="66.11" cy="24.19" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="66.11" cy="21.650000000000002" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="66.11" cy="19.11" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="66.11" cy="16.57" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="66.11" cy="14.030000000000001" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="67.3" y="14.48" font-size="1.2" text-anchor="start" fill="#311b92" font-weight="normal">3V3</text>
+<circle cx="66.11" cy="11.490000000000002" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="67.3" y="11.940000000000001" font-size="1.2" text-anchor="start" fill="#311b92" font-weight="normal">3V3_EN</text>
+<circle cx="66.11" cy="8.950000000000003" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="66.11" cy="6.410000000000004" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="66.11" cy="3.8700000000000045" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<rect x="36" y="33" width="25" height="31" rx="1" fill="#e1bee7" stroke="#6a1b9a" stroke-width="0.35"/>
+<rect x="36" y="33" width="25" height="31" rx="1" fill="none" stroke="#e65100" stroke-width="0.25" stroke-dasharray="0.8 0.6"/>
+<rect x="41.4" y="35.25" width="1.5" height="1.5" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="42.15" y="38.6" font-size="0.95" text-anchor="middle" fill="#4a148c" font-weight="normal">VIN</text>
+<circle cx="44.69" cy="36" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="44.69" y="38.6" font-size="0.95" text-anchor="middle" fill="#4a148c" font-weight="normal">GND</text>
+<circle cx="47.23" cy="36" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="47.23" y="38.6" font-size="0.95" text-anchor="middle" fill="#4a148c" font-weight="normal">LCK</text>
+<circle cx="49.769999999999996" cy="36" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="49.769999999999996" y="38.6" font-size="0.95" text-anchor="middle" fill="#4a148c" font-weight="normal">DIN</text>
+<circle cx="52.31" cy="36" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="52.31" y="38.6" font-size="0.95" text-anchor="middle" fill="#4a148c" font-weight="normal">BCK</text>
+<circle cx="54.849999999999994" cy="36" r="0.75" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="54.849999999999994" y="38.6" font-size="0.95" text-anchor="middle" fill="#4a148c" font-weight="normal">SCK</text>
+<text x="48.5" y="44.5" font-size="1.7" text-anchor="middle" fill="#4a148c" font-weight="bold">J5 · DAC PCM5102A</text>
+<text x="48.5" y="47" font-size="1.3" text-anchor="middle" fill="#e65100" font-weight="normal">medidas ≈ 25 × 31 [SUPUESTO]</text>
+<text x="48.5" y="49.2" font-size="1.2" text-anchor="middle" fill="#4a148c" font-weight="normal">SCK→GND · soldar 4 puentes</text>
+<rect x="44.5" y="58.5" width="8" height="6.5" fill="#424242"/>
+<text x="48.5" y="62.3" font-size="1.4" text-anchor="middle" fill="#ffffff" font-weight="bold">JACK</text>
+<text x="48.5" y="64.3" font-size="1.0" text-anchor="middle" fill="#ffffff" font-weight="normal">3,5 mm</text>
+<rect x="39.8" y="27" width="4.4" height="2" rx="1" fill="#ffe082" stroke="#795548" stroke-width="0.15"/>
+<circle cx="40.75" cy="28" r="0.55" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="43.25" cy="28" r="0.55" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="42" y="25.8" font-size="1.2" text-anchor="middle" fill="#5d4037" font-weight="normal">C3 100n</text>
+<circle cx="54" cy="28" r="2.5" fill="#bbdefb" stroke="#0d47a1" stroke-width="0.2"/>
+<rect x="52.5" y="27.5" width="1.0" height="1.0" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<circle cx="55" cy="28" r="0.5" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="54" y="24.6" font-size="1.2" text-anchor="middle" fill="#0d47a1" font-weight="normal">C4 10µ</text>
+</g>
+<text x="64.5" y="176.4" font-size="1.6" text-anchor="middle" fill="#263238" font-weight="normal">▲ jack de audífonos por el borde inferior</text>
+<text x="16" y="184" font-size="2.4" text-anchor="start" fill="#212121" font-weight="bold">Leyenda</text>
+<circle cx="17.5" cy="188" r="0.9" fill="#f9a825" stroke="#6d4c00" stroke-width="0.15"/>
+<text x="20.2" y="188.6" font-size="1.7" text-anchor="start" fill="#212121" font-weight="normal">Pad THT (cuadrado = pin 1)</text>
+<rect x="56" y="186.5" width="3" height="3" fill="#eceff1" stroke="#455a64" stroke-width="0.25"/>
+<text x="60.2" y="188.6" font-size="1.7" text-anchor="start" fill="#212121" font-weight="normal">Pulsador 6×6 del DEC</text>
+<circle cx="97.5" cy="188" r="1.5" fill="none" stroke="#6a1b9a" stroke-width="0.3" stroke-dasharray="0.8 0.5"/>
+<text x="100.2" y="188.6" font-size="1.7" text-anchor="start" fill="#212121" font-weight="normal">Capuchón impreso en 3D</text>
+<rect x="136" y="186.5" width="3" height="3" fill="none" stroke="#e65100" stroke-width="0.3" stroke-dasharray="0.6 0.4"/>
+<text x="140.2" y="188.6" font-size="1.7" text-anchor="start" fill="#212121" font-weight="normal">Supuesto / por medir</text>
+<text x="16" y="195.0" font-size="1.75" text-anchor="start" fill="#37474f" font-weight="normal">• Todas las posiciones son [SUPUESTO] (espec. sección 6). Se confirman con las piezas el 14 y 15 de octubre y con un boceto 1:1 antes de la Fase 2.</text>
+<text x="16" y="198.6" font-size="1.75" text-anchor="start" fill="#37474f" font-weight="normal">• USB-C por arriba, como un control de PlayStation: el cable no molesta las manos y se puede jugar cargando. Jack de audífonos por abajo.</text>
+<text x="16" y="202.2" font-size="1.75" text-anchor="start" fill="#37474f" font-weight="normal">• Cruceta con paso de 10 mm y A/B en diagonal (15,6 mm entre centros) para capuchones 3D cómodos para manos de 6–10 años.</text>
+<text x="16" y="205.8" font-size="1.75" text-anchor="start" fill="#37474f" font-weight="normal">• Ningún botón ni capuchón queda bajo la pantalla. La RP2350-Plus termina en y = 53,5, así que Select/Start van centrados sin chocar.</text>
+<text x="16" y="209.4" font-size="1.75" text-anchor="start" fill="#37474f" font-weight="normal">• Ruteo favorable: pines de pantalla (GP0–GP6) del lado de J3 (derecha) e I2S (GP20–GP22) del lado del DAC (izquierda).</text>
+<text x="16" y="213.0" font-size="1.75" text-anchor="start" fill="#37474f" font-weight="normal">• Pantalla montada girada 180° para acercar J3 a sus pines: la imagen se endereza en el firmware con setRotation().</text>
+</svg>
