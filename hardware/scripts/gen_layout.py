@@ -1,6 +1,8 @@
-# Genera layout_propuesto.svg (KIDBOX v0.4) a escala 1 unidad = 1 mm.
+# Genera layout_propuesto.svg (KIDBOX, espec. v0.5) a escala 1 unidad = 1 mm.
 # v0.4: USB-C de la RP2350-Plus hacia el borde SUPERIOR (como un control de PlayStation),
 #       pantalla girada 180° (J3 a la derecha), DAC a la izquierda con el jack hacia el borde INFERIOR.
+# v0.6: solo separadores H5/H6 (lado J4) y bateria en y 12.5-42.5.
+# v0.5: cruceta 2 mm a la izquierda, SW10 recto en la cara posterior, bateria detras de la pantalla, separadores de pantalla.
 # Uso: python gen_layout.py <salida.svg>
 import sys
 
@@ -9,7 +11,7 @@ def a(s): out.append(s)
 
 W, H = 150, 65
 HOLES = [(4, 4), (146, 4), (4, 61), (146, 61)]
-BTNS = [("SW3", "UP", 20, 20), ("SW1", "DOWN", 20, 40), ("SW2", "LEFT", 10, 30), ("SW4", "RIGHT", 30, 30),
+BTNS = [("SW3", "UP", 18, 20), ("SW1", "DOWN", 18, 40), ("SW2", "LEFT", 8, 30), ("SW4", "RIGHT", 28, 30),
         ("SW8", "A", 138, 25), ("SW7", "B", 126, 35), ("SW5", "SELECT", 66, 58), ("SW6", "START", 84, 58),
         ("SW9", "RESET", 140, 54)]
 PEND = "#e65100"   # supuesto / pendiente
@@ -59,12 +61,12 @@ def dim_v(x, y1, y2, label):
     a(f'<line x1="{x}" y1="{y1}" x2="{x}" y2="{y2}" stroke="#616161" stroke-width="0.2" marker-start="url(#ar)" marker-end="url(#ar)"/>')
     text(x - 0.9, (y1 + y2) / 2, label, 2.0, color="#424242", rot=-90)
 
-VBW, VBH = 178, 230
+VBW, VBH = 178, 234
 a(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {VBW} {VBH}" width="{VBW*6}" height="{VBH*6}" font-family="Arial, Helvetica, sans-serif">')
 a('<defs><marker id="ar" viewBox="0 0 6 6" refX="3" refY="3" markerWidth="4" markerHeight="4" orient="auto-start-reverse">'
   '<path d="M0,0 L6,3 L0,6 z" fill="#616161"/></marker></defs>')
 a(f'<rect width="{VBW}" height="{VBH}" fill="#ffffff"/>')
-text(VBW / 2, 7, "KIDBOX — layout propuesto v0.4 (supuesto, escala 1:1 en mm)", 3.6, weight="bold")
+text(VBW / 2, 7, "KIDBOX — layout propuesto · espec. v0.6 (supuesto, escala 1:1 en mm)", 3.6, weight="bold")
 text(VBW / 2, 11.2, "Base Game★Mite · RP2350-Plus · TFT ILI9341 2.4\" (sin SD ni táctil) · DAC PCM5102A · 9 pulsadores 6×6 · todo THT, 2 capas", 2.0, color="#424242")
 
 # ---------- Vista 1: cara frontal ----------
@@ -80,11 +82,10 @@ a('<rect x="48.5" y="9.65" width="49" height="36.7" fill="#263238"/>')
 text(73, 25.5, "PANTALLA ILI9341 2.4\"", 2.6, color="#ffffff", weight="bold")
 text(73, 29, "320 × 240 · área activa ≈ 49 × 37 mm", 1.8, color="#eceff1")
 text(73, 32.2, "montada girada 180° (setRotation)", 1.6, color="#cfd8dc")
-text(75, 48.3, "módulo 78 × 43 mm: x 36–114 · y 6.5–49.5", 1.4, color="#b71c1c")
 # J3 1x14 a la derecha (pin 1 = VCC abajo, por verificar)
 for i in range(14):
     pad(111.5, 11.49 + i * 2.54, sq=(i == 13))
-text(109.6, 10.2, "J3 1×14", 1.5, anchor="end", color="#b71c1c", weight="bold")
+text(109.6, 14, "J3 1×14", 1.5, anchor="end", color="#b71c1c", weight="bold")
 text(112.9, 45, "1", 1.2, anchor="start", color="#b71c1c")
 # J4 1x4 apoyo a la izquierda
 for i in range(4):
@@ -94,7 +95,7 @@ text(40.6, 36.2, "J4 1×4", 1.4, anchor="start", color=PEND, weight="bold")
 text(40.6, 38, "solo apoyo", 1.2, anchor="start", color=PEND)
 text(40.6, 39.6, "(por medir)", 1.2, anchor="start", color=PEND)
 # capuchones 3D (punteado)
-a('<polygon points="15.5,14.5 24.5,14.5 24.5,25.5 35,25.5 35,34.5 24.5,34.5 24.5,45.5 15.5,45.5 15.5,34.5 5,34.5 5,25.5 15.5,25.5" '
+a('<polygon points="13.5,14.5 22.5,14.5 22.5,25.5 33,25.5 33,34.5 22.5,34.5 22.5,45.5 13.5,45.5 13.5,34.5 3,34.5 3,25.5 13.5,25.5" '
   'fill="none" stroke="#6a1b9a" stroke-width="0.3" stroke-dasharray="1 0.6"/>')
 for (x, y) in [(138, 25), (126, 35)]:
     a(f'<circle cx="{x}" cy="{y}" r="5" fill="none" stroke="#6a1b9a" stroke-width="0.3" stroke-dasharray="1 0.6"/>')
@@ -104,17 +105,18 @@ for b in BTNS:
     button(*b)
 cap("C2", 112, 54)
 cap("C1", 130, 50)
-# SW10 deslizante en el borde superior
-a('<rect x="120.5" y="1.2" width="9" height="3.8" fill="#b0bec5" stroke="#37474f" stroke-width="0.25"/>')
-a('<rect x="123.6" y="-1.4" width="2.8" height="2.8" fill="#546e7a"/>')
+# SW10 va en la cara posterior: aqui solo se ven sus 3 soldaduras
 for dx in (-2, 0, 2):
-    pad(125 + dx, 3.1, r=0.45)
-text(131, 4, "SW10 ON/OFF", 1.5, anchor="start", weight="bold")
-text(131, 5.9, "(modelo por definir)", 1.2, anchor="start", color=PEND)
+    pad(125 + dx, 8, r=0.45, color="#ffe0b2")
+text(129, 8.5, "SW10 ON/OFF por detrás", 1.3, anchor="start", color="#546e7a")
+# separadores de la pantalla (H5-H8), posicion por medir
+for (hx, hy) in [(41.4, 9.6), (41.4, 46.4)]:
+    a(f'<circle cx="{hx}" cy="{hy}" r="1.6" fill="#fff" stroke="{PEND}" stroke-width="0.3" stroke-dasharray="0.6 0.4"/>')
+text(75, 48.4, "módulo 78 × 43 mm · H5/H6 = separadores M3 de la pantalla (lado de J4)", 1.3, color=PEND)
 # marcas de salidas por la cara posterior
 text(75, 4.3, "▲ USB-C sale por arriba (cara posterior)", 1.3, color="#546e7a")
 text(48.5, 63.6, "▼ jack de audífonos (cara posterior)", 1.3, color="#546e7a")
-text(118, 63.2, "KIDBOX v0.1 · basado en Game★Mite (CC BY 4.0)", 1.4, anchor="middle", color="#2e7d32")
+text(118, 63.2, "KIDBOX v1.0 · basado en Game★Mite (CC BY 4.0)", 1.4, anchor="middle", color="#2e7d32")
 a('</g>')
 
 # ---------- Vista 2: cara posterior (vista a traves desde el frente) ----------
@@ -128,24 +130,35 @@ a('<rect x="36" y="6.5" width="78" height="43" rx="1" fill="none" stroke="#e5737
 for b in BTNS:
     button(*b, ghost=True)
 # bateria (en la carcasa), lado derecho
-a(f'<rect x="112" y="40" width="30" height="20" rx="2" fill="#fff3e0" stroke="{PEND}" stroke-width="0.3" stroke-dasharray="1 0.6"/>')
-text(127, 48.5, "BATERÍA LiPo 902030", 1.7, weight="bold", color="#bf360c")
-text(127, 51.2, "500 mAh · 30 × 20 × 9 mm", 1.4, color="#bf360c")
-text(127, 53.7, "va en la carcasa, NO en la PCB", 1.3, color="#bf360c")
-a(f'<path d="M112 46 C 100 44, 96 30, 87 22" fill="none" stroke="{PEND}" stroke-width="0.3" stroke-dasharray="0.8 0.5"/>')
-text(100, 29.5, "cable → conector de la", 1.2, anchor="start", color=PEND)
-text(100, 31, "RP2350-Plus (por medir)", 1.2, anchor="start", color=PEND)
+a(f'<rect x="88" y="12.5" width="20" height="30" rx="2" fill="#fff3e0" stroke="{PEND}" stroke-width="0.3" stroke-dasharray="1 0.6"/>')
+text(98, 23.5, "BATERÍA", 1.7, weight="bold", color="#bf360c")
+text(98, 25.9, "LiPo 902030", 1.4, weight="bold", color="#bf360c")
+text(98, 28.3, "500 mAh", 1.3, color="#bf360c")
+text(98, 30.5, "20 × 30 × 9 mm", 1.3, color="#bf360c")
+text(98, 34.0, "zona sin patas", 1.2, color="#bf360c")
+text(98, 35.7, "ni componentes;", 1.2, color="#bf360c")
+text(98, 37.4, "vías tapadas", 1.2, color="#bf360c")
+text(98, 40.1, "bolsillo en la carcasa", 1.1, color="#bf360c")
+a(f'<path d="M88 40 C 87 44, 87 48, 86 50" fill="none" stroke="{PEND}" stroke-width="0.3" stroke-dasharray="0.6 0.4"/>')
+text(98, 46.5, "cable al conector MX1.25 (abajo del módulo)", 1.1, color=PEND)
+# SW10 recto en la cara posterior
+a('<rect x="120.7" y="5.8" width="8.6" height="4.4" rx="0.4" fill="#b0bec5" stroke="#37474f" stroke-width="0.25"/>')
+a('<rect x="123.6" y="6.8" width="2.8" height="2.4" fill="#546e7a"/>')
+for dx in (-2, 0, 2):
+    pad(125 + dx, 8, r=0.45)
+text(125, 12.8, "SW10 ON/OFF", 1.5, weight="bold")
+text(125, 14.6, "recto · palanca hacia atrás", 1.2, color="#37474f")
+text(125, 16.2, "(rebaje en la carcasa)", 1.2, color=PEND)
 # U1 RP2350-Plus girada 180°: USB arriba, pin 1 arriba a la derecha
 a('<rect x="64.5" y="2.5" width="21" height="51" rx="1.2" fill="#d1c4e9" stroke="#4527a0" stroke-width="0.35"/>')
 a('<rect x="71" y="0.2" width="8" height="4.6" rx="1" fill="#78909c" stroke="#263238" stroke-width="0.2"/>')
 text(75, 3.3, "USB-C", 1.3, color="#ffffff", weight="bold")
-text(88, 13, "U1 RP2350-Plus", 1.7, anchor="start", weight="bold", color="#311b92")
-text(88, 15.2, "21 × 51 mm, sobre 2 tiras 1×20", 1.3, anchor="start", color="#311b92")
+text(63.3, 28, "U1 RP2350-Plus (J1 + J2) · 21 × 51 mm", 1.5, weight="bold", color="#311b92", rot=-90)
 text(88, 4.4, "pin 1 = GP0 (CS)", 1.3, anchor="start", color=PEND, weight="bold")
 text(88, 6.1, "[VERIFICAR con foto]", 1.1, anchor="start", color=PEND)
-RL = {2: "GP1 RST", 4: "GP2 DC", 5: "GP3 MOSI", 9: "GP6 SCK", 11: "GP8 DOWN", 12: "GP9 LEFT", 14: "GP10 UP",
-      15: "GP11 RIGHT", 16: "GP12 SEL", 17: "GP13 START", 19: "GP14 B", 20: "GP15 A"}
-LL = {26: "GP20 BCK", 27: "GP21 LCK", 29: "GP22 DIN", 30: "RUN", 31: "GP26 LED", 36: "3V3", 37: "3V3_EN"}
+RL = {2: "GP1 RST", 4: "GP2 DC", 5: "GP3 MOSI", 9: "GP6 SCK", 16: "GP12 SEL", 17: "GP13 START", 19: "GP14 B", 20: "GP15 A"}
+LL = {21: "GP16 DOWN", 22: "GP17 LEFT", 24: "GP18 UP", 25: "GP19 RIGHT", 26: "GP20 BCK", 27: "GP21 LCK", 29: "GP22 DIN",
+      30: "RUN", 31: "GP26 LED", 36: "3V3", 37: "3V3_EN"}
 for n in range(1, 21):          # columna derecha: pin 1 arriba
     y = 3.87 + (n - 1) * 2.54
     pad(83.89, y, sq=(n == 1), r=0.75)
@@ -199,9 +212,10 @@ for kind, lab in items:
 notes = [
     "• Todas las posiciones son [SUPUESTO] (espec. sección 6). Se confirman con las piezas el 14 y 15 de octubre y con un boceto 1:1 antes de la Fase 2.",
     "• USB-C por arriba, como un control de PlayStation: el cable no molesta las manos y se puede jugar cargando. Jack de audífonos por abajo.",
-    "• Cruceta con paso de 10 mm y A/B en diagonal (15,6 mm entre centros) para capuchones 3D cómodos para manos de 6–10 años.",
+    "• Cruceta (paso 10 mm, centro x = 18, capuchón a 3 mm de la pantalla) y A/B en diagonal, para capuchones 3D cómodos a los 6–10 años.",
     "• Ningún botón ni capuchón queda bajo la pantalla. La RP2350-Plus termina en y = 53,5, así que Select/Start van centrados sin chocar.",
-    "• Ruteo favorable: pines de pantalla (GP0–GP6) del lado de J3 (derecha) e I2S (GP20–GP22) del lado del DAC (izquierda).",
+    "• Ruteo: pantalla (GP0–GP6) del lado de J3, I2S (GP20–GP22) junto al DAC y cruceta reasignada a GP16–GP19, del lado de la cruceta.",
+    "• ON/OFF recto por detrás (no se apaga sin querer). Batería detrás de la pantalla, en una zona sin patas: no hace falta espuma.",
     "• Pantalla montada girada 180° para acercar J3 a sus pines: la imagen se endereza en el firmware con setRotation().",
 ]
 for i, n in enumerate(notes):
