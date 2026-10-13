@@ -1,0 +1,53 @@
+Informe de estadísticas de la placa
+=============================
+- Fecha: 13-10-2026 17:48:19
+- Proyecto: KIDBOX
+- Nombre de placa: KIDBOX
+
+Placa
+-----
+- Ancho: 150,0000 mm
+- Alto: 65,0000 mm
+- Área: 9736,248 mm²
+- Área de cobre frontal: 0,00 mm²
+- Área de cobre posterior: 0,00 mm²
+- Margen mínimo de pista: 2147,4836 mm
+- Ancho mínimo de pista: 2147,4836 mm
+- Diámetro mínimo de taladro: 2147,4836 mm
+- Grosor del apilado de la placa: 1,6000 mm
+
+- Área de huellas frontal: 0,00 mm²
+- Área de huellas posterior: 0,00 mm²
+- Densidad de componentes frontal: 0,00 %
+- Densidad de componentes posterior: 0,00 %
+Pads
+----
+- Agujero pasante: 0
+- SMD: 0
+- Conector: 0
+- NPTH: 0
+- Castellado: 0
+- Press-fit: 0
+
+Vías
+----
+- Vías pasantes: 0
+- Vías ciegas: 0
+- Vías enterradas: 0
+- Microvías: 0
+
+Componentes
+----------
+
+|                  | Lado frontal | Lado trasero | Total |
+|------------------|--------------|--------------|-------|
+|THT:              |            0 |            0 |     0 |
+|SMD:              |            0 |            0 |     0 |
+|No especificado:  |            0 |            0 |     0 |
+|Total:            |            0 |            0 |     0 |
+
+Agujeros de taladros
+-----------
+
+| Cantidad | Forma | Tamaño X | Tamaño Y | Revestido | Vía/Pad | Capa inicial | Capa final |
+|----------|-------|----------|----------|-----------|---------|--------------|------------|

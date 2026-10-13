@@ -1,0 +1,9 @@
+# Python
+__pycache__/
+
+# KiCad: respaldos, cachés, bloqueos, autoguardado y preferencias locales de cada usuario
+*-backups/
+fp-info-cache
+*.lck
+_autosave-*
+*.kicad_prl
