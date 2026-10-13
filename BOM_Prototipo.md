@@ -1,19 +1,67 @@
-# Bill of Materials (BOM) — Prototipo Fase 1
+# Bill of Materials (BOM) — KIDBOX V1
 
-Este documento detalla los componentes necesarios para la primera fase de validación en protoboard del **Concepto A** (KIDBOX). Se prioriza el uso del inventario disponible en el DEC UAI para reducir costos[cite: 13, 15].
+| # | Componente | Cant. | Especificación / función | Estado |
+|---|---|---:|---|---|
+| 1 | **Raspberry Pi Pico RP2040** | 1 | Microcontrolador principal | ✅ DEC |
+| 2 | **TFT Touch 2.4" ILI9341** | 1 | 240×320, SPI, XPT2046 integrado | 🛒 Comprar |
+| 3 | **PCM5102A GY-PCM5102** | 1 | DAC I2S para salida de audio | ✅ Profesor |
+| 4 | **Jack 3.5 mm** | 1 | Salida de audio | ✅ Integrado en módulo PCM5102A |
+| 5 | **Audífonos** | 1 | Para probar audio | ✅ / conseguir |
+| 6 | **LiPo Soshine 902030** | 1 | 3.7 V, 500 mAh | ✅ Disponible |
+| 7 | **TP4056** | 1 | Cargador para batería LiPo 1S | ✅ DEC |
+| 8 | **Resistencia RPROG TP4056** | 1 | Ajustar carga aprox. a 200–250 mA | 🟡 Revisar disponibilidad |
+| 9 | **Interruptor ON/OFF** | 1 | Encendido general de la consola | 🟡 Revisar / comprar |
+| 10 | **Tact switches 6×6 mm** | 8 | ↑ ↓ ← →, A, B, Start, Select | ✅ Disponible |
+| 11 | **Headers macho 2.54 mm** | varios | Pines para módulos | ✅ / comprar |
+| 12 | **Headers hembra 2.54 mm** | varios | Pico y módulos desmontables | ✅ / comprar |
+| 13 | **Conector JST 2 pines** | 1 | Conexión batería–PCB | 🟡 Según conector batería |
+| 14 | **Capacitores 100 nF** | 2–3 | Desacoplo de alimentación | 🟡 DEC / comprar |
+| 15 | **Capacitor 10–47 µF** | 1–2 | Estabilización de alimentación | 🟡 DEC / comprar |
+| 16 | **PCB KIDBOX 2 capas** | 1 | Carrier board propia | 🔴 Fabricar |
+| 17 | **Carcasa impresa 3D** | 1 | Enclosure KIDBOX | 🔴 Diseñar/imprimir |
+| 18 | **Insertos roscados M2/M2.5** | 4–6 | Fijación de carcasa/PCB | ✅ Disponible |
+| 19 | **Tornillos M2/M2.5** | 4–6 | Ensamble | 🟡 Revisar |
+| 20 | **Cable USB para Pico** | 1 | Programación y pruebas | ✅ Disponible |
 
-### Cotización Inmediata
+## Controles
 
-| Ítem | Componente | Cant. | Costo Unitario | Origen | Enlace / Notas |
-|:---|:---|:---:|:---|:---|:---|
-| **1** | Parlante 28mm 8Ω 0.5W | 1 | ~$0.81 | **Comprar** | [AliExpress](https://www.aliexpress.com/item/32826761277.html) |
-| **2** | Tarjeta MicroSD 16GB/32GB | 1 | ~$3.50 | **Comprar** | [AliExpress](https://www.aliexpress.com/w/wholesale-32gb-micro-sd-card-class10.html) |
-| **3** | Almohadillas D-Pad (GBA) | 1 | ~$1.05 | **Comprar** | [AliExpress](https://www.aliexpress.com/item/33007129317.html) *(Opcional)* |
-| **4** | ESP32-S3 Super Mini | 1 | $0.00 | **DEC UAI** | Reemplazo temporal |
-| **5** | Pantalla IPS 1.3" (240x240) | 1 | $0.00 | **DEC UAI** | Reemplazo temporal |
-| **6** | Amplificador PAM8403 | 1 | $0.00 | **DEC UAI** | En inventario |
-| **7** | Lector MicroSD (MH-SD) | 1 | $0.00 | **DEC UAI** | En inventario |
-| **8** | TP4056 + LiPo 500mAh | 1 | $0.00 | **DEC UAI** | En inventario |
-| **9** | Tact switches 6x6mm | 12 | $0.00 | **DEC UAI** | En inventario |
+Los 8 botones quedarían:
 
-**TOTAL COMPRA INMEDIATA: ~$5.36**
+| Función | Cant. |
+|---|:---:|
+| ↑ ↓ ← → | 4 |
+| A / B | 2 |
+| Start | 1 |
+| Select | 1 |
+| **Total** | **8** |
+
+El D-pad visible de la carcasa puede ser una pieza impresa en 3D que presione cuatro tact switches 6×6, así que tampoco necesitamos comprar un D-pad electrónico.
+
+## Arquitectura definitiva V1
+
+```text
+               KIDBOX V1
+
+          Raspberry Pi Pico RP2040
+                    │
+        ┌───────────┼────────────┐
+        │           │            │
+       SPI         I2S          GPIO
+        │           │            │
+        ▼           ▼            ▼
+ ILI9341 2.4"   PCM5102A     8 botones
+   240×320          │       ↑ ↓ ← → A B
+                    │       Start / Select
+                 Jack 3.5"
+                    │
+                Audífonos
+
+
+          LiPo 3.7 V / 500 mAh
+                    │
+                 TP4056
+                    │
+                ON / OFF
+                    │
+                 Pico VSYS
+```
