@@ -78,7 +78,7 @@ RP2350-Plus, accesibles por detrás (agujeros en la tapa de la carcasa). Formato
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | J1, J2 | 2 | Tira hembra 1×20, 2.54 mm, para la RP2350-Plus | THT | Bottom | `Connector_Generic:Conn_01x20` · `Connector_PinSocket_2.54mm:PinSocket_1x20_P2.54mm_Vertical` | |
 | J3 | 1 | Tira hembra 1×14 para la pantalla TFT ILI9341 2.4" | THT | Top | `Connector_Generic:Conn_01x14` · `Connector_PinSocket_2.54mm:PinSocket_1x14_P2.54mm_Vertical` | Orden de pines en la sección 5 |
-| ~~J4~~ | — | **Eliminado en v0.7** | — | — | — | Sus patas caían en la zona de batería. La pantalla queda sostenida por J3, H5/H6 y el marco de la carcasa |
+| ~~J4~~ | — | **Eliminado en v0.7** | — | — | — | Sus patas caían en la zona de batería. La pantalla queda sostenida por J3 y el marco de la carcasa |
 | J5 | 1 | Tira hembra 1×6 para el DAC GY-PCM5102 | THT | Bottom | `Connector_Generic:Conn_01x06` · `Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical` | Orden **confirmado** con la serigrafía ✅. Jack hacia el **borde inferior** |
 | SW1–SW8 | 8 | Pulsador táctil 6×6 mm, 4 patas, **alto 9.1 mm** (DEC) | THT | Top | `Switch:SW_Push` · `Button_Switch_THT:SW_PUSH_6mm` | Patas a 6.5 × 4.5 mm **confirmado** ✅. Capuchones 3D más adelante |
 | ~~SW9~~ | — | **Eliminado en v0.7** (RESET del frente) | — | — | — | Se usa el RESET de la RP2350-Plus |
@@ -88,7 +88,7 @@ RP2350-Plus, accesibles por detrás (agujeros en la tapa de la carcasa). Formato
 | C3 | 1 | 100 nF cerámico (desacoplo DAC) | THT | Bottom | `Device:C` · ídem C2 | Junto a J5 |
 | C4 | 1 | 10 µF electrolítico **≥16 V** (sirve 25 V) | THT | Bottom | `Device:C_Polarized` · `Capacitor_THT:CP_Radial_D5.0mm_P2.00mm` | Polaridad. Diámetro y paso [PENDIENTE: medir al recibir] |
 | H1–H4 | 4 | Agujero M2 (fijación a la carcasa) | NPTH 2.2 mm | — | `Mechanical:MountingHole` (in_bom no) · `MountingHole:MountingHole_2.2mm_M2` | |
-| H5, H6 | 2 | Agujeros de la pantalla, **lado de J3** | NPTH 3.2 mm | — | `Mechanical:MountingHole` (in_bom no) · `MountingHole:MountingHole_3.2mm_M3` | Coinciden con los agujeros del módulo. El separador es opcional (se decide al montar; un separador redondo ≤ Ø4 mm queda muy cerca de J3) |
+| ~~H5, H6~~ | — | **Eliminados (Fase 2, 14-oct)** | — | — | — | El borde del agujero quedaba a 0.09 mm de J3: un tornillo tocaría la tira. La pantalla se sujeta con J3 y la carcasa (marco frontal + soporte impreso bajo su lado derecho, más adelante) |
 
 Regla para SMD: **no hay componentes SMD.**
 
@@ -159,7 +159,7 @@ es esta sección y las imágenes de `KIDBOX/verificacion/` que genera la Fase 2.
 **Pantalla** (plano MSP2402 de LCDwiki; confirmar el 15-oct): placa **77.18 × 42.72 mm**, horizontal, centrada en (75, 28) → x 36.41–113.59,
 y 6.64–49.36. **Sin girar** (v0.7): tira de 14 pines (**J3**) **vertical en el borde corto izquierdo**, a 2.00 mm del borde → **x ≈ 38.41**,
 centrada en y = 28 (pines de y ≈ 11.49 a 44.51), **pin 1 (VCC) arriba** [VERIFICAR con la pieza el 15-oct]. Agujeros del módulo
-Ø3.2 a 67.26 × 36.72 entre centros → los del lado de J3 en **(41.37, 9.64)** y **(41.37, 46.36)** = H5, H6. Los del lado derecho **no se usan**.
+Ø3.2 a 67.26 × 36.72 entre centros: **no se usan en la PCB** (los del lado de J3 chocaban con la tira; los del lado derecho caen sobre la zona de batería).
 La imagen se orienta por firmware con `setRotation()`.
 
 **RP2350-Plus** (cara Bottom, vista "a través" desde el frente): vertical, USB-C arriba, placa en x 64.5–85.5, y ≈ 0–51.5.
@@ -180,11 +180,10 @@ Posiciones fijas (centro del cuerpo):
 | SW4 (RIGHT) | 28 | 30 | Top | Cruceta; capuchón hasta x = 33, pantalla desde x = 36.4 |
 | SW8 (A) | 138 | 25 | Top | Pulgar derecho |
 | SW7 (B) | **128** | 35 | Top | Pulgar derecho, en diagonal con A. **Desplazado 2 mm a la derecha** (v0.7): sus patas (x ≥ 124.75) quedan fuera de la zona de batería |
-| SW5 (SELECT) | 66 | 58 | Top | Bajo la pantalla, centrado |
-| SW6 (START) | 84 | 58 | Top | Bajo la pantalla, centrado; patas hasta x = 87.25, fuera de la zona de batería |
+| SW5 (SELECT) | **66.5** | 58 | Top | Bajo la pantalla, simétrico con START respecto de x = 75 |
+| SW6 (START) | **83.5** | 58 | Top | Bajo la pantalla; cobre hasta x = 87.75, 0.25 mm fuera de la zona de batería |
 | SW10 (ON/OFF) | **134** | 8 | **Bottom** | Recto, palanca hacia atrás. **Desplazado a x = 134** (v0.7) para dejar libre la zona de batería; lejos de las patas de A (y ≥ 22.75) |
 | J3 (pantalla 1×14) | 38.41 | 28 | Top | Borde izquierdo de la pantalla, pin 1 arriba [VERIFICAR 15-oct] |
-| H5, H6 | 41.37 | 9.64 y 46.36 | — | Agujeros del módulo de pantalla, lado de J3 |
 | J1+J2 (RP2350-Plus) | centro (75, 25.8) | — | **Bottom** | USB-C en el borde superior |
 | J5 (DAC) | tira en (≈ 53, ≈ 35.5) | — | Bottom | Ver descripción |
 
@@ -248,7 +247,8 @@ Decisiones vigentes:
 Cambios v0.7 (14-oct-2026, decididos por el alumno tras medir las piezas):
 1. **Se elimina el RESET del frente** (SW9 y C1). RUN queda sin conectar. Se usan los botones BOOT/RESET de la RP2350-Plus por detrás.
 2. **Batería LiPo 103450 de 2000 mAh** (50.99 × 33.11 × 9.84 mm): carga a 0.5C, el riesgo de la v0.6 queda resuelto.
-3. **Layout reordenado** para la batería: pantalla sin girar (J3 a la izquierda en x ≈ 38.41, pin 1 arriba); **se elimina J4**; H5/H6 pasan al lado de J3; zona de batería x 88.0–123.5, y 4–62; **SW10 a (134, 8)**; **B a x = 128**.
+3. **Layout reordenado** para la batería: pantalla sin girar (J3 a la izquierda en x ≈ 38.41, pin 1 arriba); **se elimina J4**; zona de batería x 88.0–123.5, y 4–62; **SW10 a (134, 8)**; **B a x = 128**.
+6. **Fase 2 (revisión del alumno, 14-oct):** se eliminan H5/H6 (chocaban con J3); SELECT y START pasan a x = 66.5 y 83.5; se aceptan J5 con VIN a la derecha visto de frente y PWR_EN por el borde superior.
 4. **SW10 con huella de paso 2.54 mm** (`SW_Slide-03_Wuerth-WS-SLTV_10x2.5x6.4_P2.54mm`), pendiente de confirmar con la prueba de protoboard.
 5. J5 (orden de pines), RP2350-Plus (medidas y pinout), pulsadores (6.5 × 4.5 mm, alto 9.1 mm) y DAC (31.0 × 17.8 mm) **confirmados con las piezas**.
 
