@@ -64,8 +64,8 @@ Si se edita el esquemático en la GUI, el cambio se pierde al regenerar: los cam
 - **13-oct · Nombres de red = los de la sección 5 (LCD_CS, BTN_UP, I2S_BCK…), y el nombre del pin del módulo (GP0, GP1…) como texto junto a cada pin de J1/J2.** Por qué: la sección 2 pide "etiquetas de red por pin (GP0, GP1, …)", pero una red tiene un solo nombre y la sección 5 y `netlist.csv` usan los funcionales. Las dos cosas se ven en el esquemático: etiqueta funcional a la izquierda y "pin del conector · pin del módulo · GPx" a la derecha. Si está mal: si prefieren redes "GP0_LCD_CS", es un cambio de una línea en `kidbox_datos.py`.
 - **13-oct · La red de 3V3 se llama `+3V3`** (el símbolo oficial `power:+3V3`). Es la "3V3" de la especificación. Tiene la net class `Potencia` (pista de 0.5 mm, sección 8) definida en el `.kicad_pro`.
 - **13-oct · H5 y H6 ya están en el esquemático** (con su huella `MountingHole_3.2mm_M3`), aunque la sección 4 dice "Solo Fase 2". Por qué: cantidad y huella ya están decididas, y así el esquemático que el alumno revisa ahora no cambia en la Fase 2; solo su posición es de la Fase 2. H9 no se agregó (0–1, depende del 14-oct). Si está mal: se borran dos líneas en `kidbox_datos.py`.
-- **13-oct · Orden de pines de J5 = [SUPUESTO] de la sección 5** (1 VIN, 2 GND, 3 LCK, 4 DIN, 5 BCK, 6 SCK), por decisión del alumno (respuesta 1 de la segunda vuelta). Si la pieza del 14-oct tiene otro orden: se cambia el diccionario `DAC` y se regenera; ninguna otra red cambia.
-- **13-oct · SW10: pin 2 (común) a PWR_EN, pin 1 a GND (= OFF), pin 3 sin conectar.** En `Switch:SW_SPDT` y en la huella `OS102011MS2Q` el pin 2 es el central. Qué lado de la palanca es OFF depende del modelo: se verifica con el multímetro (continuidad 1–2 en la posición que se quiera como OFF) y, si hace falta, se intercambian 1 y 3.
+- ~~**13-oct · Orden de pines de J5 = [SUPUESTO] de la sección 5**~~ **(resuelto el 14-oct, v0.7: orden confirmado con la serigrafía, ver sección 5)** (1 VIN, 2 GND, 3 LCK, 4 DIN, 5 BCK, 6 SCK), por decisión del alumno (respuesta 1 de la segunda vuelta). Si la pieza del 14-oct tiene otro orden: se cambia el diccionario `DAC` y se regenera; ninguna otra red cambia.
+- ~~**13-oct · SW10: pin 2 (común) a PWR_EN, pin 1 a GND (= OFF), pin 3 sin conectar.**~~ **(reemplazado el 14-oct por la huella Würth, ver sección 5)** En `Switch:SW_SPDT` y en la huella `OS102011MS2Q` el pin 2 es el central. Qué lado de la palanca es OFF depende del modelo: se verifica con el multímetro (continuidad 1–2 en la posición que se quiera como OFF) y, si hace falta, se intercambian 1 y 3.
 - **13-oct · Valores de los símbolos = función** (DOWN, RESET, ON/OFF, "RP2350-Plus 1-20"…) para revisar pin por pin sin abrir la BOM. La descripción de compra está en `BOM.csv`.
 - **13-oct · PWR_FLAG en +3V3 y en GND** (sección 5): J1/J2 son conectores pasivos y el ERC no sabe que el 3V3 lo genera el regulador de la RP2350-Plus.
 - **13-oct · Origen del PCB = origen absoluto de KiCad (0,0)**, igual que el de la especificación (esquina superior izquierda, Y hacia abajo). Así las coordenadas de la sección 6 se escriben tal cual en la Fase 2. Por eso la placa queda pegada a la esquina de la hoja de dibujo; es solo estético.
@@ -79,3 +79,32 @@ Si se edita el esquemático en la GUI, el cambio se pierde al regenerar: los cam
   3. El alumno **no edita en la GUI**: todo cambio pasa por `scripts/kidbox_datos.py` y se regenera con los scripts. El `.kicad_sch` es un archivo generado.
   4. Pendiente para el 14-oct: orden real de J5 y posición OFF de SW10. Se corrigen en `kidbox_datos.py` antes de la Fase 2.
 - **13-oct-2026 · `.gitignore` en `hardware/`**: excluye `__pycache__/`, `*-backups/`, `fp-info-cache`, `*.lck`, `_autosave-*` y `*.kicad_prl` (preferencias locales de KiCad, no forman parte del diseño).
+
+## 5. Corrección de la Fase 1 por la especificación v0.7 (14-oct-2026)
+
+Cambios hechos en `scripts/kidbox_datos.py` (y textos de `gen_esquematico.py` / `gen_bom_netlist.py`), regenerados con los scripts:
+
+| Cambio | Antes (v0.6) | Ahora (v0.7) |
+| :--- | :--- | :--- |
+| SW9 (RESET del frente) y C1 | RUN = J2.10 + SW9.1 + C1.1 | **Eliminados**. J2.10 (RUN, pin 30) con `no_connect`; la red `RUN` desaparece |
+| J4 (tira SD de la pantalla) | 4 pines sin conectar | **Eliminado** |
+| J5 | orden [SUPUESTO] | orden **confirmado**; se quitan los avisos en esquemático, BOM y netlist. Redes sin cambios |
+| SW10 | `Switch:SW_SPDT` + `SW_Slide_SPDT_Straight_CK_OS102011MS2Q`; común = pin 2 | `Switch:SW_SPDT_312` + `SW_Slide-03_Wuerth-WS-SLTV_10x2.5x6.4_P2.54mm`; común = pin/pad 1 |
+| H5, H6 | "separador, lado de J4" | "agujero del módulo de pantalla, lado de J3" (solo la nota) |
+
+### Decisiones y supuestos nuevos
+- **14-oct · SW10: el pad central "1" de la huella Würth es el común, resuelto cambiando el SÍMBOLO, no la huella.**
+  En la huella oficial `SW_Slide-03_Wuerth-WS-SLTV_10x2.5x6.4_P2.54mm` el pad 1 (rectangular) está en el centro, (0, 0), y los pads 2 y 3 en −2.54 y +2.54 mm.
+  Con `Switch:SW_SPDT` (A = 1, común B = 2, C = 3) el pin común del esquemático caería en una pata extrema.
+  KiCad une símbolo y huella por número de pin, así que se usa el símbolo **oficial** `Switch:SW_SPDT_312`, que es el mismo SPDT con el común (B) numerado **1**, C = 2 y A = 3
+  (existe en la librería justamente para huellas con el común en el pad 1). Resultado: **pad 1 (central) = PWR_EN, pad 2 = GND (OFF), pad 3 sin conectar.**
+  Se descartó conectar `PWR_EN` al pin 1 de `SW_SPDT`: daría la misma placa, pero el dibujo del esquemático mostraría una pata extrema como común.
+  Desviación respecto a la especificación: la sección 4 nombra el símbolo `Switch:SW_SPDT`; se usa su variante `SW_SPDT_312` de la misma librería. Si el alumno prefiere `SW_SPDT`, se cambia en una línea, pero entonces el esquemático no reflejará el pad central como común.
+  Qué pata extrema (2 o 3) es OFF sigue **[PENDIENTE: continuidad]**; si resulta ser la 3, se intercambian las redes de los pines 2 y 3 en `kidbox_datos.py`.
+  Si en la protoboard el paso resulta 2.0 mm (vuelta a `CK_OS102011MS2Q`, común = pad 2), hay que volver a `Switch:SW_SPDT`.
+- **14-oct · Descripción de SW10 en la BOM:** "Würth WS-SLTV 450301014042 o equivalente" (es el modelo de la huella); la pieza real es la del DEC con paso 2.54 mm por confirmar.
+- **14-oct · Paridad esquemático-PCB: 22 avisos `missing_footprint`** (antes 25: salieron SW9, C1 y J4). Siguen siendo esperados hasta la Fase 2.
+
+
+### Revisión del alumno (Paso A)
+- **14-oct-2026 · Corrección v0.7 del esquemático REVISADA Y APROBADA.** Acepta `Switch:SW_SPDT_312` para SW10 (ya en la sección 4 de la especificación). `scripts/gen_layout.py` y `datasheets/layout_propuesto.svg` quedan como histórico de la v0.6 (sección 6) y no se actualizan.

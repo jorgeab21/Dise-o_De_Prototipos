@@ -4,7 +4,7 @@ Red,Componente,Pin,Funcion
 +3V3,C4,1,"Condensador 10u 16V, pata +"
 +3V3,J2,16,RP2350-Plus pin 36 (3V3)
 +3V3,J3,1,Pantalla VCC
-+3V3,J5,1,DAC VIN [orden SUPUESTO]
++3V3,J5,1,DAC VIN
 BTN_A,J1,20,RP2350-Plus pin 20 (GP15)
 BTN_A,SW8,1,"Pulsador A, pata 1"
 BTN_B,J1,19,RP2350-Plus pin 19 (GP14)
@@ -21,7 +21,6 @@ BTN_START,J1,17,RP2350-Plus pin 17 (GP13)
 BTN_START,SW6,1,"Pulsador START, pata 1"
 BTN_UP,J2,4,RP2350-Plus pin 24 (GP18)
 BTN_UP,SW3,1,"Pulsador UP, pata 1"
-GND,C1,2,"Condensador 100n, pata 2"
 GND,C2,2,"Condensador 100n, pata 2"
 GND,C3,2,"Condensador 100n, pata 2"
 GND,C4,2,"Condensador 10u 16V, pata -"
@@ -34,8 +33,8 @@ GND,J2,8,RP2350-Plus pin 28 (GND)
 GND,J2,13,RP2350-Plus pin 33 (AGND)
 GND,J2,18,RP2350-Plus pin 38 (GND)
 GND,J3,2,Pantalla GND
-GND,J5,2,DAC GND [orden SUPUESTO]
-GND,J5,6,DAC SCK [orden SUPUESTO]
+GND,J5,2,DAC GND
+GND,J5,6,DAC SCK
 GND,SW1,2,"Pulsador DOWN, pata 2"
 GND,SW2,2,"Pulsador LEFT, pata 2"
 GND,SW3,2,"Pulsador UP, pata 2"
@@ -44,14 +43,13 @@ GND,SW5,2,"Pulsador SELECT, pata 2"
 GND,SW6,2,"Pulsador START, pata 2"
 GND,SW7,2,"Pulsador B, pata 2"
 GND,SW8,2,"Pulsador A, pata 2"
-GND,SW9,2,"Pulsador RESET, pata 2"
-GND,SW10,1,"Interruptor ON/OFF, A (OFF)"
+GND,SW10,2,"Interruptor ON/OFF, C (OFF)"
 I2S_BCK,J2,6,RP2350-Plus pin 26 (GP20)
-I2S_BCK,J5,5,DAC BCK [orden SUPUESTO]
+I2S_BCK,J5,5,DAC BCK
 I2S_DIN,J2,9,RP2350-Plus pin 29 (GP22)
-I2S_DIN,J5,4,DAC DIN [orden SUPUESTO]
+I2S_DIN,J5,4,DAC DIN
 I2S_LRCK,J2,7,RP2350-Plus pin 27 (GP21)
-I2S_LRCK,J5,3,DAC LCK [orden SUPUESTO]
+I2S_LRCK,J5,3,DAC LCK
 LCD_CS,J1,1,RP2350-Plus pin 1 (GP0)
 LCD_CS,J3,3,Pantalla CS
 LCD_DC,J1,4,RP2350-Plus pin 4 (GP2)
@@ -65,10 +63,7 @@ LCD_RST,J3,4,Pantalla RESET
 LCD_SCK,J1,9,RP2350-Plus pin 9 (GP6)
 LCD_SCK,J3,7,Pantalla SCK
 PWR_EN,J2,17,RP2350-Plus pin 37 (3V3_EN)
-PWR_EN,SW10,2,"Interruptor ON/OFF, comun"
-RUN,C1,1,"Condensador 100n, pata 1"
-RUN,J2,10,RP2350-Plus pin 30 (RUN)
-RUN,SW9,1,"Pulsador RESET, pata 1"
+PWR_EN,SW10,1,"Interruptor ON/OFF, comun (B)"
 (sin conectar),J1,6,RP2350-Plus pin 6 (GP4)
 (sin conectar),J1,7,RP2350-Plus pin 7 (GP5)
 (sin conectar),J1,10,RP2350-Plus pin 10 (GP7)
@@ -76,6 +71,7 @@ RUN,SW9,1,"Pulsador RESET, pata 1"
 (sin conectar),J1,12,RP2350-Plus pin 12 (GP9)
 (sin conectar),J1,14,RP2350-Plus pin 14 (GP10)
 (sin conectar),J1,15,RP2350-Plus pin 15 (GP11)
+(sin conectar),J2,10,RP2350-Plus pin 30 (RUN)
 (sin conectar),J2,12,RP2350-Plus pin 32 (GP27)
 (sin conectar),J2,14,RP2350-Plus pin 34 (GP28)
 (sin conectar),J2,15,RP2350-Plus pin 35 (ADC_VREF)
@@ -87,8 +83,4 @@ RUN,SW9,1,"Pulsador RESET, pata 1"
 (sin conectar),J3,12,Pantalla T_DIN
 (sin conectar),J3,13,Pantalla T_DO
 (sin conectar),J3,14,Pantalla T_IRQ
-(sin conectar),J4,1,"Pantalla SD_CS (apoyo, sin usar)"
-(sin conectar),J4,2,"Pantalla SD_MOSI (apoyo, sin usar)"
-(sin conectar),J4,3,"Pantalla SD_MISO (apoyo, sin usar)"
-(sin conectar),J4,4,"Pantalla SD_CLK (apoyo, sin usar)"
-(sin conectar),SW10,3,"Interruptor ON/OFF, C (ON, al aire)"
+(sin conectar),SW10,3,"Interruptor ON/OFF, A (ON, al aire)"

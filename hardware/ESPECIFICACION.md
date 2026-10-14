@@ -82,7 +82,7 @@ RP2350-Plus, accesibles por detrás (agujeros en la tapa de la carcasa). Formato
 | J5 | 1 | Tira hembra 1×6 para el DAC GY-PCM5102 | THT | Bottom | `Connector_Generic:Conn_01x06` · `Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical` | Orden **confirmado** con la serigrafía ✅. Jack hacia el **borde inferior** |
 | SW1–SW8 | 8 | Pulsador táctil 6×6 mm, 4 patas, **alto 9.1 mm** (DEC) | THT | Top | `Switch:SW_Push` · `Button_Switch_THT:SW_PUSH_6mm` | Patas a 6.5 × 4.5 mm **confirmado** ✅. Capuchones 3D más adelante |
 | ~~SW9~~ | — | **Eliminado en v0.7** (RESET del frente) | — | — | — | Se usa el RESET de la RP2350-Plus |
-| SW10 | 1 | Interruptor deslizante 1P2T recto, 3 patas (cuerpo 8.7 mm, alto ~11 mm con palanca) | THT | **Bottom** | `Switch:SW_SPDT` · `Button_Switch_THT:SW_Slide-03_Wuerth-WS-SLTV_10x2.5x6.4_P2.54mm` | **Paso 2.54 mm [PENDIENTE: confirmar con prueba en protoboard]**; si resulta 2.0 mm, volver a `SW_Slide_SPDT_Straight_CK_OS102011MS2Q`. ⚠ En esta huella el **pad central es el "1"**: el pad central debe ser el **común** (PWR_EN). Resolverlo sin modificar la huella oficial y documentarlo |
+| SW10 | 1 | Interruptor deslizante 1P2T recto, 3 patas (cuerpo 8.7 mm, alto ~11 mm con palanca) | THT | **Bottom** | `Switch:SW_SPDT_312` · `Button_Switch_THT:SW_Slide-03_Wuerth-WS-SLTV_10x2.5x6.4_P2.54mm` | **Paso 2.54 mm [PENDIENTE: confirmar con prueba en protoboard]**. Se usa el símbolo oficial `SW_SPDT_312` (común = pin 1) para que el **pad central** de la huella sea el **común** (PWR_EN); pad 2 a GND, pad 3 sin conectar. Si el paso resulta 2.0 mm, volver a la huella CK `SW_Slide_SPDT_Straight_CK_OS102011MS2Q` con el símbolo `SW_SPDT` |
 | ~~C1~~ | — | **Eliminado en v0.7** (era el del RESET) | — | — | — | |
 | C2 | 1 | 100 nF cerámico (desacoplo pantalla) | THT | Top | `Device:C` · `Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm` | Junto a J3. Paso de patas [PENDIENTE: medir al recibir; muchos "104" vienen a 5 mm] |
 | C3 | 1 | 100 nF cerámico (desacoplo DAC) | THT | Bottom | `Device:C` · ídem C2 | Junto a J5 |
@@ -152,6 +152,9 @@ Con J1/J2 como conectores genéricos, el ERC necesita `PWR_FLAG` en 3V3 y en GND
 | **Zona de batería (Bottom)** | Rectángulo **x 88.0–123.5, y 4.0–62.0** (35.5 × 58 mm para una batería de 33.1 × 51.0 mm, con holgura). **Sin componentes ni patas THT**; solo pistas y **vías tapadas**. La batería apoya con su lado largo vertical |
 | Bordes libres | Superior x 70.7–79.6 (USB-C; abertura de carcasa x ≈ 68–82). Inferior bajo el jack del DAC |
 | Espesor | 1.6 mm |
+
+El boceto `datasheets/layout_propuesto.svg` corresponde a la v0.6 y queda como **histórico**: desde la v0.7, la referencia de posiciones
+es esta sección y las imágenes de `KIDBOX/verificacion/` que genera la Fase 2.
 
 **Pantalla** (plano MSP2402 de LCDwiki; confirmar el 15-oct): placa **77.18 × 42.72 mm**, horizontal, centrada en (75, 28) → x 36.41–113.59,
 y 6.64–49.36. **Sin girar** (v0.7): tira de 14 pines (**J3**) **vertical en el borde corto izquierdo**, a 2.00 mm del borde → **x ≈ 38.41**,
