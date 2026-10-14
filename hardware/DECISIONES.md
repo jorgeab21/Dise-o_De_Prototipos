@@ -77,7 +77,7 @@ Si se edita el esquemático en la GUI, el cambio se pierde al regenerar: los cam
   1. Se mantienen los nombres de red funcionales, con GPx como texto junto a J1/J2.
   2. H5 y H6 se quedan en el esquemático.
   3. El alumno **no edita en la GUI**: todo cambio pasa por `scripts/kidbox_datos.py` y se regenera con los scripts. El `.kicad_sch` es un archivo generado.
-  4. Pendiente para el 14-oct: orden real de J5 y posición OFF de SW10. Se corrigen en `kidbox_datos.py` antes de la Fase 2.
+  4. Pendiente para el 14-oct: orden real de J5 y posición OFF de SW10. Se corrigen en `kidbox_datos.py` antes de la Fase 2. **(J5 confirmado el 14-oct; la posición OFF de SW10 sigue pendiente de continuidad.)**
 - **13-oct-2026 · `.gitignore` en `hardware/`**: excluye `__pycache__/`, `*-backups/`, `fp-info-cache`, `*.lck`, `_autosave-*` y `*.kicad_prl` (preferencias locales de KiCad, no forman parte del diseño).
 
 ## 5. Corrección de la Fase 1 por la especificación v0.7 (14-oct-2026)
@@ -101,8 +101,8 @@ Cambios hechos en `scripts/kidbox_datos.py` (y textos de `gen_esquematico.py` / 
   Se descartó conectar `PWR_EN` al pin 1 de `SW_SPDT`: daría la misma placa, pero el dibujo del esquemático mostraría una pata extrema como común.
   Desviación respecto a la especificación: la sección 4 nombra el símbolo `Switch:SW_SPDT`; se usa su variante `SW_SPDT_312` de la misma librería. Si el alumno prefiere `SW_SPDT`, se cambia en una línea, pero entonces el esquemático no reflejará el pad central como común.
   Qué pata extrema (2 o 3) es OFF sigue **[PENDIENTE: continuidad]**; si resulta ser la 3, se intercambian las redes de los pines 2 y 3 en `kidbox_datos.py`.
-  Si en la protoboard el paso resulta 2.0 mm (vuelta a `CK_OS102011MS2Q`, común = pad 2), hay que volver a `Switch:SW_SPDT`.
-- **14-oct · Descripción de SW10 en la BOM:** "Würth WS-SLTV 450301014042 o equivalente" (es el modelo de la huella); la pieza real es la del DEC con paso 2.54 mm por confirmar.
+  ~~Si en la protoboard el paso resulta 2.0 mm (vuelta a `CK_OS102011MS2Q`, común = pad 2), hay que volver a `Switch:SW_SPDT`.~~ **(Resuelto: paso 2.54 mm confirmado en protoboard el 14-oct.)**
+- **14-oct · Descripción de SW10 en la BOM:** "Würth WS-SLTV 450301014042 o equivalente" (es el modelo de la huella); la pieza real es la del DEC con paso 2.54 mm, **confirmado en protoboard el 14-oct**.
 - **14-oct · Paridad esquemático-PCB: 22 avisos `missing_footprint`** (antes 25: salieron SW9, C1 y J4). Siguen siendo esperados hasta la Fase 2.
 
 
@@ -241,5 +241,16 @@ El alumno aprobó el PCB por escrito para la **entrega preliminar del 16-oct** (
   - Taladros: 101 PTH (9 × 0.8, 60 × 1.0, 32 × 1.1) y 4 NPTH (2.2 mm), que coinciden con las piezas.
 - **PDF 1:1 con escala 1.0001.** Con escala exactamente 1, KiCad deja la placa en su posición absoluta, pegada a la esquina de la hoja: la impresora recorta unos 4 mm y el reverso espejado se sale de la hoja. Con 1.0001 la centra; el error es de 0.015 mm en 150 mm.
 - **Interactive HTML BOM:** el plugin no está instalado y no se instaló (hace falta permiso). Se genera desde la GUI: *Herramientas → Gestor de plugins y contenidos → "Interactive Html Bom" → Instalar*; después, en el editor de PCB, *Herramientas → Plugins externos → Generate Interactive HTML BOM*, con salida en `fabricacion/`.
-- **Pendiente sin tocar:** la nota de SW10 en `BOM.csv` todavía dice "paso 2.54 mm [PENDIENTE: protoboard]", aunque la sección 11 ya lo da por confirmado. Viene de `kidbox_datos.py` (texto de BOM); se corrige en la próxima regeneración si el alumno lo pide.
+- ~~**Pendiente sin tocar:** la nota de SW10 en `BOM.csv` todavía dice "paso 2.54 mm [PENDIENTE: protoboard]", aunque la sección 11 ya lo da por confirmado.~~ **(Corregido en la sección 11.)**
 - `README.md` nuevo: recuadro "PRELIMINAR — NO FABRICAR" con los pendientes de la sección 11, orden de soldadura, notas de montaje, parámetros de pedido y revisión en el visor de JLCPCB.
+
+## 11. Fase 4 — BOM al día y ubicación del número de pedido (14-oct-2026)
+
+| # | Cambio | Archivos |
+| :--- | :--- | :--- |
+| 4.1 | Nota de SW10 en la BOM: "paso 2.54 mm **confirmado en protoboard (14-oct)**", como en la sección 11 de la especificación. En `DECISIONES.md` se marcan como resueltos (tachados o anotados, sin borrar la historia) el paso de SW10 y el orden de J5. Lo único que sigue `[PENDIENTE]` es la posición OFF de SW10 por continuidad, que está abierta de verdad. La pantalla ya figuraba como confirmada en el README | `kidbox_datos.py` → `BOM.csv`; `DECISIONES.md` |
+| 4.2 | Texto **"JLCJLCJLCJLC"** en B.SilkS (alto 1.0 mm, trazo 0.15 mm) en **(102.5, 33), vertical**, dentro de la zona de batería. Queda centrado en y y simétrico con "sin patas THT" (x 109) respecto de "BATERÍA 103450" (x 105.75), sin tocarlo. En el README: **"Order number: Specify a location"** | `gen_pcb.py`, `KIDBOX.kicad_pcb`, `README.md`, Gerbers y zip |
+
+- El PCB solo cambia en ese texto: las 116 pistas tienen la misma geometría que en el commit anterior (cambia su orden en el archivo porque se corren los UUID).
+- `verificar.py`: SIN ERRORES. `verificar_extra.py`: 0 en todo, F8 en seco con 0 cambios.
+- Gerbers y zip regenerados (`B_Silkscreen.gbo` pasa de 62.6 a 67.2 KB por el texto).

@@ -97,7 +97,7 @@ por detrás. Primero va todo Bottom, de lo más bajo a lo más alto, y después 
 | Surface finish | **HASL (with lead free)** |
 | Outer copper weight | 1 oz |
 | Via covering | Tented (la placa no tiene vías) |
-| Mark on PCB / order number | **A decidir:** JLCPCB imprime su número de pedido donde le parece, salvo que se elija ubicación o se pague por quitarlo |
+| Mark on PCB / order number | **Order number: Specify a location** — va donde está el texto "JLCJLCJLCJLC" de la serigrafía inferior, dentro de la zona de batería |
 | Gold fingers, castellated holes, edge plating | No |
 | **PCB Assembly (PCBA)** | **No** (sin ensamblaje) |
 | Stencil | No |
@@ -125,7 +125,7 @@ por detrás. Primero va todo Bottom, de lo más bajo a lo más alto, y después 
    - "OFF" y "ON" en SW10 (desde atrás, OFF a la izquierda);
    - "BATERÍA 103450".
 8. Ningún texto de serigrafía cae sobre un pad (el DRC dio 0 avisos, pero confirmarlo a la vista).
-9. El **número de pedido** de JLCPCB no cae sobre la pantalla, un botón ni un texto (si no se eligió ubicación).
+9. En la serigrafía inferior aparece **"JLCJLCJLCJLC"** en vertical, dentro de la zona de batería, junto a "BATERÍA 103450". Ahí JLCPCB pone su número de pedido (con "Specify a location").
 10. Precio y plazo coherentes con 5 placas de 150 × 65 mm, sin ensamblaje ni opciones extra marcadas por error.
 
 ## Verificación del diseño (14-oct-2026)

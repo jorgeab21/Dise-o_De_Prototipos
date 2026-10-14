@@ -61,7 +61,7 @@ COMPONENTES = {
     # Switch:SW_SPDT_312, cuyo pin 1 es el comun (B): asi el pad central queda como comun sin tocar la huella.
     "SW10": dict(lib="Switch:SW_SPDT_312", valor="ON/OFF",
                  huella="Button_Switch_THT:SW_Slide-03_Wuerth-WS-SLTV_10x2.5x6.4_P2.54mm",
-                 cara="Bottom", notas="Deslizante recto, paso 2.54 mm [PENDIENTE: protoboard]; comun = pad 1 (central) a 3V3_EN; "
+                 cara="Bottom", notas="Deslizante recto, paso 2.54 mm confirmado en protoboard (14-oct); comun = pad 1 (central) a 3V3_EN; "
                                       "OFF = pad 2 a GND; pad 3 sin conectar; posicion OFF [PENDIENTE: continuidad]",
                  pines={1: ("comun (B)", "PWR_EN"), 2: ("C (OFF)", "GND"), 3: ("A (ON, al aire)", None)}),
     "C2": dict(lib="Device:C", valor="100n", huella=FP_C, cara="Top",

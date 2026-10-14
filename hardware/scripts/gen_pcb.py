@@ -430,6 +430,9 @@ texto("ON", 131.46, 11.3, B)
 rect(*BATERIA, B)
 texto("BATERÍA 103450", 105.75, 33.0, B, tam=1.5, ang=90)
 texto("sin patas THT", 109.0, 33.0, B, ang=90)
+# Lugar para el numero de pedido de JLCPCB ("Order number: Specify a location"): centrado en la zona de bateria
+# (y = 33), simetrico con "sin patas THT" respecto del texto BATERIA (x 105.75 -/+ 3.25), sin tocarlo.
+texto("JLCJLCJLCJLC", 102.5, 33.0, B, ang=90)
 
 # ---------------------------------------------------------------- comprobacion de la zona de bateria
 avisos = []
