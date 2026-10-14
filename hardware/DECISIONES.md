@@ -125,15 +125,15 @@ Igual que con el esquemático, **los cambios del PCB van en `gen_pcb.py`**: si s
 - **J3** (Top): pin 1 (VCC) en (38.41, 11.49), pin 14 en (38.41, 44.51). ~~**H5/H6** en (41.37, 9.64) y (41.37, 46.36)~~ (eliminados en la Fase 3). H1–H4 en las esquinas de la sección 6.
 - **Pulsadores:** centro del cuerpo en la coordenada de la sección 6, patas 6.5 mm en horizontal y 4.5 mm en vertical. La fila del pin 1 se eligió para rutear (cruceta, A y B: pin 1 abajo; SELECT y START: pin 1 arriba). El pulsador es simétrico, así que no cambia nada mecánico.
 - **SW10** (Bottom): centro del cuerpo (134, 8) = pad 1 (central, común). Pad 2 (GND) a la derecha visto de frente (x 136.54), pad 3 sin conectar a la izquierda.
-- **J5 (DAC, Bottom): tira centrada en (53, 35.5) con el pin 1 (VIN) a la DERECHA visto de frente (x 59.35) y el pin 6 (SCK) a la izquierda (x 46.65).**
+- ~~**J5 (DAC, Bottom): tira centrada en (53, 35.5) con el pin 1 (VIN) a la DERECHA visto de frente (x 59.35) y el pin 6 (SCK) a la izquierda (x 46.65).**
   Por qué: en el módulo el orden de arriba hacia abajo es DIN (GP22), LCK (GP21), BCK (GP20). Con VIN a la izquierda, LCK y DIN se cruzan sí o sí, y eso obliga a meter una vía en una señal I2S. Con VIN a la derecha, DIN y LCK llegan por encima de la tira y BCK por debajo, sin cruces ni vías (15–20 mm cada una).
-  **Visto desde atrás**, con el DAC de componentes hacia el observador y el jack hacia abajo, VIN queda a la izquierda. **[VERIFICAR con la pieza]**: si el DAC entra al revés, hay que soldar su tira macho por la otra cara (si aún no está soldada) o espejar J5 en `gen_pcb.py`. Espejarlo obliga a una vía en I2S_LRCK.
-- **C2** (Top): pad 1 (3V3) en (34.6, 11.49), a la izquierda de J3 y fuera de la pantalla. **C3** (Bottom): (55.0, 26.07)–(55.0, 28.57). **C4** (Bottom): + en (59.35, 26.07), justo encima de J5.1. Los dos quedan por encima del DAC (y < 33), porque C4 mide ~11 mm de alto y no cabe debajo del módulo.
+  **Visto desde atrás**, con el DAC de componentes hacia el observador y el jack hacia abajo, VIN queda a la izquierda. **[VERIFICAR con la pieza]**: si el DAC entra al revés, hay que soldar su tira macho por la otra cara (si aún no está soldada) o espejar J5 en `gen_pcb.py`. Espejarlo obliga a una vía en I2S_LRCK.~~ **(reemplazado en la Fase 3: DAC horizontal, ver sección 8)**
+- **C2** (Top): pad 1 (3V3) en (34.6, 11.49), a la izquierda de J3 y fuera de la pantalla. ~~**C3** (Bottom): (55.0, 26.07)–(55.0, 28.57). **C4** (Bottom): + en (59.35, 26.07), justo encima de J5.1. Los dos quedan por encima del DAC (y < 33), porque C4 mide ~11 mm de alto y no cabe debajo del módulo.~~ **(C3 y C4 movidos en la Fase 3, ver sección 8)**
 
 ### Ruteo (sección 8): 0 vías, 980 mm en F.Cu y 9.4 mm en B.Cu
 - **SPI:** cada pista sale de J1 (columna derecha), pasa entre dos pines de J2 (los huecos y 13.35–23.51 caen junto a pines sin uso) y llega a J3 en paralelo, a 2.54 mm. El orden de arriba hacia abajo se mantiene en ambos extremos, así que no hay cruces. LCD_SCK mide 47.3 mm (la distancia en línea recta es 45.7 mm).
 - **PWR_EN** (J2.17 → SW10, 85 mm) **va pegado al borde superior (y = 0.6 mm) por encima de J2.20 y J1.1**. Es la única forma de salir de la columna izquierda hacia la derecha sin cortar el haz SPI en F.Cu. Holguras: 0.475 mm al borde (mínimo 0.30) y 0.345 mm a los pads (mínimo 0.20). La otra opción era un puente en B.Cu bajo el haz SPI, que cortaría el plano debajo de las señales rápidas.
-- **3V3:** J2.16 → J3.1 → C2 → baja por la izquierda de J3 → cruza la tira J3 **entre sus pines 9 y 10 (sin uso) con 0.40 mm de ancho en 4 mm**, porque el hueco entre pads es de 0.84 mm → C3 → C4+. **De C4+ a J5.1 (VIN) va un puente de 9.4 mm por B.Cu**, pad THT a pad THT y sin vías, porque VIN queda encerrado entre LCK y BCK. Es la única pista en B.Cu: corta el plano con una ranura abierta que cruzan solo DIN y LCK. Las demás pistas de 3V3 son de 0.5 mm.
+- **3V3:** J2.16 → J3.1 → C2 → baja por la izquierda de J3 → cruza la tira J3 **entre sus pines 9 y 10 (sin uso) con 0.40 mm de ancho en 4 mm**, porque el hueco entre pads es de 0.84 mm → C3 → C4+. ~~**De C4+ a J5.1 (VIN) va un puente de 9.4 mm por B.Cu**, pad THT a pad THT y sin vías, porque VIN queda encerrado entre LCK y BCK. Es la única pista en B.Cu: corta el plano con una ranura abierta que cruzan solo DIN y LCK.~~ **(eliminado en la Fase 3: ya no hay pistas en B.Cu, ver sección 8)** Las demás pistas de 3V3 son de 0.5 mm.
 - **Pulsadores:** los dos pads "1" de cada `SW_PUSH_6mm` son pads distintos en la huella oficial (el pulsador los une por dentro). Se unen con una pista en F.Cu para que la red quede completa sin modificar la huella.
 - **Plano GND en B.Cu:** una sola zona y **un solo polígono relleno** (9100 de 9750 mm²), con alivios térmicos (separación 0.5 mm, radios de 0.5 mm), 0.30 mm de separación y eliminación de islas. **Vías tapadas** activadas en el proyecto (`tenting` en ambas caras), aunque este ruteo no tiene vías.
 
@@ -168,3 +168,78 @@ Solo se cambió esto (comparación huella por huella y pista por pista contra el
 - `ESPECIFICACION.md` no se tocó: el alumno actualiza las secciones 4 y 6 (H5/H6, SW5/SW6).
 - Nota de holgura: SELECT y START quedan ahora a 17 mm entre centros (antes 18), simétricos respecto de x = 75. Los capuchones de 10 mm de paso no se tocan.
 
+## 8. Fase 3 — segunda ronda de correcciones (14-oct-2026)
+
+Pedido del alumno (2.1–2.5), tras actualizar la especificación (sección 4 fila J5, sección 6 "DAC GY-PCM5102", sección 11 cambio 7).
+Todo se hizo por los scripts; nada en la GUI.
+
+| # | Cambio | Archivos |
+| :--- | :--- | :--- |
+| 2.1 | `min_connection` = 0.20 mm en las reglas del proyecto (antes 0). Los rayos de alivio térmico son de 0.5 mm y el ancho mínimo de la zona es 0.25 mm, así que no cambia el relleno | `gen_pcb_vacio.py` (`REGLAS`), `KIDBOX.kicad_pro` |
+| 2.2 | C4 = **"10u 25V"** (antes "10u 16V") | `kidbox_datos.py` → `KIDBOX.kicad_sch`, `BOM.csv`, `netlist.csv` (texto de la función de C4), `KIDBOX.kicad_pcb` |
+| 2.3 | Las huellas quedan como las dejaría F8: **Sheetname "/"**, **Sheetfile "KIDBOX.kicad_sch"**, **filtros de huella del símbolo** (`C_*`, `CP_*`, `SW*`...), solo los campos del símbolo (se quita `KiLib_Generator`, que traen las huellas de la librería). **H1–H4 con "excluir de archivos de posición"** también en el símbolo (`in_pos_files no`), igual que la huella oficial (`attr exclude_from_pos_files`) | `gen_pcb.py` (función `enlazar`), `gen_esquematico.py` (`flags` por símbolo), `kidbox_datos.py` |
+| 2.4 | DAC horizontal: J5, C3, C4, I2S, 3V3 del DAC, serigrafía (detalle abajo) | `gen_pcb.py` |
+| 2.5 | `KIDBOX/.history/` en `.gitignore` (historial local de KiCad 10) | `.gitignore` |
+
+### 2.3 — cómo se comprobó (nuevo `scripts/verificar_extra.py`)
+- **kicad-cli no tiene "Actualizar PCB desde esquemático"**, así que no se puede correr F8 desde un script. `verificar_extra.py` lo emula: exporta la netlist que usa F8 (`kicadsexpr`) y compara cada huella con su símbolo (valor, huella, enlace, hoja, archivo de hoja, filtros, campos, BOM, archivos de posición, DNP). Resultado: **0 cambios**. Contra el PCB anterior detecta 63 diferencias, así que la comparación sí ve lo que F8 cambiaría.
+- **Supuesto:** que F8 quita de la huella los campos que el símbolo no tiene (`KiLib_Generator`). Si en tu KiCad esa opción ("eliminar campos sobrantes") está desactivada, no habría cambio en ningún caso. **Confírmalo con F8 en la GUI**: el diálogo debe decir que no hay cambios.
+- El mismo script corre **ERC y DRC con los tests que el `.kicad_pro` ignora activados como error** (`footprint_filters_mismatch`, `footprint_type_mismatch`, `missing_courtyard`, `track_not_centered_on_via`, `tuning_profile_track_geometries`), sobre una copia temporal. El proyecto real queda igual. Resultado: 0 en todo.
+
+### 2.4 — DAC horizontal
+- **J5 (Bottom) en columna vertical en x = 59.0**: pin 6 (SCK) en y = 47.1 … pin 1 (VIN) en y = 59.8, VIN abajo. **Se corrió 1 mm hacia la cruceta** (la especificación dice x ≈ 60, y permite hasta 1 mm). Por qué: el haz de la cruceta tiene que pasar por encima de J5, y con J5 en x = 60 la pista de DOWN quedaba a 0.07 mm de la esquina del pin 6 (mínimo 0.20). En x = 59 queda a 0.38 mm. Separación de J5 con SELECT: pad de J5 hasta x 59.85, pad de SW5 desde x 62.25 (2.4 mm).
+- **Contorno del DAC en B.SilkS: x 28.65–60.5, y 44.2–61.98** (31.85 × 17.78, la columna a 1.5 mm del lado corto derecho). **Jack** dibujado en x 30–36, y 52–64.3, **centro en x = 33**, boca al borde inferior (posición estimada de fotos, igual que en la especificación; se corrió 1 mm junto con J5). "VIN" y "GND" junto a los pines 1 y 2 de J5.
+- **C3 (Bottom)**: pad 1 (+3V3) en (60.6, 63.3), pad 2 (GND) en (58.1, 63.3). Queda **3.5 mm bajo VIN**, en la franja entre el contorno del DAC (y 61.98) y el borde (cuerpo en y 62.5–64.1). El contorno se esquiva por 0.25 mm de serigrafía.
+- **C4 (Bottom)**: pad 1 (+) en (74.0, 59.0), pad 2 (GND) en (76.0, 59.0), cuerpo Ø5 centrado en (75, 59), **entre SELECT y START**. **Aceptado por el alumno (14-oct): "C3 junto a VIN es el que importa".** Queda a ~15 mm de VIN (unos 20 mm de pista desde la derivación de VIN), no "junto a VIN". Junto a VIN no cabe fuera del contorno del módulo:
+  - entre J5 y SW5 hay 2.4 mm;
+  - bajo el módulo no se puede;
+  - en la franja inferior hay ~3 mm y C4 mide 5 mm;
+  - entre las patas de SW5 sus pads caen dentro del courtyard de SW5 (2 errores `pth_inside_courtyard`, probado).
+
+  Para un electrolítico de 10 µF, 20 mm de pista de 0.5 mm son despreciables. El 100 nF (C3), que es el que importa en alta frecuencia, sí queda a 3.5 mm.
+- **Ruteo (todo en F.Cu, 0 vías, ya no hay pistas en B.Cu)**:
+  - El haz de la cruceta sale de J2 hacia la izquierda y tapa el camino de J2 a J5. Por eso el **I2S sale de J2 hacia la derecha**, baja por dentro del módulo (x 67.5–68.7, entre J2 y SELECT), pasa bajo J2.1 y llega a J5 por la derecha.
+  - **LCK cruza entre los pines 5 y 4 de J5 y entra al pin 3 por la izquierda.** Es el único orden sin cruces ni vías, porque en J2 el orden es DIN, LCK, BCK y en J5 es BCK, DIN, LCK.
+  - Largos: BCK 25.6 mm, DIN 35.2 mm, LRCK 35.5 mm (antes 15–20 mm). Siguen lejos del SPI: el I2S va en y ≥ 28.6 y el SPI en y ≤ 23.5.
+  - **3V3** entra al módulo **entre J2.10 (RUN, sin uso) y J2.9 con 0.40 mm** (hueco de 0.84 mm, como en J3), baja por fuera del I2S (x = 69.5) y llega a J5.1 por la derecha. Sigue a C3 y, por debajo de SW5 (y = 62.4), a C4+. Total de 3V3: 150.9 mm (antes 92.9).
+  - **El puente de 3V3 en B.Cu se eliminó**: el plano GND queda sin ninguna pista.
+  - **GND del DAC** (J5.2, J5.6 = SCK, C3.2 y C4.2): directo al plano de B.Cu con alivios térmicos.
+- **Aviso: también se re-ruteó el haz de la cruceta en el tramo entre J2 y x = 50** (ninguna huella se movió). J5 cae justo donde pasaba el haz (y 48.6–51.6). Ahora sube por encima de J5 (y 44.1–45.6), baja bajo el DAC y desde x = 50 sigue igual que antes. DOWN pasa de 67.8 a 71.6 mm y LEFT de 79.3 a 81.4 mm; UP y RIGHT no cambian de largo.
+- Ruteo total: 1094 mm en F.Cu (antes 980 mm en F.Cu + 9.4 mm en B.Cu).
+- **`KIDBOX.kicad_pro` lo reescribió KiCad al cerrarse (no los scripts).**
+  - En la prueba en una copia, con el proyecto anterior, los 5 tests de DRC seguían en "ignore".
+  - En el proyecto real, al cerrar KiCad quedaron en **"warning"** (`footprint_filters_mismatch`, `footprint_type_mismatch`, `missing_courtyard`, `track_not_centered_on_via`, `tuning_profile_track_geometries`) y se agregó el bloque `erc`, con 4 tests de ERC en "ignore".
+  - Los scripts solo tocan `rules` y las net classes, y conservan el resto, así que se deja como lo dejó KiCad.
+  - Con eso, `verificar.py` ya corre esos 5 tests de DRC (0 avisos). `verificar_extra.py` activa los 4 de ERC (`footprint_filter`, `four_way_junction`, `simulation_model_issue`, `single_global_label`) y da 0.
+
+## 9. Fase 3 — tercera ronda (14-oct-2026)
+
+| # | Cambio | Archivos |
+| :--- | :--- | :--- |
+| 3.1 | B.SilkS junto a SW10: "ON/OFF" se reemplaza por **"OFF" en (136.54, 11.3)**, bajo el pad 2 (GND), y **"ON" en (131.46, 11.3)**, bajo el pad 3. Visto desde atrás (texto espejado) se lee OFF a la izquierda y ON a la derecha, como pide la sección 9. El cableado no cambia | `gen_pcb.py`, `KIDBOX.kicad_pcb`, `verificacion/3d_bottom.png` |
+| 3.2 | **Metadatos de unidad en las 20 huellas**: `(units (unit (name "A") (pins "1" "2" ...)))` justo después de `(sheetfile ...)`, con los pines en el orden de la netlist (SW10: "1" "3" "2"; H1–H4: `(pins)` vacío) | `gen_pcb.py` (`con_unidades`), `verificar_extra.py` |
+
+### 3.2 — cómo se supo qué campo es (sin adivinar)
+- El demo oficial `share/kicad/demos/pic_programmer/pic_programmer.kicad_pcb` tiene la misma versión de archivo que el nuestro (`20260206`). Todas sus huellas llevan ese bloque tras `sheetfile`, y los agujeros de montaje lo llevan con `(pins)` vacío. Es la copia que hace F8 del bloque `(units ...)` de la netlist (`kicad-cli sch export netlist`).
+- El API de Python tiene `FOOTPRINT.SetUnitInfo` / `FP_UNIT_INFO`, pero la lista de pines (`m_pins`) no está expuesta. Por eso `gen_pcb.py` inserta el bloque en el texto del archivo, antes de reescribir los UUID.
+- **Comprobado con KiCad:** `verificar.py` carga y vuelve a guardar el PCB con `kicad-cli` (`--save-board`), y los 20 bloques siguen ahí. KiCad los lee como propios.
+- `verificar_extra.py` ahora compara también las unidades, que lee del `.kicad_pcb`. Con el PCB anterior daba **20 cambios, los mismos 20 que mostró F8 en la GUI**; con el nuevo da **0**.
+- Falta confirmarlo con F8 en la GUI: no debería quedar ningún "Actualizar metadatos de unidad".
+
+## 10. Fase 4 — paquete de fabricación PRELIMINAR (14-oct-2026)
+
+El alumno aprobó el PCB por escrito para la **entrega preliminar del 16-oct** ("Doy por aprobado el PCB para la entrega PRELIMINAR").
+**El `.kicad_pcb` no se modificó en esta fase:** su md5 es el mismo antes y después (`6d5a8ce3…`), y `gen_fabricacion.py` lo comprueba.
+
+| Script | Qué hace | Cómo se ejecuta (desde `hardware/`) |
+| :--- | :--- | :--- |
+| `scripts/gen_fabricacion.py` | Genera en `fabricacion/` los Gerbers (F/B.Cu, F/B.Mask, F/B.SilkS, Edge.Cuts; extensiones Protel, X2), los taladros Excellon (mm, origen absoluto, PTH y NPTH separados, mapas PDF y reporte), `KIDBOX_gerbers_PRELIMINAR.zip` y los PDF 1:1 de frente y reverso | `python scripts/gen_fabricacion.py` |
+
+- Comprobado en los archivos generados:
+  - El contorno del Gerber mide 150.000 × 65.000 mm.
+  - F.Cu solo tiene aperturas de 0.25, 0.40 y 0.50 mm (pistas) y pads; B.Cu tiene una sola zona y pads.
+  - Taladros: 101 PTH (9 × 0.8, 60 × 1.0, 32 × 1.1) y 4 NPTH (2.2 mm), que coinciden con las piezas.
+- **PDF 1:1 con escala 1.0001.** Con escala exactamente 1, KiCad deja la placa en su posición absoluta, pegada a la esquina de la hoja: la impresora recorta unos 4 mm y el reverso espejado se sale de la hoja. Con 1.0001 la centra; el error es de 0.015 mm en 150 mm.
+- **Interactive HTML BOM:** el plugin no está instalado y no se instaló (hace falta permiso). Se genera desde la GUI: *Herramientas → Gestor de plugins y contenidos → "Interactive Html Bom" → Instalar*; después, en el editor de PCB, *Herramientas → Plugins externos → Generate Interactive HTML BOM*, con salida en `fabricacion/`.
+- **Pendiente sin tocar:** la nota de SW10 en `BOM.csv` todavía dice "paso 2.54 mm [PENDIENTE: protoboard]", aunque la sección 11 ya lo da por confirmado. Viene de `kidbox_datos.py` (texto de BOM); se corrige en la próxima regeneración si el alumno lo pide.
+- `README.md` nuevo: recuadro "PRELIMINAR — NO FABRICAR" con los pendientes de la sección 11, orden de soldadura, notas de montaje, parámetros de pedido y revisión en el visor de JLCPCB.

@@ -23,6 +23,7 @@ ANCHO, ALTO, RADIO = 150.0, 65.0, 4.0
 # ESPECIFICACION.md seccion 7 ("Mi valor")
 REGLAS = {
     "min_clearance": 0.20,
+    "min_connection": 0.20,  # ancho minimo de conexion (rayos de alivio termico y cobre de zonas)
     "min_track_width": 0.25,
     "min_via_diameter": 0.60,
     "min_through_hole_diameter": 0.30,

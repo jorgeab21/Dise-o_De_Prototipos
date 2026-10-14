@@ -1,7 +1,7 @@
 Red,Componente,Pin,Funcion
 +3V3,C2,1,"Condensador 100n, pata 1"
 +3V3,C3,1,"Condensador 100n, pata 1"
-+3V3,C4,1,"Condensador 10u 16V, pata +"
++3V3,C4,1,"Condensador 10u 25V, pata +"
 +3V3,J2,16,RP2350-Plus pin 36 (3V3)
 +3V3,J3,1,Pantalla VCC
 +3V3,J5,1,DAC VIN
@@ -23,7 +23,7 @@ BTN_UP,J2,4,RP2350-Plus pin 24 (GP18)
 BTN_UP,SW3,1,"Pulsador UP, pata 1"
 GND,C2,2,"Condensador 100n, pata 2"
 GND,C3,2,"Condensador 100n, pata 2"
-GND,C4,2,"Condensador 10u 16V, pata -"
+GND,C4,2,"Condensador 10u 25V, pata -"
 GND,J1,3,RP2350-Plus pin 3 (GND)
 GND,J1,8,RP2350-Plus pin 8 (GND)
 GND,J1,13,RP2350-Plus pin 13 (GND)

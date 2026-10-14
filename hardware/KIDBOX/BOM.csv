@@ -1,7 +1,7 @@
 Referencia,Cantidad,Valor,Descripcion,Huella KiCad,THT/SMD,Cara,Notas
 C2,1,100n,"Condensador ceramico de disco, paso 2.5 mm",Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm,THT,Top,"Ceramico; desacoplo de la pantalla, junto a J3"
 C3,1,100n,"Condensador ceramico de disco, paso 2.5 mm",Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm,THT,Bottom,"Ceramico; desacoplo del DAC, junto a J5"
-C4,1,10u 16V,"Condensador electrolitico radial D5 mm, paso 2 mm",Capacitor_THT:CP_Radial_D5.0mm_P2.00mm,THT,Bottom,Electrolitico; desacoplo del DAC; polaridad (+ = pin 1)
+C4,1,10u 25V,"Condensador electrolitico radial D5 mm, paso 2 mm",Capacitor_THT:CP_Radial_D5.0mm_P2.00mm,THT,Bottom,Electrolitico; desacoplo del DAC; polaridad (+ = pin 1)
 H1 H2 H3 H4,4,M2,Agujero de montaje sin metalizar (no se compra),MountingHole:MountingHole_2.2mm_M2,NPTH,-,NPTH 2.2 mm; fijacion a la carcasa
 J1,1,RP2350-Plus 1-20,"Tira de pines hembra 1x20, paso 2.54 mm, recta",Connector_PinSocket_2.54mm:PinSocket_1x20_P2.54mm_Vertical,THT,Bottom,Tira hembra 1x20; pines 1-20 del modulo (GP0 junto al USB-C)
 J2,1,RP2350-Plus 21-40,"Tira de pines hembra 1x20, paso 2.54 mm, recta",Connector_PinSocket_2.54mm:PinSocket_1x20_P2.54mm_Vertical,THT,Bottom,Tira hembra 1x20; J2.n = pin 20+n del modulo

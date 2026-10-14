@@ -109,8 +109,9 @@ def prop_instancia(bloque_prop, valor, sx, sy, srot, clave):
     return nuevo
 
 
-def simbolo(ref, lib_id, sx, sy, srot=0, valor=None, huella=None, clave=None, pos_valor=None):
+def simbolo(ref, lib_id, sx, sy, srot=0, valor=None, huella=None, clave=None, pos_valor=None, flags=None):
     s = simbolo_lib(lib_id)
+    banderas = dict(s["flags"], **(flags or {}))  # atributos del simbolo; `flags` los cambia por instancia
     clave = clave or ref
     vals = {k: valor_prop(v) for k, v in s["props"].items()}
     vals["Reference"] = ref
@@ -120,7 +121,7 @@ def simbolo(ref, lib_id, sx, sy, srot=0, valor=None, huella=None, clave=None, po
         vals["Footprint"] = huella
     out = [f'\t(symbol\n\t\t(lib_id "{lib_id}")\n\t\t(at {fmt(sx)} {fmt(sy)} {fmt(srot)})\n\t\t(unit 1)\n\t\t(body_style 1)']
     for k in ("exclude_from_sim", "in_bom", "on_board", "in_pos_files"):
-        out.append(f"\t\t({k} {s['flags'].get(k, 'yes' if k != 'exclude_from_sim' else 'no')})")
+        out.append(f"\t\t({k} {banderas.get(k, 'yes' if k != 'exclude_from_sim' else 'no')})")
     out.append(f'\t\t(dnp no)\n\t\t(uuid "{uid("sym/" + clave)}")')
     for k in ("Reference", "Value", "Footprint", "Datasheet", "Description"):
         if k in s["props"]:
@@ -193,7 +194,7 @@ def colocar(ref, x, y, largo=5.08, anotar=None, codo_gnd=None):
     c = COMPONENTES[ref]
     if anotar is None:
         anotar = c["lib"].startswith("Connector")
-    pins = simbolo(ref, c["lib"], x, y, valor=c["valor"], huella=c["huella"])
+    pins = simbolo(ref, c["lib"], x, y, valor=c["valor"], huella=c["huella"], flags=c.get("flags"))
     if not c["pines"]:
         return pins
     for num, (p, d) in pins.items():

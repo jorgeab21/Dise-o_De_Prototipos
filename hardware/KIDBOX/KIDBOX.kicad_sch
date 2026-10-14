@@ -6240,7 +6240,7 @@
 					(justify left)
 				)
 			)
-		(property "Value" "10u 16V"
+		(property "Value" "10u 25V"
 				(at 366.395 83.82 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -8658,7 +8658,7 @@
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
+		(in_pos_files no)
 		(dnp no)
 		(uuid "a8d829e1-de98-58f6-8dd2-546f6dbab6b1")
 		(property "Reference" "H1"
@@ -8731,7 +8731,7 @@
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
+		(in_pos_files no)
 		(dnp no)
 		(uuid "56832d2c-bc37-53ab-a521-2043bfc403df")
 		(property "Reference" "H2"
@@ -8804,7 +8804,7 @@
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
+		(in_pos_files no)
 		(dnp no)
 		(uuid "e7c87ab6-e4c2-5cb3-a0bf-4e459ed5acb3")
 		(property "Reference" "H3"
@@ -8877,7 +8877,7 @@
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
+		(in_pos_files no)
 		(dnp no)
 		(uuid "16cb55e6-41e5-5eef-b415-6e51e7fa4ec8")
 		(property "Reference" "H4"

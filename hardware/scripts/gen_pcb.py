@@ -1,7 +1,9 @@
 # Genera KIDBOX/KIDBOX.kicad_pcb completo (Fase 2) segun ESPECIFICACION.md v0.7, secciones 6 a 9:
 # contorno 150 x 65 mm (r = 4 mm), agujeros, huellas oficiales en sus posiciones (las fijas con "locked"),
 # pistas en F.Cu, plano de GND en B.Cu con alivios termicos, serigrafia, y reglas DFM en el .kicad_pro.
-# Fase 3: sin H5/H6 (ni KIDBOX.kicad_dru); SW5/SW6 en x = 66.5 / 83.5.
+# Fase 3: sin H5/H6 (ni KIDBOX.kicad_dru); SW5/SW6 en x = 66.5 / 83.5; DAC horizontal (J5 en columna en x = 59,
+# VIN abajo, jack al borde inferior) con I2S, 3V3, C3 y C4 re-ruteados; huellas con hoja, archivo y filtros del
+# simbolo para que "Actualizar PCB desde esquematico" (F8) no tenga nada que cambiar.
 # Las huellas, sus redes y su enlace con el esquematico (path = uuid del simbolo) salen de la netlist real
 # que exporta kicad-cli, asi que la paridad esquematico-PCB queda en 0. Las pistas son una lista fija de
 # polilineas (ruteo manual planificado, sin autorouter); ver DECISIONES.md seccion 6.
@@ -53,7 +55,12 @@ for c in raiz.find("components"):
     COMP[c.get("ref")] = dict(valor=c.findtext("value"), huella=c.findtext("footprint"),
                               desc=campos.get("Description", c.findtext("description") or ""),
                               datasheet=campos.get("Datasheet", ""),
-                              path="/" + c.findtext("tstamps").strip())
+                              path="/" + c.findtext("tstamps").strip(),
+                              hoja=c.find("sheetpath").get("names"),
+                              props={p.get("name"): p.get("value") or "" for p in c.iter("property")},
+                              campos=campos,
+                              unidades=[(u.get("name"), [x.get("num") for x in u.iter("pin")])
+                                        for u in c.iter("unit")])
 NODO = {}  # (ref, pad) -> nombre de red exacto
 for n in raiz.iter("net"):
     for x in n.iter("node"):
@@ -101,20 +108,36 @@ def pads(fp):
     return [(p.GetNumber(), xy(p.GetPosition())) for p in fp.Pads()]
 
 
-def colocar(ref, quiero, abajo=False, fija=True):
-    """Coloca la huella para que sus pads queden donde dice `quiero` = {numero: [(x, y), ...]} (coordenadas
-    de la especificacion, vistas desde el frente). Prueba los 4 giros y falla si ninguno encaja."""
+def enlazar(fp, ref):
+    """Deja la huella como la dejaria F8 (Actualizar PCB desde esquematico): referencia, valor, huella, enlace al
+    simbolo, hoja y archivo de hoja, filtros de huella, mismos campos que el simbolo (se quitan los que trae la
+    libreria y el simbolo no tiene, p. ej. KiLib_Generator) y atributos BOM / archivos de posicion."""
     c = COMP[ref]
-    fp = cargar(ref)
     fp.SetReference(ref)
     fp.SetValue(c["valor"])
     fp.SetFPIDAsString(c["huella"])
     fp.SetPath(pcbnew.KIID_PATH(c["path"]))
-    for f in fp.GetFields():
-        if f.GetName() == "Description":
-            f.SetText(c["desc"])
-        elif f.GetName() == "Datasheet" and c["datasheet"]:
-            f.SetText(c["datasheet"])
+    fp.SetSheetname(c["hoja"])
+    fp.SetSheetfile(c["props"].get("Sheetfile", ""))
+    fp.SetFilters(c["props"].get("ki_fp_filters", ""))
+    for f in list(fp.GetFields()):
+        nombre = f.GetName()
+        if nombre in ("Reference", "Value"):
+            continue
+        if nombre in c["campos"] and nombre != "Footprint":
+            f.SetText(c["campos"][nombre])
+        elif not f.IsMandatory():
+            fp.Remove(f)
+    if "exclude_from_bom" in c["props"]:
+        fp.SetExcludedFromBOM(True)
+    fp.SetExcludedFromPosFiles("exclude_from_pos_files" in c["props"])
+
+
+def colocar(ref, quiero, abajo=False, fija=True):
+    """Coloca la huella para que sus pads queden donde dice `quiero` = {numero: [(x, y), ...]} (coordenadas
+    de la especificacion, vistas desde el frente). Prueba los 4 giros y falla si ninguno encaja."""
+    fp = cargar(ref)
+    enlazar(fp, ref)
     board.Add(fp)
     if abajo:
         fp.Flip(fp.GetPosition(), pcbnew.FLIP_DIRECTION_LEFT_RIGHT)
@@ -161,9 +184,11 @@ Y_PIN1 = 1.92
 J1 = colocar("J1", columna(83.89, Y_PIN1, 20), abajo=True)          # pines 1-20, arriba -> abajo
 J2 = colocar("J2", columna(66.11, Y_PIN1 + 19 * 2.54, 20, -2.54), abajo=True)  # pin 21 abajo -> 40 arriba
 J3 = colocar("J3", columna(38.41, 28 - 6.5 * 2.54, 14))             # pin 1 (VCC) arriba
-# J5 (DAC) por detras, tira centrada en (53, 35.5). Orientacion propuesta: pin 1 (VIN) a la DERECHA visto
-# desde el frente (x 59.35), la unica que deja las tres senales I2S sin cruces ni vias.
-J5 = colocar("J5", {str(i + 1): [(round(59.35 - i * 2.54, 4), 35.5)] for i in range(6)}, abajo=True)
+# J5 (DAC horizontal, por detras): columna vertical junto a J2, VIN (pin 1) abajo en y = 59.8 y SCK (pin 6) arriba
+# en y = 47.1. En x = 59 (1 mm hacia la cruceta respecto de x = 60 de la especificacion): en x = 60 la pista de
+# DOWN, que pasa por encima de J5, quedaba a 0.07 mm de la esquina del pin 6 (ver DECISIONES.md seccion 8).
+X_J5 = 59.0
+J5 = colocar("J5", {str(i + 1): [(X_J5, round(59.8 - i * 2.54, 4))] for i in range(6)}, abajo=True)
 
 
 def boton(ref, cx, cy, pad1_abajo):
@@ -178,19 +203,16 @@ SW = {"SW3": boton("SW3", 18, 20, True), "SW1": boton("SW1", 18, 40, True), "SW2
 # SW10 por detras, centro del cuerpo (134, 8) = pad 1 (central, comun). Pad 2 (GND) queda a la derecha.
 SW10 = colocar("SW10", {"1": [(134, 8)], "2": [(136.54, 8)], "3": [(131.46, 8)]}, abajo=True)
 C2 = colocar("C2", {"1": [(34.6, 11.49)], "2": [(34.6, 13.99)]}, fija=False)
-C3 = colocar("C3", {"1": [(55.0, 26.07)], "2": [(55.0, 28.57)]}, abajo=True, fija=False)
-C4 = colocar("C4", {"1": [(59.35, 26.07)], "2": [(61.35, 26.07)]}, abajo=True, fija=False)
+# C3 y C4 junto a VIN pero fuera del contorno del DAC (x 28.65-60.5, y 44.2-62): C3 bajo el modulo, en la franja
+# y 62-65 junto al borde; C4 (D5 mm, mas alto que la separacion bajo el modulo) no cabe mas cerca: entre J5 y SELECT
+# hay 2.4 mm, bajo el modulo no puede ir, y entre las patas de SW5 sus pads caen dentro del courtyard de SW5
+# (error pth_inside_courtyard). Va entre SELECT y START, alimentado desde C3 por la franja inferior.
+C3 = colocar("C3", {"1": [(60.6, 63.3)], "2": [(58.1, 63.3)]}, abajo=True, fija=False)
+C4 = colocar("C4", {"1": [(74.0, 59.0)], "2": [(76.0, 59.0)]}, abajo=True, fija=False)
 H = {}
 for ref, (x, y) in {"H1": (4, 4), "H2": (146, 4), "H3": (4, 61), "H4": (146, 61)}.items():
     fp = cargar(ref)
-    c = COMP[ref]
-    fp.SetReference(ref)
-    fp.SetValue(c["valor"])
-    fp.SetFPIDAsString(c["huella"])
-    fp.SetPath(pcbnew.KIID_PATH(c["path"]))
-    for f in fp.GetFields():
-        if f.GetName() == "Description":
-            f.SetText(c["desc"])
+    enlazar(fp, ref)
     board.Add(fp)
     fp.SetPosition(mm(x, y))
     fp.Reference().SetVisible(False)  # un agujero no necesita referencia en la serigrafia
@@ -209,25 +231,36 @@ PISTAS = [
     ("LCD_SCK", SENAL, [(83.89, 22.24), (69.26, 22.24), (67.99, 23.51), (45.5, 23.51), (42.28, 26.73),
                         (38.41, 26.73)]),
     ("LCD_LED", SENAL, [(66.11, 24.78), (47.0, 24.78), (42.51, 29.27), (38.41, 29.27)]),
-    # I2S al DAC (J5 con VIN a la derecha): DIN y LCK por encima de la tira, BCK por debajo
-    ("I2S_DIN", SENAL, [(66.11, 29.86), (51.73, 29.86), (51.73, 35.5)]),
-    ("I2S_LRCK", SENAL, [(66.11, 34.94), (64.5, 34.94), (62.56, 33.0), (54.27, 33.0), (54.27, 35.5)]),
-    ("I2S_BCK", SENAL, [(66.11, 37.48), (64.5, 37.48), (63.68, 38.3), (49.19, 38.3), (49.19, 35.5)]),
-    # 3V3: J2.16 -> J3.1 -> C2 -> por la izquierda de J3, entre sus pines 9 y 10 (sin uso), -> C3 -> C4.
-    # El paso entre pines de J3 (hueco de 0.84 mm) obliga a 0.40 mm en ese tramo.
+    # I2S al DAC (J5 en columna, de arriba abajo SCK, BCK, DIN, LCK, GND, VIN). El haz de la cruceta sale de J2
+    # hacia la izquierda por encima de J5, asi que el I2S sale de J2 hacia la DERECHA, baja por dentro del modulo
+    # (entre J2 y SELECT), pasa bajo J2.1 y llega a J5 por la derecha. LCK cruza entre los pines 5 y 4 de J5 y entra
+    # al pin 3 por la izquierda: es el unico orden sin cruces ni vias.
+    ("I2S_BCK", SENAL, [(66.11, 37.48), (67.5, 37.48), (67.5, 51.4), (61.2, 51.4), (61.2, 49.64), (X_J5, 49.64)]),
+    ("I2S_LRCK", SENAL, [(66.11, 34.94), (68.1, 34.94), (68.1, 51.95), (60.4, 51.95), (60.4, 50.91), (57.7, 50.91),
+                         (57.7, 54.72), (X_J5, 54.72)]),
+    ("I2S_DIN", SENAL, [(66.11, 29.86), (68.7, 29.86), (68.7, 52.6), (59.42, 52.6), (X_J5, 52.18)]),
+    # 3V3: J2.16 -> J3.1 -> C2 -> por la izquierda de J3, entre sus pines 9 y 10 (sin uso), -> entra al modulo
+    # entre J2.10 (RUN, sin uso) y J2.9 -> baja por fuera del I2S -> J5.1 (VIN) -> C3 -> bajo SW5 -> C4+.
+    # Los huecos de 0.84 mm entre pines (J3 y J2) obligan a 0.40 mm en esos dos tramos.
     ("+3V3", POTENCIA, [(66.11, 12.08), (39.0, 12.08), (38.41, 11.49)]),
     ("+3V3", POTENCIA, [(38.41, 11.49), (34.6, 11.49)]),
     ("+3V3", POTENCIA, [(36.2, 11.49), (36.2, 33.08)]),
     ("+3V3", 0.40, [(36.2, 33.08), (40.2, 33.08)]),
-    ("+3V3", POTENCIA, [(40.2, 33.08), (50.0, 33.08), (50.0, 26.07), (59.35, 26.07)]),
-    # ... y de C4+ a J5.1 (VIN) por B.Cu: VIN queda encerrado entre LCK y BCK (puente pad a pad, sin vias)
-    ("+3V3", POTENCIA, [(59.35, 26.07), (59.35, 35.5)], "B.Cu"),
-    # Cruceta (GP16-19, columna izquierda): haz por debajo de J3, se reparte de derecha a izquierda
-    ("BTN_RIGHT", SENAL, [(66.11, 40.02), (64.0, 40.02), (55.42, 48.6), (34.5, 48.6), (34.5, 35.5), (31.25, 32.25)]),
-    ("BTN_UP", SENAL, [(66.11, 42.56), (64.0, 42.56), (56.96, 49.6), (23.4, 49.6), (23.4, 22.25), (21.25, 22.25)]),
-    ("BTN_LEFT", SENAL, [(66.11, 47.64), (64.0, 47.64), (61.04, 50.6), (22.7, 50.6), (22.7, 35.0), (14.0, 35.0),
-                         (11.25, 32.25)]),
-    ("BTN_DOWN", SENAL, [(66.11, 50.18), (64.0, 50.18), (62.58, 51.6), (14.75, 51.6), (14.75, 42.25)]),
+    ("+3V3", POTENCIA, [(40.2, 33.08), (57.7, 33.08), (62.19, 28.59), (64.0, 28.59)]),
+    ("+3V3", 0.40, [(64.0, 28.59), (68.0, 28.59)]),
+    ("+3V3", POTENCIA, [(68.0, 28.59), (69.5, 28.59), (69.5, 53.4), (60.6, 53.4), (60.6, 63.3)]),
+    ("+3V3", POTENCIA, [(60.6, 59.8), (X_J5, 59.8)]),
+    ("+3V3", POTENCIA, [(60.6, 63.3), (61.5, 62.4), (74.0, 62.4), (74.0, 59.0)]),
+    # Cruceta (GP16-19, columna izquierda): el haz pasa por encima de J5 (y 44.1-45.6), baja bajo el DAC
+    # (permitido, seccion 8) a y 48.6-51.6 y sigue como antes por debajo de J3, repartiendose de derecha a izquierda
+    ("BTN_RIGHT", SENAL, [(66.11, 40.02), (64.0, 40.02), (59.92, 44.1), (54.5, 44.1), (50.0, 48.6), (34.5, 48.6),
+                          (34.5, 35.5), (31.25, 32.25)]),
+    ("BTN_UP", SENAL, [(66.11, 42.56), (64.0, 42.56), (61.96, 44.6), (55.0, 44.6), (50.0, 49.6), (23.4, 49.6),
+                       (23.4, 22.25), (21.25, 22.25)]),
+    ("BTN_LEFT", SENAL, [(66.11, 47.64), (64.5, 47.64), (61.96, 45.1), (55.5, 45.1), (50.0, 50.6), (22.7, 50.6),
+                         (22.7, 35.0), (14.0, 35.0), (11.25, 32.25)]),
+    ("BTN_DOWN", SENAL, [(66.11, 50.18), (64.5, 50.18), (59.92, 45.6), (56.0, 45.6), (50.0, 51.6), (14.75, 51.6),
+                         (14.75, 42.25)]),
     # SELECT y START bajan por entre las dos filas del modulo
     ("BTN_SELECT", SENAL, [(83.89, 40.02), (72.5, 40.02), (72.5, 53.0), (69.75, 55.75)]),
     ("BTN_START", SENAL, [(83.89, 42.56), (78.0, 42.56), (78.0, 53.5), (80.25, 55.75)]),
@@ -375,19 +408,25 @@ texto("FILAS ESPEJADAS", 75, 32.0, B)
 texto("RP2350-Plus", 75, 36.0, B)
 ref_en(J1, 87.2, 26.0, 90)
 ref_en(J2, 62.9, 15.0, 90)
-# Detras: DAC (31.0 x 17.8, x 44.1-61.9, y 33-64), jack hacia el borde inferior, VIN y GND en J5
-rect(44.1, 33.0, 61.9, 64.0, B)
-rect(49.5, 56.5, 56.5, 64.0, B)
-texto("JACK", 53.0, 58.0, B)
-texto("DAC PCM5102", 53.0, 46.0, B)
-texto("VIN", 59.35, 37.6, B)
-texto("GND", 56.81, 39.5, B)
-ref_en(J5, 50.0, 40.5)
-ref_en(C3, 55.0, 30.3)
-ref_en(C4, 60.35, 29.9)
+# Detras: DAC horizontal 31.85 x 17.78 (columna J5 a 1.5 mm del lado corto derecho y centrada en el): placa en
+# x 28.65-60.5, y 44.56-62.34 -> se usa y 44.2-61.98 de la especificacion. Jack (estimado de fotos) con la boca al
+# borde inferior y centro en x = 33.
+DAC = (X_J5 + 1.5 - 31.85, 44.2, X_J5 + 1.5, 44.2 + 17.78)
+rect(*DAC, B)
+rect(30.0, 52.0, 36.0, 64.3, B)
+texto("JACK", 33.0, 58.0, B)
+texto("DAC PCM5102", 45.0, 53.0, B)
+texto("VIN", 55.9, 59.8, B)
+texto("GND", 55.9, 57.26, B)
+ref_en(J5, 56.0, 48.4)
+ref_en(C3, 55.8, 63.3)
+ref_en(C4, 75.0, 63.0)
 # Detras: interruptor y zona de bateria
 ref_en(SW10, 134.0, 4.6)
-texto("ON/OFF", 134.0, 11.3, B)
+# Posiciones de la palanca junto a su pad: OFF en el pad 2 (GND, x 136.54) y ON en el pad 3 (x 131.46).
+# Visto desde atras (texto espejado) se lee OFF a la izquierda y ON a la derecha.
+texto("OFF", 136.54, 11.3, B)
+texto("ON", 131.46, 11.3, B)
 rect(*BATERIA, B)
 texto("BATERÍA 103450", 105.75, 33.0, B, tam=1.5, ang=90)
 texto("sin patas THT", 109.0, 33.0, B, ang=90)
@@ -429,6 +468,27 @@ pcbnew.ZONE_FILLER(board).Fill(board.Zones())
 pcbnew.SaveBoard(PCB, board)
 with open(PCB, encoding="utf-8") as f:
     texto_pcb = f.read()
+
+
+# Metadatos de unidad del simbolo, (units (unit (name "A") (pins "1" "2"))), que KiCad 10 copia de la netlist en
+# cada huella al hacer F8 (formato tomado de demos/pic_programmer, version 20260206). El API de Python no puede
+# escribir la lista de pines (m_pins no esta expuesto), asi que se inserta tras (sheetfile ...) en el archivo.
+def con_unidades(m):
+    bloque_fp = m.group(0)
+    ref = re.search(r'\(property "Reference" "([^"]+)"', bloque_fp).group(1)
+    ind = re.search(r'\n(\t+)\(sheetfile ', bloque_fp).group(1)
+    lineas = [f"{ind}(units"]
+    for nombre_u, pines in COMP[ref]["unidades"]:
+        lista = " ".join(f'"{x}"' for x in pines)
+        lineas += [f"{ind}\t(unit", f'{ind}\t\t(name "{nombre_u}")', f"{ind}\t\t(pins{' ' + lista if lista else ''})",
+                   f"{ind}\t)"]
+    lineas.append(f"{ind})")
+    return re.sub(r'(\n\t+\(sheetfile "[^"]*"\))', lambda mm: mm.group(1) + "\n" + "\n".join(lineas), bloque_fp,
+                  count=1)
+
+
+assert "(units" not in texto_pcb  # SaveBoard no las escribe: no se duplican
+texto_pcb = re.sub(r'\n\t\(footprint ".*?\n\t\)(?=\n)', con_unidades, texto_pcb, flags=re.S)
 cuenta = iter(range(10 ** 6))
 texto_pcb = re.sub(r'\(uuid "[0-9a-f-]+"\)', lambda m: f'(uuid "{uuid.uuid5(NS, str(next(cuenta)))}")', texto_pcb)
 with open(PCB, "w", encoding="utf-8", newline="\n") as f:

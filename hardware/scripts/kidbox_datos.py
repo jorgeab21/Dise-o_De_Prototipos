@@ -68,7 +68,7 @@ COMPONENTES = {
                notas="Ceramico; desacoplo de la pantalla, junto a J3", pines={1: ("1", "+3V3"), 2: ("2", "GND")}),
     "C3": dict(lib="Device:C", valor="100n", huella=FP_C, cara="Bottom",
                notas="Ceramico; desacoplo del DAC, junto a J5", pines={1: ("1", "+3V3"), 2: ("2", "GND")}),
-    "C4": dict(lib="Device:C_Polarized", valor="10u 16V", huella="Capacitor_THT:CP_Radial_D5.0mm_P2.00mm",
+    "C4": dict(lib="Device:C_Polarized", valor="10u 25V", huella="Capacitor_THT:CP_Radial_D5.0mm_P2.00mm",
                cara="Bottom", notas="Electrolitico; desacoplo del DAC; polaridad (+ = pin 1)",
                pines={1: ("+", "+3V3"), 2: ("-", "GND")}),
 }
@@ -78,5 +78,7 @@ for ref, nombre, red in BOTONES:
                             pines={1: ("1", red), 2: ("2", "GND")})
 for i in range(1, 5):
     COMPONENTES[f"H{i}"] = dict(lib="Mechanical:MountingHole", valor="M2", huella="MountingHole:MountingHole_2.2mm_M2",
-                                cara="-", notas="NPTH 2.2 mm; fijacion a la carcasa", pines=None)
+                                cara="-", notas="NPTH 2.2 mm; fijacion a la carcasa", pines=None,
+                                # igual que la huella oficial (attr exclude_from_pos_files): F8 no cambia nada
+                                flags={"in_pos_files": "no"})
 # H5/H6 (agujeros del modulo de pantalla) eliminados en la Fase 3: la pantalla se sujeta con J3 y la carcasa
