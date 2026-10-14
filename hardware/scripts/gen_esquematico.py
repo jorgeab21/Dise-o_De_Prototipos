@@ -265,9 +265,9 @@ texto("SW10: común = pin 1 (pad central de la huella Würth) a 3V3_EN; OFF = pi
 texto("3V3_EN tiene pull-up de 100 kΩ a VSYS en la RP2350-Plus", 45.72, 240.03, "t_sw10b", 1.27)
 
 texto("Agujeros (sin conexión eléctrica)", 182.88, 203.2, "t_h", 1.778, negrita=True)
-for i in range(1, 7):
+for i in range(1, 5):
     colocar(f"H{i}", 190.5 + (i - 1) * 20.32, 220.98)
-texto("H1–H4: M2, fijación a la carcasa · H5–H6: M3, agujeros del módulo de pantalla (lado de J3)", 182.88, 236.22,
+texto("H1–H4: M2, fijación a la carcasa. La pantalla se sujeta con J3 y la carcasa (sin H5/H6)", 182.88, 236.22,
       "t_h2", 1.27)
 
 # ---------------------------------------------------------------- archivo

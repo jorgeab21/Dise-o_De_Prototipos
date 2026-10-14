@@ -108,3 +108,63 @@ Cambios hechos en `scripts/kidbox_datos.py` (y textos de `gen_esquematico.py` / 
 
 ### Revisión del alumno (Paso A)
 - **14-oct-2026 · Corrección v0.7 del esquemático REVISADA Y APROBADA.** Acepta `Switch:SW_SPDT_312` para SW10 (ya en la sección 4 de la especificación). `scripts/gen_layout.py` y `datasheets/layout_propuesto.svg` quedan como histórico de la v0.6 (sección 6) y no se actualizan.
+
+## 6. Fase 2 — PCB (14-oct-2026)
+
+### Cómo se reproduce
+| Script | Qué hace | Cómo se ejecuta (desde `hardware/`, con KiCad cerrado) |
+| :--- | :--- | :--- |
+| `scripts/gen_pcb.py` | PCB completo: contorno, agujeros, huellas oficiales con su red y su enlace al esquemático (netlist real de `kicad-cli`), pistas (lista fija de polilíneas, sin autorouter), plano GND, serigrafía y reglas en `.kicad_pro` (desde la Fase 3 ya no hay `KIDBOX.kicad_dru`). UUID deterministas (3 ejecuciones → mismo md5) | `"C:\Program Files\KiCad\10.0\bin\python.exe" scripts/gen_pcb.py` y después `python scripts/verificar.py KIDBOX` |
+| `scripts/gen_pcb_vacio.py` | Reorganizado: `contorno()` y `escribir_reglas()` ahora son funciones que reutiliza `gen_pcb.py`. Ejecutado solo, hace lo mismo que antes | igual que antes |
+
+Igual que con el esquemático, **los cambios del PCB van en `gen_pcb.py`**: si se edita el PCB en la GUI y se regenera, se pierde.
+
+### Posiciones (sección 6), todas con `locked` salvo C2–C4
+- **RP2350-Plus (J1, J2, Bottom):** USB-C a ras de y = 0; placa del módulo y 0.55–51.55 (51.55 medido = 51 de placa + 0.55 del USB-C), centro (75, 25.8). Pin 1 a 1.37 mm del borde de su placa → **J1.1 en (83.89, 1.92)**, J1.20 en (83.89, 50.18); J2.1 (= pin 21) en (66.11, 50.18), J2.20 (= pin 40) en (66.11, 1.92).
+  Supuesto: el USB-C sobresale por arriba y el módulo se apoya contra el borde. Si en la carcasa el módulo queda más abajo, todo J1/J2 baja en bloque y hay que regenerar.
+- **J3** (Top): pin 1 (VCC) en (38.41, 11.49), pin 14 en (38.41, 44.51). ~~**H5/H6** en (41.37, 9.64) y (41.37, 46.36)~~ (eliminados en la Fase 3). H1–H4 en las esquinas de la sección 6.
+- **Pulsadores:** centro del cuerpo en la coordenada de la sección 6, patas 6.5 mm en horizontal y 4.5 mm en vertical. La fila del pin 1 se eligió para rutear (cruceta, A y B: pin 1 abajo; SELECT y START: pin 1 arriba). El pulsador es simétrico, así que no cambia nada mecánico.
+- **SW10** (Bottom): centro del cuerpo (134, 8) = pad 1 (central, común). Pad 2 (GND) a la derecha visto de frente (x 136.54), pad 3 sin conectar a la izquierda.
+- **J5 (DAC, Bottom): tira centrada en (53, 35.5) con el pin 1 (VIN) a la DERECHA visto de frente (x 59.35) y el pin 6 (SCK) a la izquierda (x 46.65).**
+  Por qué: en el módulo el orden de arriba hacia abajo es DIN (GP22), LCK (GP21), BCK (GP20). Con VIN a la izquierda, LCK y DIN se cruzan sí o sí, y eso obliga a meter una vía en una señal I2S. Con VIN a la derecha, DIN y LCK llegan por encima de la tira y BCK por debajo, sin cruces ni vías (15–20 mm cada una).
+  **Visto desde atrás**, con el DAC de componentes hacia el observador y el jack hacia abajo, VIN queda a la izquierda. **[VERIFICAR con la pieza]**: si el DAC entra al revés, hay que soldar su tira macho por la otra cara (si aún no está soldada) o espejar J5 en `gen_pcb.py`. Espejarlo obliga a una vía en I2S_LRCK.
+- **C2** (Top): pad 1 (3V3) en (34.6, 11.49), a la izquierda de J3 y fuera de la pantalla. **C3** (Bottom): (55.0, 26.07)–(55.0, 28.57). **C4** (Bottom): + en (59.35, 26.07), justo encima de J5.1. Los dos quedan por encima del DAC (y < 33), porque C4 mide ~11 mm de alto y no cabe debajo del módulo.
+
+### Ruteo (sección 8): 0 vías, 980 mm en F.Cu y 9.4 mm en B.Cu
+- **SPI:** cada pista sale de J1 (columna derecha), pasa entre dos pines de J2 (los huecos y 13.35–23.51 caen junto a pines sin uso) y llega a J3 en paralelo, a 2.54 mm. El orden de arriba hacia abajo se mantiene en ambos extremos, así que no hay cruces. LCD_SCK mide 47.3 mm (la distancia en línea recta es 45.7 mm).
+- **PWR_EN** (J2.17 → SW10, 85 mm) **va pegado al borde superior (y = 0.6 mm) por encima de J2.20 y J1.1**. Es la única forma de salir de la columna izquierda hacia la derecha sin cortar el haz SPI en F.Cu. Holguras: 0.475 mm al borde (mínimo 0.30) y 0.345 mm a los pads (mínimo 0.20). La otra opción era un puente en B.Cu bajo el haz SPI, que cortaría el plano debajo de las señales rápidas.
+- **3V3:** J2.16 → J3.1 → C2 → baja por la izquierda de J3 → cruza la tira J3 **entre sus pines 9 y 10 (sin uso) con 0.40 mm de ancho en 4 mm**, porque el hueco entre pads es de 0.84 mm → C3 → C4+. **De C4+ a J5.1 (VIN) va un puente de 9.4 mm por B.Cu**, pad THT a pad THT y sin vías, porque VIN queda encerrado entre LCK y BCK. Es la única pista en B.Cu: corta el plano con una ranura abierta que cruzan solo DIN y LCK. Las demás pistas de 3V3 son de 0.5 mm.
+- **Pulsadores:** los dos pads "1" de cada `SW_PUSH_6mm` son pads distintos en la huella oficial (el pulsador los une por dentro). Se unen con una pista en F.Cu para que la red quede completa sin modificar la huella.
+- **Plano GND en B.Cu:** una sola zona y **un solo polígono relleno** (9100 de 9750 mm²), con alivios térmicos (separación 0.5 mm, radios de 0.5 mm), 0.30 mm de separación y eliminación de islas. **Vías tapadas** activadas en el proyecto (`tenting` en ambas caras), aunque este ruteo no tiene vías.
+
+### Choques con posiciones fijas (no se movió nada)
+- ~~**H5/H6 contra J3**~~ **(resuelto en la Fase 3: H5 y H6 eliminados, ver sección 7)**: el agujero de Ø3.2 queda a 0.09 mm del cuerpo de la tira hembra (borde del agujero en x 39.77; cuerpo de la tira hasta x 39.68). Los courtyards se solapan. Sin la regla de abajo, el DRC da 6 errores (`courtyards_overlap`, `pth_inside_courtyard` y `npth_inside_courtyard` en H5 y H6).
+  Se resolvió con una regla en `KIDBOX.kicad_dru` que solo afecta a H5/H6 contra J3 (`courtyard_clearance` −10 mm). Por qué: son los agujeros del propio módulo de pantalla y no hay cobre ni pieza que choque (holguras de cobre verificadas por el DRC). Consecuencia: **un tornillo o separador por esos agujeros toca la tira** (ya lo advertía la sección 4). Sirve un tornillo M3 con cabeza ≤ Ø3.4 mm por el lado de la pantalla, o no usarlos.
+- ~~**SW6 (START) contra la zona de batería**~~ **(resuelto en la Fase 3: SW6 a x = 83.5, ver sección 7)**: las patas están en x = 87.25 (fuera de la zona, como dice la sección 6), pero el pad de cobre (r = 1.0 mm) llega a x = 88.25, 0.25 mm dentro de la zona. Con la batería centrada (33.1 mm en 35.5 mm) queda ~1.2 mm de holgura por lado, así que la soldadura no debería tocarla. Si se quiere margen, la opción es SW6 en x ≤ 83.75 (cambio de posición fija, a decidir por el alumno).
+
+### Serigrafía (sección 9)
+- Frente: UP, DOWN, LEFT, RIGHT, A, B, SELECT, START a 1.0 mm fuera del cuerpo. Referencia SWx dentro del cuerpo, contorno de la pantalla, "1" junto al pin 1 de J3 y "PANTALLA TFT 2.4" (J3)". Créditos en 6 líneas a la derecha, bajo B (x ≈ 136, y 44–54), fuera de la pantalla y de la zona de batería. Se usa **"Game*Mite"** (la sección 9 lo permite), porque no se pudo comprobar sin GUI si la fuente de KiCad trae la ★.
+- Detrás: contorno de la RP2350-Plus (los lados 0.5 mm por fuera, para no pisar la serigrafía de las tiras) con el rectángulo del USB-C, "1" en J1.1 y en J2.1, "BOOT/RST" con marcas a y = 23, "VISTA POSTERIOR / FILAS ESPEJADAS". Contorno del DAC con el JACK (posición del jack **aproximada**, centrada en el borde inferior), "VIN" y "GND" en J5, "ON/OFF" en SW10 y el contorno de la zona de batería con "BATERÍA 103450".
+- Las referencias de H1–H6 están ocultas: son agujeros sin pieza.
+- Las líneas de serigrafía se cortan automáticamente a 0.4 mm de cualquier pad.
+
+### Revisión del alumno (Fase 2)
+- **14-oct-2026 · PCB de la Fase 2 revisado.** El alumno **acepta** J5 con VIN a la derecha visto de frente (a la izquierda visto desde atrás) y PWR_EN por el borde superior (y = 0.6 mm). Pide las correcciones de la sección 7. La especificación la actualiza él.
+
+## 7. Fase 3 — correcciones tras la revisión (14-oct-2026)
+
+Solo se cambió esto (comparación huella por huella y pista por pista contra el PCB de la Fase 2):
+
+| Cambio | Antes | Ahora | Archivos |
+| :--- | :--- | :--- | :--- |
+| **H5 y H6 eliminados** (la pantalla se sujeta con J3 y la carcasa) | M3 NPTH en (41.37, 9.64) y (41.37, 46.36), en el esquemático, el PCB y la BOM | No existen. Se elimina también `KIDBOX/KIDBOX.kicad_dru` (su única regla los exceptuaba del DRC de courtyard). Quedan 4 agujeros NPTH (H1–H4) | `kidbox_datos.py`, `gen_esquematico.py`, `gen_pcb.py`, `KIDBOX.kicad_sch`, `KIDBOX.kicad_pcb`, `BOM.csv` |
+| **SW5 (SELECT)** | centro (66, 58); patas x 62.75 / 69.25 | **centro (66.5, 58)**; patas x **63.25 / 69.75** | `gen_pcb.py` |
+| **SW6 (START)** | centro (84, 58); patas x 80.75 / 87.25 (cobre hasta 88.25, dentro de la zona de batería) | **centro (83.5, 58)**; patas x **80.25 / 86.75**; cobre hasta **87.75, 0.25 mm fuera** de la zona (x ≥ 88.0) | `gen_pcb.py` |
+| Pistas de SELECT | (72.5, 40.02) → (72.5, 52.5) → (69.25, 55.75); unión de pads 62.75–69.25 | (72.5, 40.02) → **(72.5, 53.0) → (69.75, 55.75)**; unión **63.25–69.75** | `gen_pcb.py` |
+| Pistas de START | (78, 42.56) → (78, 53.0) → (80.75, 55.75); unión de pads 80.75–87.25 | (78, 42.56) → **(78, 53.5) → (80.25, 55.75)**; unión **80.25–86.75** | `gen_pcb.py` |
+| Serigrafía | "SELECT"/"START" y SW5/SW6 centrados en x 66 / 84 | Centrados en **x 66.5 / 83.5** (siguen a sus botones) | `gen_pcb.py` |
+
+- No se movió ninguna otra huella ni pista. `netlist.csv` no cambia: los agujeros no tienen pines, así que las 20 redes y sus 85 filas quedan iguales.
+- `ESPECIFICACION.md` no se tocó: el alumno actualiza las secciones 4 y 6 (H5/H6, SW5/SW6).
+- Nota de holgura: SELECT y START quedan ahora a 17 mm entre centros (antes 18), simétricos respecto de x = 75. Los capuchones de 10 mm de paso no se tocan.
+

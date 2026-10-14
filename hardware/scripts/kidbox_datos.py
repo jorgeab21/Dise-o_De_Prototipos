@@ -79,7 +79,4 @@ for ref, nombre, red in BOTONES:
 for i in range(1, 5):
     COMPONENTES[f"H{i}"] = dict(lib="Mechanical:MountingHole", valor="M2", huella="MountingHole:MountingHole_2.2mm_M2",
                                 cara="-", notas="NPTH 2.2 mm; fijacion a la carcasa", pines=None)
-for i in (5, 6):
-    COMPONENTES[f"H{i}"] = dict(lib="Mechanical:MountingHole", valor="M3", huella="MountingHole:MountingHole_3.2mm_M3",
-                                cara="-", notas="NPTH 3.2 mm; agujero del modulo de pantalla (lado de J3)",
-                                pines=None)
+# H5/H6 (agujeros del modulo de pantalla) eliminados en la Fase 3: la pantalla se sujeta con J3 y la carcasa
