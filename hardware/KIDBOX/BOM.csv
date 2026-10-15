@@ -1,15 +1,11 @@
 Referencia,Cantidad,Valor,Descripcion,Huella KiCad,THT/SMD,Cara,Notas
-C1,1,100n,"Condensador ceramico de disco, paso 2.5 mm",Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm,THT,Top,Ceramico; filtro de RESET (C11 del Game*Mite)
 C2,1,100n,"Condensador ceramico de disco, paso 2.5 mm",Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm,THT,Top,"Ceramico; desacoplo de la pantalla, junto a J3"
 C3,1,100n,"Condensador ceramico de disco, paso 2.5 mm",Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm,THT,Bottom,"Ceramico; desacoplo del DAC, junto a J5"
-C4,1,10u 16V,"Condensador electrolitico radial D5 mm, paso 2 mm",Capacitor_THT:CP_Radial_D5.0mm_P2.00mm,THT,Bottom,Electrolitico; desacoplo del DAC; polaridad (+ = pin 1)
+C4,1,10u 25V,"Condensador electrolitico radial D5 mm, paso 2 mm",Capacitor_THT:CP_Radial_D5.0mm_P2.00mm,THT,Bottom,Electrolitico; desacoplo del DAC; polaridad (+ = pin 1)
 H1 H2 H3 H4,4,M2,Agujero de montaje sin metalizar (no se compra),MountingHole:MountingHole_2.2mm_M2,NPTH,-,NPTH 2.2 mm; fijacion a la carcasa
-H5 H6,2,M3,Agujero de montaje sin metalizar (no se compra),MountingHole:MountingHole_3.2mm_M3,NPTH,-,NPTH 3.2 mm; separador de la pantalla (lado de J4); posicion en Fase 2
 J1,1,RP2350-Plus 1-20,"Tira de pines hembra 1x20, paso 2.54 mm, recta",Connector_PinSocket_2.54mm:PinSocket_1x20_P2.54mm_Vertical,THT,Bottom,Tira hembra 1x20; pines 1-20 del modulo (GP0 junto al USB-C)
 J2,1,RP2350-Plus 21-40,"Tira de pines hembra 1x20, paso 2.54 mm, recta",Connector_PinSocket_2.54mm:PinSocket_1x20_P2.54mm_Vertical,THT,Bottom,Tira hembra 1x20; J2.n = pin 20+n del modulo
 J3,1,TFT ILI9341 2.4in,"Tira de pines hembra 1x14, paso 2.54 mm, recta",Connector_PinSocket_2.54mm:PinSocket_1x14_P2.54mm_Vertical,THT,Top,Tira hembra 1x14; pin 1 = VCC; SDO y tactil sin conectar
-J4,1,TFT SD (apoyo),"Tira de pines hembra 1x4, paso 2.54 mm, recta",Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical,THT,Top,"Tira hembra 1x4; solo apoyo mecanico, 4 pines sin conectar"
-J5,1,DAC GY-PCM5102,"Tira de pines hembra 1x6, paso 2.54 mm, recta",Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical,THT,Bottom,Tira hembra 1x6; orden de pines [SUPUESTO] (foto del vendedor)
+J5,1,DAC GY-PCM5102,"Tira de pines hembra 1x6, paso 2.54 mm, recta",Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical,THT,Bottom,Tira hembra 1x6; orden de pines confirmado con la serigrafia; jack hacia el borde inferior
 SW1 SW2 SW3 SW4 SW5 SW6 SW7 SW8,8,DOWN/LEFT/UP/RIGHT/SELECT/START/B/A,"Pulsador tactil 6x6 mm, 4 patas",Button_Switch_THT:SW_PUSH_6mm,THT,Top,"Pulsador 6x6 mm (DEC); pull-up interno, pulsado = LOW"
-SW9,1,RESET,"Pulsador tactil 6x6 mm, 4 patas",Button_Switch_THT:SW_PUSH_6mm,THT,Top,Pulsador 6x6 mm; a RUN
-SW10,1,ON/OFF,Interruptor deslizante 1 polo 2 posiciones (CK OS102011MS2Q o equivalente),Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q,THT,Bottom,Deslizante recto; comun (2) a 3V3_EN; OFF = pin 1 a GND; pin 3 sin conectar; modelo [PENDIENTE]
+SW10,1,ON/OFF,"Interruptor deslizante 1 polo 2 posiciones, recto, paso 2.54 mm (Wuerth WS-SLTV 450301014042 o equivalente)",Button_Switch_THT:SW_Slide-03_Wuerth-WS-SLTV_10x2.5x6.4_P2.54mm,THT,Bottom,"Deslizante recto, paso 2.54 mm confirmado en protoboard (14-oct); comun = pad 1 (central) a 3V3_EN; OFF = pad 2 a GND; pad 3 sin conectar; posicion OFF [PENDIENTE: continuidad]"

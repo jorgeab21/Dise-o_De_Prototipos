@@ -23,6 +23,7 @@ ANCHO, ALTO, RADIO = 150.0, 65.0, 4.0
 # ESPECIFICACION.md seccion 7 ("Mi valor")
 REGLAS = {
     "min_clearance": 0.20,
+    "min_connection": 0.20,  # ancho minimo de conexion (rayos de alivio termico y cobre de zonas)
     "min_track_width": 0.25,
     "min_via_diameter": 0.60,
     "min_through_hole_diameter": 0.30,
@@ -63,42 +64,47 @@ def contorno(board):
         board.Add(s)
 
 
-if os.path.exists(PCB) and "--forzar" not in sys.argv:
-    viejo = pcbnew.LoadBoard(PCB)
-    if len(viejo.GetFootprints()) or len(viejo.GetTracks()):
-        sys.exit(f"{PCB} ya tiene huellas o pistas; no lo sobrescribo (usa --forzar).")
+def escribir_reglas():
+    """Escribe las reglas DFM y las net classes en el .kicad_pro (lo usa tambien gen_pcb.py)."""
+    # Reglas en el .kicad_pro (se edita el JSON que deja KiCad para conservar el resto de su estructura)
+    with open(PRO, encoding="utf-8") as f:
+        pro = json.load(f)
+    pro.setdefault("board", {}).setdefault("design_settings", {}).setdefault("rules", {}).update(REGLAS)
+    ns = pro.setdefault("net_settings", {})
+    clases = ns.setdefault("classes", [])
+    default = next((c for c in clases if c.get("name") == "Default"), None)
+    if default is None:
+        default = {"name": "Default"}
+        clases.insert(0, default)
+    default.update(NETCLASS_DEFAULT)
+    pot = next((c for c in clases if c.get("name") == "Potencia"), None)
+    if pot is None:
+        pot = dict(default, priority=0)
+        clases.append(pot)
+    pot.update(NETCLASS_POTENCIA)
+    ns["netclass_patterns"] = [{"netclass": "Potencia", "pattern": "+3V3"}]
+    with open(PRO, "w", encoding="utf-8", newline="\n") as f:
+        json.dump(pro, f, indent=2, ensure_ascii=False)
+        f.write("\n")
 
-os.makedirs(CARPETA, exist_ok=True)
-board = pcbnew.NewBoard(PCB)
-board.SetCopperLayerCount(2)
-board.GetDesignSettings().SetBoardThickness(pcbnew.FromMM(1.6))
-tb = board.GetTitleBlock()
-tb.SetTitle("KIDBOX")
-tb.SetRevision("v1.0")
-tb.SetDate("2026-10-13")
-tb.SetCompany("Equipo KIDBOX")
-contorno(board)
-pcbnew.SaveBoard(PCB, board)
 
-# Reglas en el .kicad_pro (se edita el JSON que deja KiCad para conservar el resto de su estructura)
-with open(PRO, encoding="utf-8") as f:
-    pro = json.load(f)
-pro.setdefault("board", {}).setdefault("design_settings", {}).setdefault("rules", {}).update(REGLAS)
-ns = pro.setdefault("net_settings", {})
-clases = ns.setdefault("classes", [])
-default = next((c for c in clases if c.get("name") == "Default"), None)
-if default is None:
-    default = {"name": "Default"}
-    clases.insert(0, default)
-default.update(NETCLASS_DEFAULT)
-pot = next((c for c in clases if c.get("name") == "Potencia"), None)
-if pot is None:
-    pot = dict(default, priority=0)
-    clases.append(pot)
-pot.update(NETCLASS_POTENCIA)
-ns["netclass_patterns"] = [{"netclass": "Potencia", "pattern": "+3V3"}]
-with open(PRO, "w", encoding="utf-8", newline="\n") as f:
-    json.dump(pro, f, indent=2, ensure_ascii=False)
-    f.write("\n")
-print("ok", PCB)
-print("ok", PRO)
+if __name__ == "__main__":
+    if os.path.exists(PCB) and "--forzar" not in sys.argv:
+        viejo = pcbnew.LoadBoard(PCB)
+        if len(viejo.GetFootprints()) or len(viejo.GetTracks()):
+            sys.exit(f"{PCB} ya tiene huellas o pistas; no lo sobrescribo (usa --forzar).")
+
+    os.makedirs(CARPETA, exist_ok=True)
+    board = pcbnew.NewBoard(PCB)
+    board.SetCopperLayerCount(2)
+    board.GetDesignSettings().SetBoardThickness(pcbnew.FromMM(1.6))
+    tb = board.GetTitleBlock()
+    tb.SetTitle("KIDBOX")
+    tb.SetRevision("v1.0")
+    tb.SetDate("2026-10-13")
+    tb.SetCompany("Equipo KIDBOX")
+    contorno(board)
+    pcbnew.SaveBoard(PCB, board)
+    escribir_reglas()
+    print("ok", PCB)
+    print("ok", PRO)

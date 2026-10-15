@@ -23,7 +23,7 @@ CLI = next(c for c in (os.environ.get("KICAD_CLI"), r"C:\Program Files\KiCad\10.
 DESCRIPCION = {  # (lib_id, prefijo de huella) -> descripcion para la BOM
     "Connector_Generic": "Tira de pines hembra 1x{n}, paso 2.54 mm, recta",
     "Switch:SW_Push": "Pulsador tactil 6x6 mm, 4 patas",
-    "Switch:SW_SPDT": "Interruptor deslizante 1 polo 2 posiciones (CK OS102011MS2Q o equivalente)",
+    "Switch:SW_SPDT_312": "Interruptor deslizante 1 polo 2 posiciones, recto, paso 2.54 mm (Wuerth WS-SLTV 450301014042 o equivalente)",
     "Device:C": "Condensador ceramico de disco, paso 2.5 mm",
     "Device:C_Polarized": "Condensador electrolitico radial D5 mm, paso 2 mm",
     "Mechanical:MountingHole": "Agujero de montaje sin metalizar (no se compra)",
@@ -87,10 +87,8 @@ for red, nodos in redes.items():
             funcion = f"RP2350-Plus pin {n_mod} ({funcion})"
         elif ref == "J3":
             funcion = f"Pantalla {funcion}"
-        elif ref == "J4":
-            funcion = f"Pantalla {funcion} (apoyo, sin usar)"
         elif ref == "J5":
-            funcion = f"DAC {funcion} [orden SUPUESTO]"
+            funcion = f"DAC {funcion}"
         elif ref.startswith("SW") and ref != "SW10":
             funcion = f"Pulsador {COMPONENTES[ref]['valor']}, pata {pin}"
         elif ref == "SW10":

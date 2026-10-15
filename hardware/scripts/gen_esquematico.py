@@ -109,8 +109,9 @@ def prop_instancia(bloque_prop, valor, sx, sy, srot, clave):
     return nuevo
 
 
-def simbolo(ref, lib_id, sx, sy, srot=0, valor=None, huella=None, clave=None, pos_valor=None):
+def simbolo(ref, lib_id, sx, sy, srot=0, valor=None, huella=None, clave=None, pos_valor=None, flags=None):
     s = simbolo_lib(lib_id)
+    banderas = dict(s["flags"], **(flags or {}))  # atributos del simbolo; `flags` los cambia por instancia
     clave = clave or ref
     vals = {k: valor_prop(v) for k, v in s["props"].items()}
     vals["Reference"] = ref
@@ -120,7 +121,7 @@ def simbolo(ref, lib_id, sx, sy, srot=0, valor=None, huella=None, clave=None, po
         vals["Footprint"] = huella
     out = [f'\t(symbol\n\t\t(lib_id "{lib_id}")\n\t\t(at {fmt(sx)} {fmt(sy)} {fmt(srot)})\n\t\t(unit 1)\n\t\t(body_style 1)']
     for k in ("exclude_from_sim", "in_bom", "on_board", "in_pos_files"):
-        out.append(f"\t\t({k} {s['flags'].get(k, 'yes' if k != 'exclude_from_sim' else 'no')})")
+        out.append(f"\t\t({k} {banderas.get(k, 'yes' if k != 'exclude_from_sim' else 'no')})")
     out.append(f'\t\t(dnp no)\n\t\t(uuid "{uid("sym/" + clave)}")')
     for k in ("Reference", "Value", "Footprint", "Datasheet", "Description"):
         if k in s["props"]:
@@ -193,7 +194,7 @@ def colocar(ref, x, y, largo=5.08, anotar=None, codo_gnd=None):
     c = COMPONENTES[ref]
     if anotar is None:
         anotar = c["lib"].startswith("Connector")
-    pins = simbolo(ref, c["lib"], x, y, valor=c["valor"], huella=c["huella"])
+    pins = simbolo(ref, c["lib"], x, y, valor=c["valor"], huella=c["huella"], flags=c.get("flags"))
     if not c["pines"]:
         return pins
     for num, (p, d) in pins.items():
@@ -212,7 +213,7 @@ def colocar(ref, x, y, largo=5.08, anotar=None, codo_gnd=None):
 # ---------------------------------------------------------------- hoja
 texto("KIDBOX v1.0 — placa portadora (basada en Game*Mite v1.3.2, CC BY 4.0)", 25.4, 22.86, "titulo", 2.54,
       negrita=True)
-texto("Generado con scripts/gen_esquematico.py desde scripts/kidbox_datos.py (ESPECIFICACION.md v0.6). "
+texto("Generado con scripts/gen_esquematico.py desde scripts/kidbox_datos.py (ESPECIFICACION.md v0.7). "
       "No editar a mano: editar los datos y regenerar.", 25.4, 27.94, "subtitulo", 1.524)
 
 # Bloque 1: RP2350-Plus sobre J1 + J2 (cara posterior)
@@ -232,12 +233,9 @@ texto("Pin LED: transistor S8050 + 1 kΩ en el modulo (≈2,6 mA): directo a GP2
 colocar("J3", 233.68, 86.36)
 colocar("C2", 264.16, 81.28)
 texto("C2 junto a J3", 259.08, 99.06, "t_c2", 1.27)
-colocar("J4", 233.68, 124.46)
-texto("J4: solo apoyo mecánico (lado SD), sin conectar", 213.36, 137.16, "t_j4", 1.27)
 
 texto("DAC GY-PCM5102 (PCM5102A, I2S), cara Bottom", 299.72, 55.88, "t_dac", 1.778, negrita=True)
-texto("Orden de pines de J5 [SUPUESTO: foto del vendedor] — confirmar con la pieza el 14-oct", 299.72, 60.96,
-      "t_dac2", 1.27)
+texto("Orden de pines de J5 confirmado con la serigrafía de la pieza (14-oct)", 299.72, 60.96, "t_dac2", 1.27)
 colocar("J5", 320.04, 81.28)
 texto("SCK a GND: el DAC usa su reloj interno", 299.72, 101.6, "t_dac3", 1.27)
 colocar("C3", 350.52, 81.28)
@@ -260,26 +258,26 @@ for i, ref in enumerate(["SW3", "SW1", "SW2", "SW4", "SW5", "SW6", "SW7", "SW8"]
     colocar(ref, 45.72 + i * 40.64, 175.26, anotar=False, codo_gnd=(0, 1))
 
 # Bloque 4: reset, encendido y agujeros
-texto("Reset (RUN) y encendido (3V3_EN)", 25.4, 203.2, "t_rst", 1.778, negrita=True)
-colocar("SW9", 45.72, 220.98, anotar=False, codo_gnd=(0, 1))
-colocar("C1", 76.2, 220.98, largo=2.54, anotar=False)
-colocar("SW10", 124.46, 220.98, anotar=False)
-texto("SW10: común (2) a 3V3_EN; OFF = pin 1 a GND; ON = pin 3 al aire", 104.14, 236.22, "t_sw10", 1.27)
-texto("3V3_EN tiene pull-up de 100 kΩ a VSYS en la RP2350-Plus", 104.14, 240.03, "t_sw10b", 1.27)
+texto("Encendido (3V3_EN). Sin reset propio: RUN sin conectar (BOOT/RESET del módulo)", 25.4, 203.2, "t_rst", 1.778,
+      negrita=True)
+colocar("SW10", 76.2, 220.98, anotar=False)
+texto("SW10: común = pin 1 (pad central de la huella Würth) a 3V3_EN; OFF = pin 2 a GND; pin 3 al aire", 45.72, 236.22,
+      "t_sw10", 1.27)
+texto("3V3_EN tiene pull-up de 100 kΩ a VSYS en la RP2350-Plus", 45.72, 240.03, "t_sw10b", 1.27)
 
 texto("Agujeros (sin conexión eléctrica)", 182.88, 203.2, "t_h", 1.778, negrita=True)
-for i in range(1, 7):
+for i in range(1, 5):
     colocar(f"H{i}", 190.5 + (i - 1) * 20.32, 220.98)
-texto("H1–H4: M2, fijación a la carcasa · H5–H6: M3, separadores de la pantalla (posición en Fase 2)", 182.88, 236.22,
+texto("H1–H4: M2, fijación a la carcasa. La pantalla se sujeta con J3 y la carcasa (sin H5/H6)", 182.88, 236.22,
       "t_h2", 1.27)
 
 # ---------------------------------------------------------------- archivo
 libs = sorted({c["lib"] for c in COMPONENTES.values()} | {"power:GND", "power:+3V3", "power:PWR_FLAG"})
 lib_txt = "\n".join("\t\t" + simbolo_lib(l)["texto"].replace("\n", "\n\t") for l in libs)
 cab = (f'(kicad_sch\n\t(version 20260306)\n\t(generator "eeschema")\n\t(generator_version "10.0")\n\t(uuid "{ROOT}")\n'
-       f'\t(paper "A3")\n\t(title_block\n\t\t(title "KIDBOX")\n\t\t(date "2026-10-13")\n\t\t(rev "v1.0")\n'
+       f'\t(paper "A3")\n\t(title_block\n\t\t(title "KIDBOX")\n\t\t(date "2026-10-14")\n\t\t(rev "v1.0")\n'
        f'\t\t(company "Equipo KIDBOX")\n\t\t(comment 1 "Basado en Game*Mite v1.3.2 de Thomas Hugo Williams (CC BY 4.0)")\n'
-       f'\t\t(comment 2 "ESPECIFICACION.md v0.6")\n\t)\n\t(lib_symbols\n{lib_txt}\n\t)\n')
+       f'\t\t(comment 2 "ESPECIFICACION.md v0.7")\n\t)\n\t(lib_symbols\n{lib_txt}\n\t)\n')
 pie = '\t(sheet_instances\n\t\t(path "/"\n\t\t\t(page "1")\n\t\t)\n\t)\n\t(embedded_fonts no)\n)\n'
 os.makedirs(os.path.dirname(SALIDA), exist_ok=True)
 with open(SALIDA, "w", encoding="utf-8", newline="\n") as f:

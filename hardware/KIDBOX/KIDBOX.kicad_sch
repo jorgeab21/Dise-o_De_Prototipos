@@ -6,229 +6,13 @@
 	(paper "A3")
 	(title_block
 		(title "KIDBOX")
-		(date "2026-10-13")
+		(date "2026-10-14")
 		(rev "v1.0")
 		(company "Equipo KIDBOX")
 		(comment 1 "Basado en Game*Mite v1.3.2 de Thomas Hugo Williams (CC BY 4.0)")
-		(comment 2 "ESPECIFICACION.md v0.6")
+		(comment 2 "ESPECIFICACION.md v0.7")
 	)
 	(lib_symbols
-		(symbol "Connector_Generic:Conn_01x04"
-			(pin_names
-				(offset 1.016)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "J"
-				(at 0 5.08 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "Conn_01x04"
-				(at 0 -7.62 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_keywords" "connector"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_fp_filters" "Connector*:*_1x??_*"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "Conn_01x04_1_1"
-				(rectangle
-					(start -1.27 3.81)
-					(end 1.27 -6.35)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-				(rectangle
-					(start -1.27 2.667)
-					(end 0 2.413)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(rectangle
-					(start -1.27 0.127)
-					(end 0 -0.127)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(rectangle
-					(start -1.27 -2.413)
-					(end 0 -2.667)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(rectangle
-					(start -1.27 -4.953)
-					(end 0 -5.207)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(pin passive line
-					(at -5.08 2.54 0)
-					(length 3.81)
-					(name "Pin_1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -5.08 0 0)
-					(length 3.81)
-					(name "Pin_2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -5.08 -2.54 0)
-					(length 3.81)
-					(name "Pin_3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -5.08 -5.08 0)
-					(length 3.81)
-					(name "Pin_4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "Connector_Generic:Conn_01x06"
 			(pin_names
 				(offset 1.016)
@@ -2284,9 +2068,9 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Switch:SW_SPDT"
+		(symbol "Switch:SW_SPDT_312"
 			(pin_names
-				(offset 0)
+				(offset 1)
 				(hide yes)
 			)
 			(exclude_from_sim no)
@@ -2304,7 +2088,7 @@
 					)
 				)
 			)
-			(property "Value" "SW_SPDT"
+			(property "Value" "SW_SPDT_312"
 				(at 0 -5.08 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -2315,7 +2099,7 @@
 				)
 			)
 			(property "Footprint" ""
-				(at 0 0 0)
+				(at 0 -10.16 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -2347,7 +2131,7 @@
 					)
 				)
 			)
-			(property "ki_keywords" "switch single-pole double-throw spdt ON-ON"
+			(property "ki_keywords" "changeover single-pole double-throw spdt ON-ON"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -2358,7 +2142,7 @@
 					)
 				)
 			)
-			(symbol "SW_SPDT_0_1"
+			(symbol "SW_SPDT_312_0_1"
 				(circle
 					(center -2.032 0)
 					(radius 0.4572)
@@ -2405,7 +2189,7 @@
 					)
 				)
 			)
-			(symbol "SW_SPDT_1_1"
+			(symbol "SW_SPDT_312_1_1"
 				(rectangle
 					(start -3.175 3.81)
 					(end 3.175 -3.81)
@@ -2418,9 +2202,9 @@
 					)
 				)
 				(pin passive line
-					(at 5.08 2.54 180)
+					(at -5.08 0 0)
 					(length 2.54)
-					(name "A"
+					(name "B"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2436,9 +2220,9 @@
 					)
 				)
 				(pin passive line
-					(at -5.08 0 0)
+					(at 5.08 -2.54 180)
 					(length 2.54)
-					(name "B"
+					(name "C"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2454,9 +2238,9 @@
 					)
 				)
 				(pin passive line
-					(at 5.08 -2.54 180)
+					(at 5.08 2.54 180)
 					(length 2.54)
-					(name "C"
+					(name "A"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2856,7 +2640,7 @@
 		)
 		(uuid "7c027111-b4eb-5f64-bbe2-aedd8ea58026")
 	)
-	(text "Generado con scripts/gen_esquematico.py desde scripts/kidbox_datos.py (ESPECIFICACION.md v0.6). No editar a mano: editar los datos y regenerar."
+	(text "Generado con scripts/gen_esquematico.py desde scripts/kidbox_datos.py (ESPECIFICACION.md v0.7). No editar a mano: editar los datos y regenerar."
 		(exclude_from_sim no)
 		(at 25.4 27.94 0)
 		(effects
@@ -4026,25 +3810,9 @@
 		)
 		(uuid "c5adfb4d-05d0-5bdc-a15a-e5b9d0ab2ebd")
 	)
-	(wire
-		(pts
-			(xy 147.32 91.44) (xy 137.16 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1c0d65cc-da20-5349-86d9-7894573672ce")
-	)
-	(label "RUN"
-		(at 137.16 91.44 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "f61c6d90-ddfe-5768-8585-85a429eaf2d9")
+	(no_connect
+		(at 147.32 91.44)
+		(uuid "14f8d8da-dac4-5d56-bc42-b5e9dc8569df")
 	)
 	(wire
 		(pts
@@ -5683,162 +5451,6 @@
 		)
 		(uuid "3ddc8578-b5e5-56ce-98ef-61aa90b5749d")
 	)
-	(symbol
-		(lib_id "Connector_Generic:Conn_01x04")
-		(at 233.68 124.46 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "599dbcd0-187c-5ab9-be64-e5b2d7ecbcf8")
-		(property "Reference" "J4"
-				(at 233.68 119.38 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Value" "TFT SD (apoyo)"
-				(at 233.68 132.08 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical"
-				(at 233.68 124.46 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Datasheet" ""
-				(at 233.68 124.46 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
-				(at 233.68 124.46 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(pin "1"
-			(uuid "02ee33f5-33f7-5c3a-9e25-0de43d074d9c")
-		)
-		(pin "2"
-			(uuid "9283b988-102a-519e-9dc8-97e86ece6e65")
-		)
-		(pin "3"
-			(uuid "f7714933-e222-5d37-a7f2-22df1540f436")
-		)
-		(pin "4"
-			(uuid "a7a31e03-9519-5fc9-81f0-23efa18b5c66")
-		)
-		(instances
-			(project "KIDBOX"
-				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "J4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(no_connect
-		(at 228.6 121.92)
-		(uuid "90ae83af-b755-5138-90c3-db64934ffc7b")
-	)
-	(text "1  SD_CS"
-		(exclude_from_sim no)
-		(at 237.49 122.555 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "661b1e97-c16b-5d00-b914-f8d6c4fefebd")
-	)
-	(no_connect
-		(at 228.6 124.46)
-		(uuid "73934738-d554-5699-b045-43af12b5c047")
-	)
-	(text "2  SD_MOSI"
-		(exclude_from_sim no)
-		(at 237.49 125.095 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "58f2a010-2ea6-5280-8194-6788ad62819a")
-	)
-	(no_connect
-		(at 228.6 127)
-		(uuid "0780a580-99c5-525f-9f5b-58ee890cefd3")
-	)
-	(text "3  SD_MISO"
-		(exclude_from_sim no)
-		(at 237.49 127.635 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "6988ee9b-c0de-5f60-966c-03f2429b250e")
-	)
-	(no_connect
-		(at 228.6 129.54)
-		(uuid "2e68cab6-ecba-589b-b31e-0099c0ca784f")
-	)
-	(text "4  SD_CLK"
-		(exclude_from_sim no)
-		(at 237.49 130.175 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "ea63d91d-4811-551c-ac48-977665f7442b")
-	)
-	(text "J4: solo apoyo mecánico (lado SD), sin conectar"
-		(exclude_from_sim no)
-		(at 213.36 137.16 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "d4d44d33-7f3a-5947-acac-0759db5065b9")
-	)
 	(text "DAC GY-PCM5102 (PCM5102A, I2S), cara Bottom"
 		(exclude_from_sim no)
 		(at 299.72 55.88 0)
@@ -5851,7 +5463,7 @@
 		)
 		(uuid "3f7de896-7075-5248-aa1b-a35991e52e5c")
 	)
-	(text "Orden de pines de J5 [SUPUESTO: foto del vendedor] — confirmar con la pieza el 14-oct"
+	(text "Orden de pines de J5 confirmado con la serigrafía de la pieza (14-oct)"
 		(exclude_from_sim no)
 		(at 299.72 60.96 0)
 		(effects
@@ -6628,7 +6240,7 @@
 					(justify left)
 				)
 			)
-		(property "Value" "10u 16V"
+		(property "Value" "10u 25V"
 				(at 366.395 83.82 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -8799,7 +8411,7 @@
 			)
 		)
 	)
-	(text "Reset (RUN) y encendido (3V3_EN)"
+	(text "Encendido (3V3_EN). Sin reset propio: RUN sin conectar (BOOT/RESET del módulo)"
 		(exclude_from_sim no)
 		(at 25.4 203.2 0)
 		(effects
@@ -8812,393 +8424,8 @@
 		(uuid "880592ef-95f5-55b8-931e-59d71cf4a696")
 	)
 	(symbol
-		(lib_id "Switch:SW_Push")
-		(at 45.72 220.98 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "2d5a2501-fe80-53ed-8607-ac93e3b4af26")
-		(property "Reference" "SW9"
-				(at 46.99 218.44 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-		(property "Value" "RESET"
-				(at 45.72 222.504 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Footprint" "Button_Switch_THT:SW_PUSH_6mm"
-				(at 45.72 215.9 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Datasheet" ""
-				(at 45.72 215.9 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Description" "Push button switch, generic, two pins"
-				(at 45.72 220.98 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(pin "1"
-			(uuid "9784fc7c-2611-592a-b06a-6013e6f05574")
-		)
-		(pin "2"
-			(uuid "9622a965-ba22-578f-9ca1-09b15263c4dd")
-		)
-		(instances
-			(project "KIDBOX"
-				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "SW9")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 40.64 220.98) (xy 35.56 220.98)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ecc22c33-d1cc-5c73-8cef-502cb797e12a")
-	)
-	(label "RUN"
-		(at 35.56 220.98 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "e02d88fe-cdfc-51af-b108-d88ae120d7b7")
-	)
-	(wire
-		(pts
-			(xy 50.8 220.98) (xy 55.88 220.98)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2fdfd847-3045-5b4c-b91a-9be86e39f011")
-	)
-	(wire
-		(pts
-			(xy 55.88 220.98) (xy 55.88 223.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "dcf41805-faf5-5e59-9cdf-0ef8fdea5c43")
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 55.88 223.52 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "936ca87b-a3db-5617-a557-daac9260da8b")
-		(property "Reference" "#PWR29"
-				(at 55.88 229.87 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Value" "GND"
-				(at 55.88 227.33 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Footprint" ""
-				(at 55.88 223.52 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Datasheet" ""
-				(at 55.88 223.52 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Description" "Power symbol creates a global label with name \\\"GND\\\" , ground"
-				(at 55.88 223.52 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(pin "1"
-			(uuid "d5312897-7a9b-521b-a80f-7e20cdb354b9")
-		)
-		(instances
-			(project "KIDBOX"
-				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "#PWR29")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
+		(lib_id "Switch:SW_SPDT_312")
 		(at 76.2 220.98 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "65a87c3e-0556-5804-8ddb-4ac9acd975a9")
-		(property "Reference" "C1"
-				(at 76.835 218.44 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-		(property "Value" "100n"
-				(at 76.835 223.52 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-		(property "Footprint" "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm"
-				(at 77.1652 224.79 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Datasheet" ""
-				(at 76.2 220.98 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Description" "Unpolarized capacitor"
-				(at 76.2 220.98 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(pin "1"
-			(uuid "320fa84a-5ad6-5a35-bc71-3ca37fa7aac5")
-		)
-		(pin "2"
-			(uuid "fcc7a31d-ff4e-563a-b878-b9fe46a23ca5")
-		)
-		(instances
-			(project "KIDBOX"
-				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "C1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 76.2 217.17) (xy 76.2 214.63)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4fd75232-ab57-50c7-b61e-893e0c942603")
-	)
-	(label "RUN"
-		(at 76.2 214.63 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "7d56ab18-7611-5692-8787-4059e24c5480")
-	)
-	(wire
-		(pts
-			(xy 76.2 224.79) (xy 76.2 227.33)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "74444cb0-ec70-55e2-abbd-a52db3c1a9fc")
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 76.2 227.33 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "1d5ade9d-d054-5e45-b01b-55013f10ca0a")
-		(property "Reference" "#PWR30"
-				(at 76.2 233.68 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Value" "GND"
-				(at 76.2 231.14 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Footprint" ""
-				(at 76.2 227.33 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Datasheet" ""
-				(at 76.2 227.33 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Description" "Power symbol creates a global label with name \\\"GND\\\" , ground"
-				(at 76.2 227.33 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(pin "1"
-			(uuid "4ac10aba-1ed4-5bf3-9523-e2d9cf0a4d86")
-		)
-		(instances
-			(project "KIDBOX"
-				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "#PWR30")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Switch:SW_SPDT")
-		(at 124.46 220.98 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9208,7 +8435,7 @@
 		(dnp no)
 		(uuid "9d9e5397-c909-50a8-b127-64c6a7235c62")
 		(property "Reference" "SW10"
-				(at 124.46 215.9 0)
+				(at 76.2 215.9 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -9218,7 +8445,7 @@
 				)
 			)
 		(property "Value" "ON/OFF"
-				(at 124.46 226.06 0)
+				(at 76.2 226.06 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -9227,8 +8454,8 @@
 					)
 				)
 			)
-		(property "Footprint" "Button_Switch_THT:SW_Slide_SPDT_Straight_CK_OS102011MS2Q"
-				(at 124.46 220.98 0)
+		(property "Footprint" "Button_Switch_THT:SW_Slide-03_Wuerth-WS-SLTV_10x2.5x6.4_P2.54mm"
+				(at 76.2 231.14 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -9239,7 +8466,7 @@
 				)
 			)
 		(property "Datasheet" ""
-				(at 124.46 228.6 0)
+				(at 76.2 228.6 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -9250,7 +8477,7 @@
 				)
 			)
 		(property "Description" "Switch, single pole double throw"
-				(at 124.46 220.98 0)
+				(at 76.2 220.98 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -9280,7 +8507,7 @@
 	)
 	(wire
 		(pts
-			(xy 129.54 218.44) (xy 134.62 218.44)
+			(xy 71.12 220.98) (xy 66.04 220.98)
 		)
 		(stroke
 			(width 0)
@@ -9288,9 +8515,29 @@
 		)
 		(uuid "db6d22da-ec55-5cac-81a1-3d2c66bb30d0")
 	)
+	(label "PWR_EN"
+		(at 66.04 220.98 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "b9f121b2-8361-57c3-a659-e9e477dc00a8")
+	)
+	(wire
+		(pts
+			(xy 81.28 223.52) (xy 86.36 223.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "03505547-4fe4-59f5-98b9-6cef7efa4d87")
+	)
 	(symbol
 		(lib_id "power:GND")
-		(at 134.62 218.44 90)
+		(at 86.36 223.52 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9298,9 +8545,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "5a22674b-89ea-5112-84df-aad3d06c50f8")
-		(property "Reference" "#PWR31"
-				(at 140.97 218.44 0)
+		(uuid "721d3576-1cc6-5d9a-a66f-e2244efcd3c6")
+		(property "Reference" "#PWR29"
+				(at 92.71 223.52 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -9311,7 +8558,7 @@
 				)
 			)
 		(property "Value" "GND"
-				(at 140.97 217.805 90)
+				(at 92.71 222.885 90)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -9321,7 +8568,7 @@
 				)
 			)
 		(property "Footprint" ""
-				(at 134.62 218.44 0)
+				(at 86.36 223.52 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -9332,7 +8579,7 @@
 				)
 			)
 		(property "Datasheet" ""
-				(at 134.62 218.44 0)
+				(at 86.36 223.52 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -9343,7 +8590,7 @@
 				)
 			)
 		(property "Description" "Power symbol creates a global label with name \\\"GND\\\" , ground"
-				(at 134.62 218.44 0)
+				(at 86.36 223.52 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -9354,44 +8601,24 @@
 				)
 			)
 		(pin "1"
-			(uuid "0706055f-b200-5308-b799-8de9da0ce732")
+			(uuid "fb561bdb-a744-5b85-8267-99ccd63f5ebb")
 		)
 		(instances
 			(project "KIDBOX"
 				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "#PWR31")
+					(reference "#PWR29")
 					(unit 1)
 				)
 			)
 		)
 	)
-	(wire
-		(pts
-			(xy 119.38 220.98) (xy 114.3 220.98)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "03505547-4fe4-59f5-98b9-6cef7efa4d87")
-	)
-	(label "PWR_EN"
-		(at 114.3 220.98 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "9ed57276-fdfc-516c-8e71-93f8e8835ddb")
-	)
 	(no_connect
-		(at 129.54 223.52)
+		(at 81.28 218.44)
 		(uuid "cf48d3ed-8174-5bd1-bd5e-59b021d08642")
 	)
-	(text "SW10: común (2) a 3V3_EN; OFF = pin 1 a GND; ON = pin 3 al aire"
+	(text "SW10: común = pin 1 (pad central de la huella Würth) a 3V3_EN; OFF = pin 2 a GND; pin 3 al aire"
 		(exclude_from_sim no)
-		(at 104.14 236.22 0)
+		(at 45.72 236.22 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9402,7 +8629,7 @@
 	)
 	(text "3V3_EN tiene pull-up de 100 kΩ a VSYS en la RP2350-Plus"
 		(exclude_from_sim no)
-		(at 104.14 240.03 0)
+		(at 45.72 240.03 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9431,7 +8658,7 @@
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
+		(in_pos_files no)
 		(dnp no)
 		(uuid "a8d829e1-de98-58f6-8dd2-546f6dbab6b1")
 		(property "Reference" "H1"
@@ -9504,7 +8731,7 @@
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
+		(in_pos_files no)
 		(dnp no)
 		(uuid "56832d2c-bc37-53ab-a521-2043bfc403df")
 		(property "Reference" "H2"
@@ -9577,7 +8804,7 @@
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
+		(in_pos_files no)
 		(dnp no)
 		(uuid "e7c87ab6-e4c2-5cb3-a0bf-4e459ed5acb3")
 		(property "Reference" "H3"
@@ -9650,7 +8877,7 @@
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
+		(in_pos_files no)
 		(dnp no)
 		(uuid "16cb55e6-41e5-5eef-b415-6e51e7fa4ec8")
 		(property "Reference" "H4"
@@ -9715,153 +8942,7 @@
 			)
 		)
 	)
-	(symbol
-		(lib_id "Mechanical:MountingHole")
-		(at 271.78 220.98 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "7a241665-895a-583d-a9f4-fd286776df2e")
-		(property "Reference" "H5"
-				(at 271.78 215.9 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Value" "M3"
-				(at 271.78 217.805 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3"
-				(at 271.78 220.98 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Datasheet" ""
-				(at 271.78 220.98 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Description" "Mounting Hole without connection"
-				(at 271.78 220.98 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(instances
-			(project "KIDBOX"
-				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "H5")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Mechanical:MountingHole")
-		(at 292.1 220.98 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "2d008840-df51-57d3-9fef-d8749e7f6690")
-		(property "Reference" "H6"
-				(at 292.1 215.9 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Value" "M3"
-				(at 292.1 217.805 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3"
-				(at 292.1 220.98 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Datasheet" ""
-				(at 292.1 220.98 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(property "Description" "Mounting Hole without connection"
-				(at 292.1 220.98 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-		(instances
-			(project "KIDBOX"
-				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "H6")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(text "H1–H4: M2, fijación a la carcasa · H5–H6: M3, separadores de la pantalla (posición en Fase 2)"
+	(text "H1–H4: M2, fijación a la carcasa. La pantalla se sujeta con J3 y la carcasa (sin H5/H6)"
 		(exclude_from_sim no)
 		(at 182.88 236.22 0)
 		(effects
