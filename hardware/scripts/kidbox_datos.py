@@ -6,7 +6,7 @@ PROYECTO = "KIDBOX"
 
 FP_SOCKET = "Connector_PinSocket_2.54mm:PinSocket_1x{:02d}_P2.54mm_Vertical"
 FP_PUSH = "Button_Switch_THT:SW_PUSH_6mm"
-FP_C = "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm"
+FP_C = "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"  # paso 5 mm medido en los ceramicos reales (21-oct)
 
 # Pines de la RP2350-Plus (= Pico, confirmado con el pinout oficial de Waveshare).
 # pin del modulo -> (nombre en el modulo, red o None = sin conectar)

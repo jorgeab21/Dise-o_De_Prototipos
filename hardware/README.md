@@ -11,7 +11,7 @@
 >       posición es OFF; la serigrafía dice OFF junto al pad 2 y ON junto al pad 3.
 > - [ ] **DAC con 3V3 y audífonos en protoboard (16–17 oct):** que funcione con VIN = 3V3 y suene bien. Revisar los puentes del reverso
 >       (FLT → L, DEMP → L, **XSMT → H**, FMT → L).
-> - [ ] **Condensadores:** paso de patas y diámetro reales de C2/C3 (disco, paso 2.5 mm) y C4 (Ø5 mm, paso 2 mm) al recibirlos.
+> - [ ] **Condensador C4:** paso de patas y diámetro reales (Ø5 mm, paso 2 mm) al recibirlo. C2/C3: paso de 5 mm medido el 21-oct ✅.
 > - [ ] **Polaridad del adaptador de la batería** (lo hace el profesor): medir con el multímetro antes de conectar (rojo = + → ⊕ del BAT).
 > - [ ] **Impresión 1:1:** imprimir `fabricacion/KIDBOX_1a1_frente.pdf` y `KIDBOX_1a1_reverso.pdf` al **100 % / tamaño real**. Medir con
 >       regla que la placa mida 150 × 65 mm y apoyar encima las piezas reales: módulos, pulsadores, SW10, condensadores y batería.
@@ -61,11 +61,11 @@ por detrás. Primero va todo Bottom, de lo más bajo a lo más alto, y después 
 | 1 | J1 | Bottom | Tira hembra 1×20 (pines 1–20 del módulo) | Pin 1 = pad cuadrado, junto al USB-C. Cortar al ras |
 | 2 | J2 | Bottom | Tira hembra 1×20 (pines 21–40) | Las pistas SPI y la de 3V3 pasan entre sus pines por delante: poco estaño. Cortar al ras |
 | 3 | J5 | Bottom | Tira hembra 1×6 (DAC) | **Poco estaño**: la pista LCK pasa entre sus pines 5 y 4. VIN = pin 1, pad cuadrado, abajo |
-| 4 | C3 | Bottom | 100 nF cerámico | Vertical entre J5 y SELECT; pata +3V3 a la altura de VIN |
+| 4 | C3 | Bottom | 100 nF cerámico (paso 5 mm) | Vertical entre J5 y SELECT; pata +3V3 a la altura de VIN |
 | 5 | C4 | Bottom | 10 µF 25 V electrolítico | **Polaridad:** + en el pad cuadrado (x = 74; visto desde atrás queda a la derecha) |
 | 6 | SW10 | Bottom | Interruptor deslizante, paso 2.54 mm | Palanca hacia atrás; pad central = común |
 | 7 | J3 | Top | Tira hembra 1×14 (pantalla) | Pin 1 (VCC) arriba, marcado "1". Cortar al ras |
-| 8 | C2 | Top | 100 nF cerámico | Junto a J3 |
+| 8 | C2 | Top | 100 nF cerámico (paso 5 mm) | Vertical junto al pin 1 de J3 |
 | 9 | SW1–SW8 | Top | Pulsadores 6×6 | Bien apoyados contra la placa para que los capuchones queden a la misma altura |
 
 ### Notas de montaje

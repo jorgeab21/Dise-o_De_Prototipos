@@ -291,3 +291,25 @@ Ruteo (sigue sin vías y sin pistas en B.Cu; 116 segmentos, 1096 mm):
 
 Resultado: `verificar.py` SIN ERRORES (ERC 0/0, DRC 0/0, sin conectar 0, paridad 0). `verificar_extra.py`: 0 en todo y F8 con 0 cambios.
 Gerbers, zip y PDF 1:1 regenerados. Como el PCB cambió, la prueba de impresión 1:1 del README hay que repetirla.
+
+## 13. v0.8 — C2 y C3 con huella de paso 5 mm (21-oct-2026)
+
+Los cerámicos reales de 100 nF tienen **paso de 5 mm (medido por el alumno)**. C2 y C3 pasan de `C_Disc_D3.0mm_W1.6mm_P2.50mm` a
+**`Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm`**. Los pads siguen siendo de Ø1.6 mm con taladro de 0.8 mm, así que el total de taladros
+no cambia (9 × 0.8 mm). Se cierra el pendiente "paso de patas de C2/C3"; sigue abierto el de C4.
+
+| Pieza | Antes (paso 2.5 mm) | Ahora (paso 5 mm), ambos en vertical |
+| :--- | :--- | :--- |
+| C2 (Top) | (34.6, 8.49) / (34.6, 10.99) | **pad 1 (+3V3) en (34.6, 8.49)**, a la altura del pin 1 de J3; **pad 2 (GND) en (34.6, 13.49)** |
+| C3 (Bottom) | (59.5, 59.8) / (59.5, 57.3) | **pad 1 (+3V3) en (59.5, 59.8)**, a la altura de VIN; **pad 2 (GND) en (59.5, 54.8)** |
+
+Separaciones, medidas con `pcbnew` entre el contorno de cada pad y cualquier pad o pista de otra red (pedido: ≥ 0.5 mm):
+- **C2:** la menor es 0.55 mm, del pad 2 (GND) a la pista vertical de 3V3 en x = 36.2. Le siguen J3.3 a 2.16 mm y LCD_CS a 2.89 mm.
+  Courtyard en x 33.05–36.15, fuera del de J3 (desde x 36.59).
+- **C3:** la menor es 0.75 mm, del pad 2 (GND) a la pista de 3V3 en x = 61.3. Le siguen el codo de 3V3 en (61.3, 53.4) a 1.23 mm y I2S_DIN
+  (y 52.6) a 1.27 mm. Además quedan 1.85 mm a J5 y 1.98 mm a SELECT. El cobre ocupa x 58.7–60.3, a 1.2 mm del contorno del DAC (x 57.5).
+- No hubo que re-rutear: las pistas existentes ya dejan esas separaciones. Solo se movió la referencia de C2 a (32.3, 10.99) para que
+  no pise el cuerpo, que ahora es más largo.
+- Archivos: `kidbox_datos.py` (FP_C), `gen_bom_netlist.py` (descripción), `gen_pcb.py` → `KIDBOX.kicad_sch`, `BOM.csv`, `KIDBOX.kicad_pcb`.
+
+Resultado: `verificar.py` SIN ERRORES y `verificar_extra.py` en 0 (F8 con 0 cambios). Imágenes, Gerbers, zip y PDF 1:1 regenerados.

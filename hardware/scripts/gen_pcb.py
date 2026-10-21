@@ -203,12 +203,14 @@ SW = {"SW3": boton("SW3", 18, 20, True), "SW1": boton("SW1", 18, 40, True), "SW2
       "SW5": boton("SW5", 66.5, 58, False), "SW6": boton("SW6", 83.5, 58, False)}
 # SW10 por detras, centro del cuerpo (134, 8) = pad 1 (central, comun). Pad 2 (GND) queda a la derecha.
 SW10 = colocar("SW10", {"1": [(134, 8)], "2": [(136.54, 8)], "3": [(131.46, 8)]}, abajo=True)
-C2 = colocar("C2", {"1": [(34.6, 8.49)], "2": [(34.6, 10.99)]}, fija=False)
+# C2 y C3: disco D5 x W2.5, paso 5 mm (medido), en vertical con el pad 1 (+3V3) arriba o abajo segun la pieza
+# C2 vertical a la izquierda de J3: pad 1 (+3V3) a la altura del pin 1 de J3, pad 2 (GND) 5 mm mas abajo
+C2 = colocar("C2", {"1": [(34.6, 8.49)], "2": [(34.6, 13.49)]}, fija=False)
 # C3 vertical entre J5 y SELECT, fuera del contorno del DAC (x 25.65-57.5): pad 1 (+3V3) a la altura de VIN (y 59.8),
-# pad 2 (GND) arriba. Cobre de C3 en x 58.7-60.3: 1.85 mm al pad de J5 (hasta 56.85) y 1.95 mm al de SW5 (desde 62.25);
+# pad 2 (GND) 5 mm arriba (y 54.8). Cobre en x 58.7-60.3: 1.85 mm al pad de J5 (hasta 56.85) y 1.95 mm al de SW5 (desde 62.25);
 # agujeros fuera del courtyard de SW5 (desde x 61.75). C4 (D5 mm) sigue entre SELECT y START: entre las patas de SW5
 # sus pads caerian dentro del courtyard de SW5 (error pth_inside_courtyard).
-C3 = colocar("C3", {"1": [(59.5, 59.8)], "2": [(59.5, 57.3)]}, abajo=True, fija=False)
+C3 = colocar("C3", {"1": [(59.5, 59.8)], "2": [(59.5, 54.8)]}, abajo=True, fija=False)
 C4 = colocar("C4", {"1": [(74.0, 59.0)], "2": [(76.0, 59.0)]}, abajo=True, fija=False)
 H = {}
 for ref, (x, y) in {"H1": (4, 4), "H2": (146, 4), "H3": (4, 61), "H4": (146, 61)}.items():
@@ -388,7 +390,7 @@ rect(36.41, 3.64, 113.59, 46.36, F)
 texto("PANTALLA TFT 2.4\" (J3)", 53.5, 6.0, F)
 texto("1", 38.41, 6.3, F)
 ref_en(J3, 40.6, 35.0, 90)
-ref_en(C2, 33.0, 9.74, 90)
+ref_en(C2, 32.3, 10.99, 90)
 # Frente: creditos (fuera de los modulos y de la zona de bateria)
 for i, linea_txt in enumerate(("KIDBOX v1.0 2026", "basado en", "Game*Mite de", "Thomas Hugo", "Williams",
                                "(CC BY 4.0)")):

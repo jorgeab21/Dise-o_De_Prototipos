@@ -24,7 +24,7 @@ DESCRIPCION = {  # (lib_id, prefijo de huella) -> descripcion para la BOM
     "Connector_Generic": "Tira de pines hembra 1x{n}, paso 2.54 mm, recta",
     "Switch:SW_Push": "Pulsador tactil 6x6 mm, 4 patas",
     "Switch:SW_SPDT_312": "Interruptor deslizante 1 polo 2 posiciones, recto, paso 2.54 mm (Wuerth WS-SLTV 450301014042 o equivalente)",
-    "Device:C": "Condensador ceramico de disco, paso 2.5 mm",
+    "Device:C": "Condensador ceramico de disco, paso 5 mm",
     "Device:C_Polarized": "Condensador electrolitico radial D5 mm, paso 2 mm",
     "Mechanical:MountingHole": "Agujero de montaje sin metalizar (no se compra)",
 }

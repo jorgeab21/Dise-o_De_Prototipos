@@ -87,8 +87,8 @@ RP2350-Plus, accesibles por detrás (agujeros en la tapa de la carcasa). Formato
 | ~~SW9~~ | — | **Eliminado en v0.7** (RESET del frente) | — | — | — | Se usa el RESET de la RP2350-Plus |
 | SW10 | 1 | Interruptor deslizante 1P2T recto, 3 patas (cuerpo 8.7 mm, alto ~11 mm con palanca) | THT | **Bottom** | `Switch:SW_SPDT_312` · `Button_Switch_THT:SW_Slide-03_Wuerth-WS-SLTV_10x2.5x6.4_P2.54mm` | **Paso 2.54 mm confirmado en protoboard (14-oct)** ✅ con el interruptor metálico pequeño (el negro grande queda descartado). Se usa el símbolo oficial `SW_SPDT_312` (común = pin 1) para que el **pad central** de la huella sea el **común** (PWR_EN); pad 2 a GND, pad 3 sin conectar. Si el paso resulta 2.0 mm, volver a la huella CK `SW_Slide_SPDT_Straight_CK_OS102011MS2Q` con el símbolo `SW_SPDT` |
 | ~~C1~~ | — | **Eliminado en v0.7** (era el del RESET) | — | — | — | |
-| C2 | 1 | 100 nF cerámico (desacoplo pantalla) | THT | Top | `Device:C` · `Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm` | Junto a J3. Paso de patas [PENDIENTE: medir al recibir; muchos "104" vienen a 5 mm] |
-| C3 | 1 | 100 nF cerámico (desacoplo DAC) | THT | Bottom | `Device:C` · ídem C2 | Junto a J5 |
+| C2 | 1 | 100 nF cerámico (desacoplo pantalla) | THT | Top | `Device:C` · `Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm` | Vertical junto al pin 1 de J3. **Paso de patas 5 mm, medido (21-oct)** ✅ |
+| C3 | 1 | 100 nF cerámico (desacoplo DAC) | THT | Bottom | `Device:C` · ídem C2 (paso 5 mm, medido ✅) | Vertical entre J5 y SELECT |
 | C4 | 1 | 10 µF electrolítico **25 V** (el disponible; cualquiera ≥16 V sirve) | THT | Bottom | `Device:C_Polarized` · `Capacitor_THT:CP_Radial_D5.0mm_P2.00mm` | Polaridad. Diámetro y paso [PENDIENTE: medir al recibir] |
 | H1–H4 | 4 | Agujero M2 (fijación a la carcasa) | NPTH 2.2 mm | — | `Mechanical:MountingHole` (in_bom no) · `MountingHole:MountingHole_2.2mm_M2` | |
 | ~~H5, H6~~ | — | **Eliminados (Fase 2, 14-oct)** | — | — | — | El borde del agujero quedaba a 0.09 mm de J3: un tornillo tocaría la tira. La pantalla se sujeta con J3 y la carcasa (marco frontal + soporte impreso bajo su lado derecho, más adelante) |
@@ -182,7 +182,7 @@ sale por un lado largo** (no por el lado corto opuesto a la tira). Por eso va **
 - Medidas de la columna y del jack **estimadas de fotos** (columna a ≈ 1.5 mm del borde corto y centrada en el lado; jack a ≈ 4 mm
   del borde corto opuesto) [PENDIENTE: confirmar con calibre antes de fabricar]. Si la boca del jack quedara hasta 1 mm fuera de la placa, se acepta.
 - **C3 vertical entre J5 y SELECT** (Fase 4, 21-oct), fuera del contorno del módulo y lejos del borde inferior: pad +3V3 en
-  (59.5, 59.8), a la altura de VIN, y pad GND en (59.5, 57.3); ≥ 0.5 mm de cobre a J5 y a los pads de SELECT (quedan 1.85 y 1.98 mm). C4 (Ø5, más alto que la separación bajo el módulo) queda **entre SELECT y START** (75, 59): no cabe otro lugar fuera del módulo y, como reserva de 10 µF, la distancia (~15 mm) no importa.
+  (59.5, 59.8), a la altura de VIN, y pad GND en (59.5, 54.8) (paso 5 mm); ≥ 0.5 mm de cobre a J5 y a los pads de SELECT (quedan 1.85 y 1.98 mm). C4 (Ø5, más alto que la separación bajo el módulo) queda **entre SELECT y START** (75, 59): no cabe otro lugar fuera del módulo y, como reserva de 10 µF, la distancia (~15 mm) no importa.
 
 Posiciones fijas (centro del cuerpo):
 
@@ -281,7 +281,7 @@ Pendientes (antes de la Fase 4 de fabricación):
 - **Protoboard (16–17 oct):** que el DAC funcione con VIN = 3V3 y que suene bien con audífonos. Revisar los puentes del reverso
   (FLT → L, DEMP → L, **XSMT → H**, FMT → L): con XSMT abierto el DAC queda en silencio.
 - **DAC:** medir con calibre la posición de la columna de pines y de la boca del jack (hoy son estimaciones de fotos).
-- Condensadores: paso de patas y diámetro al recibirlos.
+- Condensadores: C2/C3 con **paso de 5 mm medido (21-oct)** ✅. Falta el paso y el diámetro de C4 al recibirlo.
 - Adaptador y polaridad de la batería (profesor).
 
 ## 12. Restricciones adicionales para el agente

@@ -1,5 +1,5 @@
 Drill report for KIDBOX.kicad_pcb
-Created on 2026-10-21T14:54:24
+Created on 2026-10-21T15:12:10
 
 Copper Layer Stackup:
     =============================================================
