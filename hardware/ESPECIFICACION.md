@@ -182,7 +182,7 @@ sale por un lado largo** (no por el lado corto opuesto a la tira). Por eso va **
 - Medidas de la columna y del jack **estimadas de fotos** (columna a ≈ 1.5 mm del borde corto y centrada en el lado; jack a ≈ 4 mm
   del borde corto opuesto) [PENDIENTE: confirmar con calibre antes de fabricar]. Si la boca del jack quedara hasta 1 mm fuera de la placa, se acepta.
 - **C3 vertical entre J5 y SELECT** (Fase 4, 21-oct), fuera del contorno del módulo y lejos del borde inferior: pad +3V3 en
-  (59.5, 59.8), a la altura de VIN, y pad GND en (59.5, 54.8) (paso 5 mm); ≥ 0.5 mm de cobre a J5 y a los pads de SELECT (quedan 1.85 y 1.98 mm). C4 (Ø5, más alto que la separación bajo el módulo) queda **entre SELECT y START** (75, 59): no cabe otro lugar fuera del módulo y, como reserva de 10 µF, la distancia (~15 mm) no importa.
+  (59.5, 59.8), a la altura de VIN, y pad GND en (59.5, 54.8) (paso 5 mm); ≥ 0.5 mm de cobre a J5 y a los pads de SELECT (quedan 1.85 y 1.98 mm). C4 (real Ø4 × 7–8 mm, huella Ø5) queda entre SELECT y START porque, desde la v0.8, nada va bajo el DAC (por si se suelda directo para reducir el grosor).
 
 Posiciones fijas (centro del cuerpo):
 
