@@ -62,7 +62,8 @@ COMPONENTES = {
     "SW10": dict(lib="Switch:SW_SPDT_312", valor="ON/OFF",
                  huella="Button_Switch_THT:SW_Slide-03_Wuerth-WS-SLTV_10x2.5x6.4_P2.54mm",
                  cara="Bottom", notas="Deslizante recto, paso 2.54 mm confirmado en protoboard (14-oct); comun = pad 1 (central) a 3V3_EN; "
-                                      "OFF = pad 2 a GND; pad 3 sin conectar; posicion OFF [PENDIENTE: continuidad]",
+                                      "OFF = pad 2 a GND; pad 3 sin conectar; continuidad confirmada en protoboard (21-oct): palanca hacia "
+                                      "un lado = comun con la pata de ese lado (OFF junto al pad 2, ON junto al pad 3)",
                  pines={1: ("comun (B)", "PWR_EN"), 2: ("C (OFF)", "GND"), 3: ("A (ON, al aire)", None)}),
     "C2": dict(lib="Device:C", valor="100n", huella=FP_C, cara="Top",
                notas="Ceramico; desacoplo de la pantalla, junto a J3", pines={1: ("1", "+3V3"), 2: ("2", "GND")}),

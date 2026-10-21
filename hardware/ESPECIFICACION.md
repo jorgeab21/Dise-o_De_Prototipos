@@ -277,7 +277,9 @@ Cambios v0.8 (21-oct-2026, decididos por el alumno en la revisión de la Fase 4)
 
 Pendientes (antes de la Fase 4 de fabricación):
 - Pantalla: confirmada el 15-oct ✅. Falta solo revisar el **puente J1** del módulo (alimentación a 3.3 V); no afecta a la PCB.
-- **SW10:** qué posición de la palanca es OFF (continuidad), para marcarla en la serigrafía. El paso ya está confirmado ✅.
+- **SW10:** paso confirmado ✅ y **continuidad confirmada en protoboard el 21-oct** ✅. Visto desde arriba, que es la vista desde atrás de la
+  consola: con la palanca a la izquierda, el común se une con la pata izquierda, y con la palanca a la derecha, con la derecha. Coincide
+  con el diseño: OFF junto al pad 2 (GND) y ON junto al pad 3.
 - **Protoboard (16–17 oct):** que el DAC funcione con VIN = 3V3 y que suene bien con audífonos. Revisar los puentes del reverso
   (FLT → L, DEMP → L, **XSMT → H**, FMT → L): con XSMT abierto el DAC queda en silencio.
 - **DAC:** medir con calibre la posición de la columna de pines y de la boca del jack (hoy son estimaciones de fotos).

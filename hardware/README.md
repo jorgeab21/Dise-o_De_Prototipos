@@ -7,8 +7,8 @@
 >
 > - [ ] **Medidas del DAC con pie de metro:** posición de la columna de pines (hoy, a 1.5 mm del lado corto y centrada) y de la boca del
 >       jack (hoy, centro en x = 30). Ambas son estimaciones de fotos. Si cambian, se mueven J5 y la serigrafía del DAC.
-> - [ ] **Continuidad de SW10:** confirmar con el multímetro qué posición de la palanca une el pad central (1) con el pad 2 (GND). Esa
->       posición es OFF; la serigrafía dice OFF junto al pad 2 y ON junto al pad 3.
+> - [x] **Continuidad de SW10 (confirmada en protoboard el 21-oct):** la palanca une el común con la pata de su lado. Coincide con la
+>       serigrafía: OFF junto al pad 2 (GND) y ON junto al pad 3.
 > - [ ] **DAC con 3V3 y audífonos en protoboard (16–17 oct):** que funcione con VIN = 3V3 y suene bien. Revisar los puentes del reverso
 >       (FLT → L, DEMP → L, **XSMT → H**, FMT → L).
 > - [x] **Condensadores medidos (21-oct):** C2/C3 con paso de 5 mm; C4 de Ø ≈ 4 mm, alto ≈ 7–8 mm y paso ≈ 1.5 mm (va en la huella de

@@ -77,7 +77,7 @@ Si se edita el esquemático en la GUI, el cambio se pierde al regenerar: los cam
   1. Se mantienen los nombres de red funcionales, con GPx como texto junto a J1/J2.
   2. H5 y H6 se quedan en el esquemático.
   3. El alumno **no edita en la GUI**: todo cambio pasa por `scripts/kidbox_datos.py` y se regenera con los scripts. El `.kicad_sch` es un archivo generado.
-  4. Pendiente para el 14-oct: orden real de J5 y posición OFF de SW10. Se corrigen en `kidbox_datos.py` antes de la Fase 2. **(J5 confirmado el 14-oct; la posición OFF de SW10 sigue pendiente de continuidad.)**
+  4. Pendiente para el 14-oct: orden real de J5 y posición OFF de SW10. Se corrigen en `kidbox_datos.py` antes de la Fase 2. **(J5 confirmado el 14-oct; la posición OFF de SW10, por continuidad el 21-oct, ver sección 15.)**
 - **13-oct-2026 · `.gitignore` en `hardware/`**: excluye `__pycache__/`, `*-backups/`, `fp-info-cache`, `*.lck`, `_autosave-*` y `*.kicad_prl` (preferencias locales de KiCad, no forman parte del diseño).
 
 ## 5. Corrección de la Fase 1 por la especificación v0.7 (14-oct-2026)
@@ -321,3 +321,11 @@ Resultado: `verificar.py` SIN ERRORES y `verificar_extra.py` en 0 (F8 con 0 camb
   soldar. El contorno de Ø5 mm de la huella cubre el cuerpo real de Ø4 mm. **El PCB no cambia**: mismo `.kicad_pcb`, Gerbers y zip.
 - Se cierra el pendiente de C4 (sección 11 de la especificación y recuadro del README).
 - La tabla de soldadura del README dice "abrir levemente las patas de C4" y "respetar la polaridad". La nota de C4 en `BOM.csv` sale de `kidbox_datos.py`.
+
+## 15. v0.8 — continuidad de SW10 confirmada (21-oct-2026)
+
+- **Medido por el alumno en protoboard.** Visto desde arriba, que es la vista desde atrás de la consola: con la palanca a la izquierda, el común
+  se une con la pata izquierda, y con la palanca a la derecha, con la derecha.
+- **Coincide con el diseño**, sin cambios: OFF junto al pad 2 (GND, x 136.54) y ON junto al pad 3 (x 131.46). Visto desde atrás, OFF queda a la
+  izquierda y ON a la derecha (sección 9, ronda 3.1).
+- Se cierra el pendiente en la sección 11 de la especificación, en el recuadro del README y en la nota de SW10 de `BOM.csv`. **El PCB no cambia.**
