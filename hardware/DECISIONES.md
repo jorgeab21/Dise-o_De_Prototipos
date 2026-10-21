@@ -187,9 +187,9 @@ Todo se hizo por los scripts; nada en la GUI.
 - El mismo script corre **ERC y DRC con los tests que el `.kicad_pro` ignora activados como error** (`footprint_filters_mismatch`, `footprint_type_mismatch`, `missing_courtyard`, `track_not_centered_on_via`, `tuning_profile_track_geometries`), sobre una copia temporal. El proyecto real queda igual. Resultado: 0 en todo.
 
 ### 2.4 — DAC horizontal
-- **J5 (Bottom) en columna vertical en x = 59.0**: pin 6 (SCK) en y = 47.1 … pin 1 (VIN) en y = 59.8, VIN abajo. **Se corrió 1 mm hacia la cruceta** (la especificación dice x ≈ 60, y permite hasta 1 mm). Por qué: el haz de la cruceta tiene que pasar por encima de J5, y con J5 en x = 60 la pista de DOWN quedaba a 0.07 mm de la esquina del pin 6 (mínimo 0.20). En x = 59 queda a 0.38 mm. Separación de J5 con SELECT: pad de J5 hasta x 59.85, pad de SW5 desde x 62.25 (2.4 mm).
-- **Contorno del DAC en B.SilkS: x 28.65–60.5, y 44.2–61.98** (31.85 × 17.78, la columna a 1.5 mm del lado corto derecho). **Jack** dibujado en x 30–36, y 52–64.3, **centro en x = 33**, boca al borde inferior (posición estimada de fotos, igual que en la especificación; se corrió 1 mm junto con J5). "VIN" y "GND" junto a los pines 1 y 2 de J5.
-- **C3 (Bottom)**: pad 1 (+3V3) en (60.6, 63.3), pad 2 (GND) en (58.1, 63.3). Queda **3.5 mm bajo VIN**, en la franja entre el contorno del DAC (y 61.98) y el borde (cuerpo en y 62.5–64.1). El contorno se esquiva por 0.25 mm de serigrafía.
+- **(Reemplazado en la sección 12: J5 en x = 56.)** **J5 (Bottom) en columna vertical en x = 59.0**: pin 6 (SCK) en y = 47.1 … pin 1 (VIN) en y = 59.8, VIN abajo. **Se corrió 1 mm hacia la cruceta** (la especificación dice x ≈ 60, y permite hasta 1 mm). Por qué: el haz de la cruceta tiene que pasar por encima de J5, y con J5 en x = 60 la pista de DOWN quedaba a 0.07 mm de la esquina del pin 6 (mínimo 0.20). En x = 59 queda a 0.38 mm. Separación de J5 con SELECT: pad de J5 hasta x 59.85, pad de SW5 desde x 62.25 (2.4 mm).
+- **(Reemplazado en la sección 12: contorno x 25.65–57.5, jack centrado en x = 30.)** **Contorno del DAC en B.SilkS: x 28.65–60.5, y 44.2–61.98** (31.85 × 17.78, la columna a 1.5 mm del lado corto derecho). **Jack** dibujado en x 30–36, y 52–64.3, **centro en x = 33**, boca al borde inferior (posición estimada de fotos, igual que en la especificación; se corrió 1 mm junto con J5). "VIN" y "GND" junto a los pines 1 y 2 de J5.
+- ~~**C3 (Bottom)**: pad 1 (+3V3) en (60.6, 63.3), pad 2 (GND) en (58.1, 63.3).~~ **(Reemplazado en la sección 12: C3 vertical entre J5 y SELECT.)** Queda **3.5 mm bajo VIN**, en la franja entre el contorno del DAC (y 61.98) y el borde (cuerpo en y 62.5–64.1). El contorno se esquiva por 0.25 mm de serigrafía.
 - **C4 (Bottom)**: pad 1 (+) en (74.0, 59.0), pad 2 (GND) en (76.0, 59.0), cuerpo Ø5 centrado en (75, 59), **entre SELECT y START**. **Aceptado por el alumno (14-oct): "C3 junto a VIN es el que importa".** Queda a ~15 mm de VIN (unos 20 mm de pista desde la derivación de VIN), no "junto a VIN". Junto a VIN no cabe fuera del contorno del módulo:
   - entre J5 y SW5 hay 2.4 mm;
   - bajo el módulo no se puede;
@@ -254,3 +254,40 @@ El alumno aprobó el PCB por escrito para la **entrega preliminar del 16-oct** (
 - El PCB solo cambia en ese texto: las 116 pistas tienen la misma geometría que en el commit anterior (cambia su orden en el archivo porque se corren los UUID).
 - `verificar.py`: SIN ERRORES. `verificar_extra.py`: 0 en todo, F8 en seco con 0 cambios.
 - Gerbers y zip regenerados (`B_Silkscreen.gbo` pasa de 62.6 a 67.2 KB por el texto).
+
+## 12. Fase 4 — nada bajo el DAC y C3 lejos del borde (21-oct-2026)
+
+Pedido por el alumno, que también autorizó actualizar `ESPECIFICACION.md` (secciones 6 y 11, cambio 8). **Por qué:** que ninguna pata
+quede bajo el DAC, por si el módulo se suelda directo a la placa (sin tira hembra) para bajar el grosor, y que C3 no quede al borde.
+
+| # | Pieza | Antes | Ahora |
+| :--- | :--- | :--- | :--- |
+| 5.1 | J3 (Top) | x 38.41, centro y = 28 (pines y 11.49–44.51) | x 38.41, **centro y = 25 (pines y 8.49–41.51)** |
+| 5.1 | C2 (Top) | (34.6, 11.49) / (34.6, 13.99) | **(34.6, 8.49) / (34.6, 10.99)**, pad 1 a la altura del pin 1 de J3 |
+| 5.1 | Contorno de la pantalla (F.SilkS) | x 36.41–113.59, y 6.64–49.36 | x 36.41–113.59, **y 3.64–46.36** |
+| 5.2 | J5 (Bottom) | x = 59, y 47.1–59.8 | **x = 56**, y 47.1–59.8 (VIN abajo) |
+| 5.2 | Contorno del DAC (B.SilkS) | x 28.65–60.5, y 44.2–61.98 | **x 25.65–57.5**, y 44.2–61.98 |
+| 5.2 | Jack (B.SilkS) | x 30–36, y 52–64.3, centro x = 33 | **x 27–33**, y 52–64.3, **centro x = 30**, boca al borde inferior |
+| 5.3 | C3 (Bottom) | horizontal en y = 63.3 (pads x 60.6 / 58.1), junto al borde | **vertical en x = 59.5: pad 1 (+3V3) en y = 59.8 (altura de VIN), pad 2 (GND) en y = 57.3** |
+
+Medidas (con `pcbnew` sobre el archivo generado):
+- **J3:** el último pin (14) queda a 2.69 mm del borde superior del DAC (y 44.2), centro a centro, y el borde de su pad a 1.84 mm (pedido: ≥ 1.5).
+  Su courtyard termina en y 43.33, también fuera.
+- **C3:** cobre en x 58.7–60.3. Quedan 1.85 mm de cobre a J5 y 1.98 mm a los pads de SELECT (pedido: ≥ 0.5). El contorno del DAC queda a
+  1.2 mm. Sus agujeros quedan fuera del courtyard de SW5 (desde x 61.75), que es lo que en la Fase 3 impidió poner C4 entre las patas de SW5.
+- `gen_pcb.py` ahora **falla** si alguna pata, salvo las de J5, cae dentro del contorno del DAC, o si J3 queda a menos de 1.5 mm de él.
+
+Ruteo (sigue sin vías y sin pistas en B.Cu; 116 segmentos, 1096 mm):
+- **SPI (CS, RST, DC, MOSI, SCK):** los huecos de J2 no se mueven, así que las pistas llegan 0.22 mm por encima de los pines de J3. Hay un salto
+  corto a 45° en x 45.5 (antes la diagonal bajaba 3.22 mm). LED baja 1.49 mm en x 45.5–47.
+- **3V3:** J2.16 → diagonal a J3.1 (38.41, 8.49) → C2 → x 36.2 hasta y 30.08. El tramo de 0.40 mm pasa entre los pines 9 y 10 de J3 (antes en y 33.08).
+  Sigue por y 30.08 hasta el mismo paso entre J2.10 y J2.9. Después baja por x 69.5 y por **x 61.3, entre C3 y SELECT**. Desde ahí, una rama va
+  a C3.1 y J5.1 (y 59.8) y la otra a C4+ por y 62.4, como antes.
+- **I2S y cruceta:** el mismo trazado de la Fase 3, corrido 3 mm a la izquierda junto con J5 (LCK sigue cruzando entre los pines 5 y 4).
+  Las diagonales del haz de la cruceta bajan en x 51.5–53 → 47, antes en x 54.5–56 → 50.
+- Serigrafía que se movió con sus piezas: "PANTALLA TFT 2.4" (J3)" en y = 6, el "1" de J3 en y = 6.3 y las referencias de J3 y C2.
+  En el DAC: "JACK" en x = 30, "DAC PCM5102" en x = 42, "VIN"/"GND" en x = 52.9, la referencia de J5 en (53, 48.4) y la de C3 en (59.5, 61.7).
+- No se movió nada más: pulsadores, RP2350-Plus, SW10, C4, agujeros, zona de batería y textos de batería y JLC.
+
+Resultado: `verificar.py` SIN ERRORES (ERC 0/0, DRC 0/0, sin conectar 0, paridad 0). `verificar_extra.py`: 0 en todo y F8 con 0 cambios.
+Gerbers, zip y PDF 1:1 regenerados. Como el PCB cambió, la prueba de impresión 1:1 del README hay que repetirla.
