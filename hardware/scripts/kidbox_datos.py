@@ -69,7 +69,7 @@ COMPONENTES = {
     "C3": dict(lib="Device:C", valor="100n", huella=FP_C, cara="Bottom",
                notas="Ceramico; desacoplo del DAC, junto a J5", pines={1: ("1", "+3V3"), 2: ("2", "GND")}),
     "C4": dict(lib="Device:C_Polarized", valor="10u 25V", huella="Capacitor_THT:CP_Radial_D5.0mm_P2.00mm",
-               cara="Bottom", notas="Electrolitico; desacoplo del DAC; polaridad (+ = pin 1)",
+               cara="Bottom", notas="Electrolitico; desacoplo del DAC; polaridad (+ = pin 1); pieza real medida ~D4 x 7-8 mm, paso ~1.5 mm: abrir levemente las patas (0.25 mm por lado) para la huella P2.00",
                pines={1: ("+", "+3V3"), 2: ("-", "GND")}),
 }
 for ref, nombre, red in BOTONES:

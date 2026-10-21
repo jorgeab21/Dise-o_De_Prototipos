@@ -11,7 +11,8 @@
 >       posición es OFF; la serigrafía dice OFF junto al pad 2 y ON junto al pad 3.
 > - [ ] **DAC con 3V3 y audífonos en protoboard (16–17 oct):** que funcione con VIN = 3V3 y suene bien. Revisar los puentes del reverso
 >       (FLT → L, DEMP → L, **XSMT → H**, FMT → L).
-> - [ ] **Condensador C4:** paso de patas y diámetro reales (Ø5 mm, paso 2 mm) al recibirlo. C2/C3: paso de 5 mm medido el 21-oct ✅.
+> - [x] **Condensadores medidos (21-oct):** C2/C3 con paso de 5 mm; C4 de Ø ≈ 4 mm, alto ≈ 7–8 mm y paso ≈ 1.5 mm (va en la huella de
+>       paso 2 mm abriendo levemente las patas).
 > - [ ] **Polaridad del adaptador de la batería** (lo hace el profesor): medir con el multímetro antes de conectar (rojo = + → ⊕ del BAT).
 > - [ ] **Impresión 1:1:** imprimir `fabricacion/KIDBOX_1a1_frente.pdf` y `KIDBOX_1a1_reverso.pdf` al **100 % / tamaño real**. Medir con
 >       regla que la placa mida 150 × 65 mm y apoyar encima las piezas reales: módulos, pulsadores, SW10, condensadores y batería.
@@ -62,7 +63,7 @@ por detrás. Primero va todo Bottom, de lo más bajo a lo más alto, y después 
 | 2 | J2 | Bottom | Tira hembra 1×20 (pines 21–40) | Las pistas SPI y la de 3V3 pasan entre sus pines por delante: poco estaño. Cortar al ras |
 | 3 | J5 | Bottom | Tira hembra 1×6 (DAC) | **Poco estaño**: la pista LCK pasa entre sus pines 5 y 4. VIN = pin 1, pad cuadrado, abajo |
 | 4 | C3 | Bottom | 100 nF cerámico (paso 5 mm) | Vertical entre J5 y SELECT; pata +3V3 a la altura de VIN |
-| 5 | C4 | Bottom | 10 µF 25 V electrolítico | **Polaridad:** + en el pad cuadrado (x = 74; visto desde atrás queda a la derecha) |
+| 5 | C4 | Bottom | 10 µF 25 V electrolítico (Ø4 × 7–8 mm) | **Abrir levemente las patas de C4** (paso real 1.5 mm, huella 2 mm: 0.25 mm por lado). **Respetar la polaridad:** + en el pad cuadrado (x = 74; visto desde atrás queda a la derecha) |
 | 6 | SW10 | Bottom | Interruptor deslizante, paso 2.54 mm | Palanca hacia atrás; pad central = común |
 | 7 | J3 | Top | Tira hembra 1×14 (pantalla) | Pin 1 (VCC) arriba, marcado "1". Cortar al ras |
 | 8 | C2 | Top | 100 nF cerámico (paso 5 mm) | Vertical junto al pin 1 de J3 |

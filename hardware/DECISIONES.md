@@ -313,3 +313,11 @@ Separaciones, medidas con `pcbnew` entre el contorno de cada pad y cualquier pad
 - Archivos: `kidbox_datos.py` (FP_C), `gen_bom_netlist.py` (descripción), `gen_pcb.py` → `KIDBOX.kicad_sch`, `BOM.csv`, `KIDBOX.kicad_pcb`.
 
 Resultado: `verificar.py` SIN ERRORES y `verificar_extra.py` en 0 (F8 con 0 cambios). Imágenes, Gerbers, zip y PDF 1:1 regenerados.
+
+## 14. v0.8 — C4 medido (21-oct-2026)
+
+- **C4 real (medido por el alumno):** Ø ≈ 4 mm, alto ≈ 7–8 mm, paso ≈ 1.5 mm.
+- **Se mantiene la huella `Capacitor_THT:CP_Radial_D5.0mm_P2.00mm`, por decisión del alumno.** Las patas se abren 0.25 mm por lado al
+  soldar. El contorno de Ø5 mm de la huella cubre el cuerpo real de Ø4 mm. **El PCB no cambia**: mismo `.kicad_pcb`, Gerbers y zip.
+- Se cierra el pendiente de C4 (sección 11 de la especificación y recuadro del README).
+- La tabla de soldadura del README dice "abrir levemente las patas de C4" y "respetar la polaridad". La nota de C4 en `BOM.csv` sale de `kidbox_datos.py`.

@@ -89,7 +89,7 @@ RP2350-Plus, accesibles por detrás (agujeros en la tapa de la carcasa). Formato
 | ~~C1~~ | — | **Eliminado en v0.7** (era el del RESET) | — | — | — | |
 | C2 | 1 | 100 nF cerámico (desacoplo pantalla) | THT | Top | `Device:C` · `Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm` | Vertical junto al pin 1 de J3. **Paso de patas 5 mm, medido (21-oct)** ✅ |
 | C3 | 1 | 100 nF cerámico (desacoplo DAC) | THT | Bottom | `Device:C` · ídem C2 (paso 5 mm, medido ✅) | Vertical entre J5 y SELECT |
-| C4 | 1 | 10 µF electrolítico **25 V** (el disponible; cualquiera ≥16 V sirve) | THT | Bottom | `Device:C_Polarized` · `Capacitor_THT:CP_Radial_D5.0mm_P2.00mm` | Polaridad. Diámetro y paso [PENDIENTE: medir al recibir] |
+| C4 | 1 | 10 µF electrolítico **25 V** (el disponible; cualquiera ≥16 V sirve) | THT | Bottom | `Device:C_Polarized` · `Capacitor_THT:CP_Radial_D5.0mm_P2.00mm` | Polaridad. **Medido (21-oct)** ✅: Ø ≈ 4 mm, alto ≈ 7–8 mm, paso ≈ 1.5 mm. Se mantiene la huella P2.00: las patas se abren 0.25 mm por lado al soldar |
 | H1–H4 | 4 | Agujero M2 (fijación a la carcasa) | NPTH 2.2 mm | — | `Mechanical:MountingHole` (in_bom no) · `MountingHole:MountingHole_2.2mm_M2` | |
 | ~~H5, H6~~ | — | **Eliminados (Fase 2, 14-oct)** | — | — | — | El borde del agujero quedaba a 0.09 mm de J3: un tornillo tocaría la tira. La pantalla se sujeta con J3 y la carcasa (marco frontal + soporte impreso bajo su lado derecho, más adelante) |
 
@@ -281,7 +281,7 @@ Pendientes (antes de la Fase 4 de fabricación):
 - **Protoboard (16–17 oct):** que el DAC funcione con VIN = 3V3 y que suene bien con audífonos. Revisar los puentes del reverso
   (FLT → L, DEMP → L, **XSMT → H**, FMT → L): con XSMT abierto el DAC queda en silencio.
 - **DAC:** medir con calibre la posición de la columna de pines y de la boca del jack (hoy son estimaciones de fotos).
-- Condensadores: C2/C3 con **paso de 5 mm medido (21-oct)** ✅. Falta el paso y el diámetro de C4 al recibirlo.
+- Condensadores: C2/C3 con **paso de 5 mm medido (21-oct)** ✅. C4 **medido (21-oct)** ✅: Ø ≈ 4 mm, alto ≈ 7–8 mm, paso ≈ 1.5 mm; se mantiene la huella P2.00.
 - Adaptador y polaridad de la batería (profesor).
 
 ## 12. Restricciones adicionales para el agente
