@@ -1,4 +1,4 @@
-# ESPECIFICACION.md — Especificación de la PCB KIDBOX (v0.7)
+# ESPECIFICACION.md — Especificación de la PCB KIDBOX (v0.8)
 
 > **Estado: piezas medidas el 14-oct-2026.** Basado en el Game★Mite v1.3.2 (CC BY 4.0) con los cambios acordados con el profesor.
 > Lo que sigue marcado **[PENDIENTE]** se confirma antes de la **Fase 4 (Gerbers para fabricar)**, no bloquea la Fase 2.
@@ -7,10 +7,13 @@
 > **v0.7 (14-oct):** medidas reales de las piezas; **se elimina el RESET del frente (SW9, C1)**; **batería LiPo 103450 de 2000 mAh** (resuelve
 > la carga a 1 A); **layout reordenado** para la batería: pantalla sin girar (J3 a la izquierda), **se elimina J4**, SW10 y B desplazados;
 > huella de SW10 cambiada a paso de 2,54 mm. Ver la sección 11, "Cambios v0.7".
+> **v0.8 (21-oct):** **pantalla 3 mm más arriba** (J3 centrada en y = 25), **DAC 3 mm hacia la cruceta** (J5 en x = 56, jack en x ≈ 30)
+> y **C3 al costado de J5** (vertical entre J5 y SELECT). Motivo: que nada quede bajo el DAC (por si se suelda directo para bajar el
+> grosor) y que C3 quede lejos del borde. Ver la sección 11, "Cambios v0.8".
 
 Nombre del proyecto: `KIDBOX`
 
-Autor: `Equipo KIDBOX (J. Becerra, B. Fernández, A. Medina, D. Pizarro)`   Fecha: `14-oct-2026`   Versión del documento: `0.7`
+Autor: `Equipo KIDBOX (J. Becerra, B. Fernández, A. Medina, D. Pizarro)`   Fecha: `21-oct-2026`   Versión del documento: `0.8`
 (La versión del documento no es la de la placa: la primera placa fabricada se rotula **v1.0**.)
 
 ---
@@ -84,9 +87,9 @@ RP2350-Plus, accesibles por detrás (agujeros en la tapa de la carcasa). Formato
 | ~~SW9~~ | — | **Eliminado en v0.7** (RESET del frente) | — | — | — | Se usa el RESET de la RP2350-Plus |
 | SW10 | 1 | Interruptor deslizante 1P2T recto, 3 patas (cuerpo 8.7 mm, alto ~11 mm con palanca) | THT | **Bottom** | `Switch:SW_SPDT_312` · `Button_Switch_THT:SW_Slide-03_Wuerth-WS-SLTV_10x2.5x6.4_P2.54mm` | **Paso 2.54 mm confirmado en protoboard (14-oct)** ✅ con el interruptor metálico pequeño (el negro grande queda descartado). Se usa el símbolo oficial `SW_SPDT_312` (común = pin 1) para que el **pad central** de la huella sea el **común** (PWR_EN); pad 2 a GND, pad 3 sin conectar. Si el paso resulta 2.0 mm, volver a la huella CK `SW_Slide_SPDT_Straight_CK_OS102011MS2Q` con el símbolo `SW_SPDT` |
 | ~~C1~~ | — | **Eliminado en v0.7** (era el del RESET) | — | — | — | |
-| C2 | 1 | 100 nF cerámico (desacoplo pantalla) | THT | Top | `Device:C` · `Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm` | Junto a J3. Paso de patas [PENDIENTE: medir al recibir; muchos "104" vienen a 5 mm] |
-| C3 | 1 | 100 nF cerámico (desacoplo DAC) | THT | Bottom | `Device:C` · ídem C2 | Junto a J5 |
-| C4 | 1 | 10 µF electrolítico **25 V** (el disponible; cualquiera ≥16 V sirve) | THT | Bottom | `Device:C_Polarized` · `Capacitor_THT:CP_Radial_D5.0mm_P2.00mm` | Polaridad. Diámetro y paso [PENDIENTE: medir al recibir] |
+| C2 | 1 | 100 nF cerámico (desacoplo pantalla) | THT | Top | `Device:C` · `Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm` | Vertical junto al pin 1 de J3. **Paso de patas 5 mm, medido (21-oct)** ✅ |
+| C3 | 1 | 100 nF cerámico (desacoplo DAC) | THT | Bottom | `Device:C` · ídem C2 (paso 5 mm, medido ✅) | Vertical entre J5 y SELECT |
+| C4 | 1 | 10 µF electrolítico **25 V** (el disponible; cualquiera ≥16 V sirve) | THT | Bottom | `Device:C_Polarized` · `Capacitor_THT:CP_Radial_D5.0mm_P2.00mm` | Polaridad. **Medido (21-oct)** ✅: Ø ≈ 4 mm, alto ≈ 7–8 mm, paso ≈ 1.5 mm. Se mantiene la huella P2.00: las patas se abren 0.25 mm por lado al soldar |
 | H1–H4 | 4 | Agujero M2 (fijación a la carcasa) | NPTH 2.2 mm | — | `Mechanical:MountingHole` (in_bom no) · `MountingHole:MountingHole_2.2mm_M2` | |
 | ~~H5, H6~~ | — | **Eliminados (Fase 2, 14-oct)** | — | — | — | El borde del agujero quedaba a 0.09 mm de J3: un tornillo tocaría la tira. La pantalla se sujeta con J3 y la carcasa (marco frontal + soporte impreso bajo su lado derecho, más adelante) |
 
@@ -148,17 +151,18 @@ Con J1/J2 como conectores genéricos, el ERC necesita `PWR_FLAG` en 3V3 y en GND
 | Rotaciones | **Manda la descripción geométrica** (qué pin queda dónde, visto desde el frente). Verificar la posición de los pads |
 | Agujeros de montaje | M2 NPTH 2.2 mm en (4, 4), (146, 4), (4, 61), (146, 61) |
 | Alturas | Top: pulsadores 9.1 mm; pantalla ≈ 17 mm sobre la placa sobre la tira hembra (medido: módulo 6 mm + pines 10 mm; el lector SD baja ≈ 3 mm por detrás del módulo). Bottom: módulos sobre tira hembra ≈ 12 mm; batería 9.84 mm; SW10 ≈ 11 mm |
-| Zona prohibida Top | Bajo el módulo de pantalla (x 36.4–113.6, y 6.6–49.4) no van componentes salvo J3; **sí** pistas y soldaduras de piezas de la cara Bottom |
+| Zona prohibida Top | Bajo el módulo de pantalla (x 36.4–113.6, y 3.6–46.4) no van componentes salvo J3; **sí** pistas y soldaduras de piezas de la cara Bottom |
 | **Zona de batería (Bottom)** | Rectángulo **x 88.0–123.5, y 4.0–62.0** (35.5 × 58 mm para una batería de 33.1 × 51.0 mm, con holgura). **Sin componentes ni patas THT**; solo pistas y **vías tapadas**. La batería apoya con su lado largo vertical |
-| Bordes libres | Superior x 70.7–79.6 (USB-C; abertura de carcasa x ≈ 68–82). Inferior bajo el jack del DAC (x ≈ 28–38) |
+| Bordes libres | Superior x 70.7–79.6 (USB-C; abertura de carcasa x ≈ 68–82). Inferior bajo el jack del DAC (x ≈ 25–35) |
 | Espesor | 1.6 mm |
 
 El boceto `datasheets/layout_propuesto.svg` corresponde a la v0.6 y queda como **histórico**: desde la v0.7, la referencia de posiciones
 es esta sección y las imágenes de `KIDBOX/verificacion/` que genera la Fase 2.
 
-**Pantalla** (plano MSP2402 de LCDwiki; **confirmada con la pieza el 15-oct** ✅: 77 × 42 mm, J3 a la izquierda, pin 1 VCC arriba, mismo orden de pines): placa **77.18 × 42.72 mm**, horizontal, centrada en (75, 28) → x 36.41–113.59,
-y 6.64–49.36. **Sin girar** (v0.7): tira de 14 pines (**J3**) **vertical en el borde corto izquierdo**, a 2.00 mm del borde → **x ≈ 38.41**,
-centrada en y = 28 (pines de y ≈ 11.49 a 44.51), **pin 1 (VCC) arriba** ✅. El lector SD (por detrás del módulo, mitad derecha vista de frente) y el táctil quedan sin usar. Agujeros del módulo
+**Pantalla** (plano MSP2402 de LCDwiki; **confirmada con la pieza el 15-oct** ✅: 77 × 42 mm, J3 a la izquierda, pin 1 VCC arriba, mismo orden de pines): placa **77.18 × 42.72 mm**, horizontal, centrada en (75, 25) → x 36.41–113.59,
+y 3.64–46.36. **Sin girar** (v0.7): tira de 14 pines (**J3**) **vertical en el borde corto izquierdo**, a 2.00 mm del borde → **x ≈ 38.41**,
+centrada en y = 25 (pines de y ≈ 8.49 a 41.51), **pin 1 (VCC) arriba** ✅. **Fase 4 (21-oct): 3 mm más arriba** que en la v0.7 (y = 28)
+para que el último pin de J3 quede fuera del contorno del DAC (a 2.69 mm de su borde superior; borde del pad a 1.84 mm). El lector SD (por detrás del módulo, mitad derecha vista de frente) y el táctil quedan sin usar. Agujeros del módulo
 Ø3.2 a 67.26 × 36.72 entre centros: **no se usan en la PCB** (los del lado de J3 chocaban con la tira; los del lado derecho caen sobre la zona de batería).
 La imagen se orienta por firmware con `setRotation()`.
 
@@ -169,13 +173,16 @@ izquierda (x = 66.11) de abajo hacia arriba. Conector BAT en el extremo inferior
 **DAC GY-PCM5102** (cara Bottom): placa **31.85 × 17.78 mm medida**. La tira de 6 pines está en un **lado corto** y la **boca del jack
 sale por un lado largo** (no por el lado corto opuesto a la tira). Por eso va **horizontal** (v0.7, cambio 7):
 - Componentes del módulo mirando hacia afuera (tapa trasera); tira macho del módulo por el lado sin componentes, hacia la PCB.
-- **J5 en columna vertical** junto a J2, en **x = 59** (Fase 3: 1 mm hacia la cruceta para dar paso a la pista de DOWN): pines de **y ≈ 47.1 (pin 6, SCK) a y ≈ 59.8 (pin 1, VIN)**, VIN abajo.
+- **J5 en columna vertical** junto a J2, en **x = 56** (Fase 3: x = 59; **Fase 4, 21-oct: 3 mm más hacia la cruceta**): pines de **y ≈ 47.1 (pin 6, SCK) a y ≈ 59.8 (pin 1, VIN)**, VIN abajo.
   Orden de arriba hacia abajo: SCK, BCK, DIN, LCK, GND, VIN.
-- El módulo se extiende desde J5 hacia la cruceta: placa en **x ≈ 28.65–60.5, y ≈ 44.2–62.0**.
-- **Boca del jack hacia el borde inferior**: el jack sobresale ≈ 3 mm del lado largo del módulo y llega a **y ≈ 65**, con su centro en **x ≈ 33**.
+- El módulo se extiende desde J5 hacia la cruceta: placa en **x ≈ 25.65–57.5, y ≈ 44.2–62.0**.
+- **Nada bajo el DAC** (Fase 4, 21-oct): ninguna pata THT dentro de su contorno salvo J5, por si el módulo se suelda directo
+  a la placa (sin tira hembra) para bajar el grosor. Solo pasan pistas de F.Cu y el plano de B.Cu.
+- **Boca del jack hacia el borde inferior**: el jack sobresale ≈ 3 mm del lado largo del módulo y llega a **y ≈ 65**, con su centro en **x ≈ 30**.
 - Medidas de la columna y del jack **estimadas de fotos** (columna a ≈ 1.5 mm del borde corto y centrada en el lado; jack a ≈ 4 mm
   del borde corto opuesto) [PENDIENTE: confirmar con calibre antes de fabricar]. Si la boca del jack quedara hasta 1 mm fuera de la placa, se acepta.
-- C3 junto a VIN de J5, fuera del contorno del módulo. C4 (Ø5, más alto que la separación bajo el módulo) queda **entre SELECT y START** (75, 59): no cabe otro lugar fuera del módulo y, como reserva de 10 µF, la distancia (~15 mm) no importa.
+- **C3 vertical entre J5 y SELECT** (Fase 4, 21-oct), fuera del contorno del módulo y lejos del borde inferior: pad +3V3 en
+  (59.5, 59.8), a la altura de VIN, y pad GND en (59.5, 54.8) (paso 5 mm); ≥ 0.5 mm de cobre a J5 y a los pads de SELECT (quedan 1.85 y 1.98 mm). C4 (real Ø4 × 7–8 mm, huella Ø5) queda entre SELECT y START porque, desde la v0.8, nada va bajo el DAC (por si se suelda directo para reducir el grosor).
 
 Posiciones fijas (centro del cuerpo):
 
@@ -190,9 +197,9 @@ Posiciones fijas (centro del cuerpo):
 | SW5 (SELECT) | **66.5** | 58 | Top | Bajo la pantalla, simétrico con START respecto de x = 75 |
 | SW6 (START) | **83.5** | 58 | Top | Bajo la pantalla; cobre hasta x = 87.75, 0.25 mm fuera de la zona de batería |
 | SW10 (ON/OFF) | **134** | 8 | **Bottom** | Recto, palanca hacia atrás. **Desplazado a x = 134** (v0.7) para dejar libre la zona de batería; lejos de las patas de A (y ≥ 22.75) |
-| J3 (pantalla 1×14) | 38.41 | 28 | Top | Borde izquierdo de la pantalla, pin 1 arriba ✅ (15-oct) |
+| J3 (pantalla 1×14) | 38.41 | **25** | Top | Borde izquierdo de la pantalla, pin 1 arriba ✅ (15-oct) |
 | J1+J2 (RP2350-Plus) | centro (75, 25.8) | — | **Bottom** | USB-C en el borde superior |
-| J5 (DAC) | columna en x = 59, y = 47.1–59.8 | — | Bottom | Jack al borde inferior. Ver descripción |
+| J5 (DAC) | columna en **x = 56**, y = 47.1–59.8 | — | Bottom | Jack al borde inferior. Ver descripción |
 
 ## 7. Fabricante y reglas de diseño (DFM)
 
@@ -262,14 +269,21 @@ Cambios v0.7 (14-oct-2026, decididos por el alumno tras medir las piezas):
    porque sale por un lado largo del módulo. Se gira 90°: J5 en columna junto a J2 y jack al borde inferior en x ≈ 33. Reemplaza lo
    aceptado en el punto 6 sobre J5. Se evaluó el CJMCU-1334 (UDA1334A), con el jack en el lado corto, pero se descarta: su salida es de
    línea (~0.9 V rms frente a ~2.1 V rms del PCM5102A) y, según el profesor, uno de los dos suena muy bajo con audífonos. Queda como respaldo.
+Cambios v0.8 (21-oct-2026, decididos por el alumno en la revisión de la Fase 4):
+8. **Nada bajo el DAC y C3 lejos del borde:** pantalla (J3 y C2) **3 mm más arriba** (J3 centrada en y = 25, pines
+   y 8.49–41.51); DAC (J5, contorno y jack) **3 mm hacia la cruceta** (J5 en x = 56, jack centrado en x ≈ 30); **C3 vertical entre J5 y
+   SELECT** (pad +3V3 a la altura de VIN). Así ninguna pata queda bajo el DAC, por si se suelda directo para bajar el grosor, y C3 deja el
+   borde inferior.
 
 Pendientes (antes de la Fase 4 de fabricación):
 - Pantalla: confirmada el 15-oct ✅. Falta solo revisar el **puente J1** del módulo (alimentación a 3.3 V); no afecta a la PCB.
-- **SW10:** qué posición de la palanca es OFF (continuidad), para marcarla en la serigrafía. El paso ya está confirmado ✅.
+- **SW10:** paso confirmado ✅ y **continuidad confirmada en protoboard el 21-oct** ✅. Visto desde arriba, que es la vista desde atrás de la
+  consola: con la palanca a la izquierda, el común se une con la pata izquierda, y con la palanca a la derecha, con la derecha. Coincide
+  con el diseño: OFF junto al pad 2 (GND) y ON junto al pad 3.
 - **Protoboard (16–17 oct):** que el DAC funcione con VIN = 3V3 y que suene bien con audífonos. Revisar los puentes del reverso
   (FLT → L, DEMP → L, **XSMT → H**, FMT → L): con XSMT abierto el DAC queda en silencio.
 - **DAC:** medir con calibre la posición de la columna de pines y de la boca del jack (hoy son estimaciones de fotos).
-- Condensadores: paso de patas y diámetro al recibirlos.
+- Condensadores: C2/C3 con **paso de 5 mm medido (21-oct)** ✅. C4 **medido (21-oct)** ✅: Ø ≈ 4 mm, alto ≈ 7–8 mm, paso ≈ 1.5 mm; se mantiene la huella P2.00.
 - Adaptador y polaridad de la batería (profesor).
 
 ## 12. Restricciones adicionales para el agente

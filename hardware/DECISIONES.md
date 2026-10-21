@@ -77,7 +77,7 @@ Si se edita el esquemático en la GUI, el cambio se pierde al regenerar: los cam
   1. Se mantienen los nombres de red funcionales, con GPx como texto junto a J1/J2.
   2. H5 y H6 se quedan en el esquemático.
   3. El alumno **no edita en la GUI**: todo cambio pasa por `scripts/kidbox_datos.py` y se regenera con los scripts. El `.kicad_sch` es un archivo generado.
-  4. Pendiente para el 14-oct: orden real de J5 y posición OFF de SW10. Se corrigen en `kidbox_datos.py` antes de la Fase 2. **(J5 confirmado el 14-oct; la posición OFF de SW10 sigue pendiente de continuidad.)**
+  4. Pendiente para el 14-oct: orden real de J5 y posición OFF de SW10. Se corrigen en `kidbox_datos.py` antes de la Fase 2. **(J5 confirmado el 14-oct; la posición OFF de SW10, por continuidad el 21-oct, ver sección 15.)**
 - **13-oct-2026 · `.gitignore` en `hardware/`**: excluye `__pycache__/`, `*-backups/`, `fp-info-cache`, `*.lck`, `_autosave-*` y `*.kicad_prl` (preferencias locales de KiCad, no forman parte del diseño).
 
 ## 5. Corrección de la Fase 1 por la especificación v0.7 (14-oct-2026)
@@ -187,9 +187,9 @@ Todo se hizo por los scripts; nada en la GUI.
 - El mismo script corre **ERC y DRC con los tests que el `.kicad_pro` ignora activados como error** (`footprint_filters_mismatch`, `footprint_type_mismatch`, `missing_courtyard`, `track_not_centered_on_via`, `tuning_profile_track_geometries`), sobre una copia temporal. El proyecto real queda igual. Resultado: 0 en todo.
 
 ### 2.4 — DAC horizontal
-- **J5 (Bottom) en columna vertical en x = 59.0**: pin 6 (SCK) en y = 47.1 … pin 1 (VIN) en y = 59.8, VIN abajo. **Se corrió 1 mm hacia la cruceta** (la especificación dice x ≈ 60, y permite hasta 1 mm). Por qué: el haz de la cruceta tiene que pasar por encima de J5, y con J5 en x = 60 la pista de DOWN quedaba a 0.07 mm de la esquina del pin 6 (mínimo 0.20). En x = 59 queda a 0.38 mm. Separación de J5 con SELECT: pad de J5 hasta x 59.85, pad de SW5 desde x 62.25 (2.4 mm).
-- **Contorno del DAC en B.SilkS: x 28.65–60.5, y 44.2–61.98** (31.85 × 17.78, la columna a 1.5 mm del lado corto derecho). **Jack** dibujado en x 30–36, y 52–64.3, **centro en x = 33**, boca al borde inferior (posición estimada de fotos, igual que en la especificación; se corrió 1 mm junto con J5). "VIN" y "GND" junto a los pines 1 y 2 de J5.
-- **C3 (Bottom)**: pad 1 (+3V3) en (60.6, 63.3), pad 2 (GND) en (58.1, 63.3). Queda **3.5 mm bajo VIN**, en la franja entre el contorno del DAC (y 61.98) y el borde (cuerpo en y 62.5–64.1). El contorno se esquiva por 0.25 mm de serigrafía.
+- **(Reemplazado en la sección 12: J5 en x = 56.)** **J5 (Bottom) en columna vertical en x = 59.0**: pin 6 (SCK) en y = 47.1 … pin 1 (VIN) en y = 59.8, VIN abajo. **Se corrió 1 mm hacia la cruceta** (la especificación dice x ≈ 60, y permite hasta 1 mm). Por qué: el haz de la cruceta tiene que pasar por encima de J5, y con J5 en x = 60 la pista de DOWN quedaba a 0.07 mm de la esquina del pin 6 (mínimo 0.20). En x = 59 queda a 0.38 mm. Separación de J5 con SELECT: pad de J5 hasta x 59.85, pad de SW5 desde x 62.25 (2.4 mm).
+- **(Reemplazado en la sección 12: contorno x 25.65–57.5, jack centrado en x = 30.)** **Contorno del DAC en B.SilkS: x 28.65–60.5, y 44.2–61.98** (31.85 × 17.78, la columna a 1.5 mm del lado corto derecho). **Jack** dibujado en x 30–36, y 52–64.3, **centro en x = 33**, boca al borde inferior (posición estimada de fotos, igual que en la especificación; se corrió 1 mm junto con J5). "VIN" y "GND" junto a los pines 1 y 2 de J5.
+- ~~**C3 (Bottom)**: pad 1 (+3V3) en (60.6, 63.3), pad 2 (GND) en (58.1, 63.3).~~ **(Reemplazado en la sección 12: C3 vertical entre J5 y SELECT.)** Queda **3.5 mm bajo VIN**, en la franja entre el contorno del DAC (y 61.98) y el borde (cuerpo en y 62.5–64.1). El contorno se esquiva por 0.25 mm de serigrafía.
 - **C4 (Bottom)**: pad 1 (+) en (74.0, 59.0), pad 2 (GND) en (76.0, 59.0), cuerpo Ø5 centrado en (75, 59), **entre SELECT y START**. **Aceptado por el alumno (14-oct): "C3 junto a VIN es el que importa".** Queda a ~15 mm de VIN (unos 20 mm de pista desde la derivación de VIN), no "junto a VIN". Junto a VIN no cabe fuera del contorno del módulo:
   - entre J5 y SW5 hay 2.4 mm;
   - bajo el módulo no se puede;
@@ -254,3 +254,78 @@ El alumno aprobó el PCB por escrito para la **entrega preliminar del 16-oct** (
 - El PCB solo cambia en ese texto: las 116 pistas tienen la misma geometría que en el commit anterior (cambia su orden en el archivo porque se corren los UUID).
 - `verificar.py`: SIN ERRORES. `verificar_extra.py`: 0 en todo, F8 en seco con 0 cambios.
 - Gerbers y zip regenerados (`B_Silkscreen.gbo` pasa de 62.6 a 67.2 KB por el texto).
+
+## 12. Fase 4 — nada bajo el DAC y C3 lejos del borde (21-oct-2026)
+
+Pedido por el alumno, que también autorizó actualizar `ESPECIFICACION.md` (secciones 6 y 11, cambio 8). **Por qué:** que ninguna pata
+quede bajo el DAC, por si el módulo se suelda directo a la placa (sin tira hembra) para bajar el grosor, y que C3 no quede al borde.
+
+| # | Pieza | Antes | Ahora |
+| :--- | :--- | :--- | :--- |
+| 5.1 | J3 (Top) | x 38.41, centro y = 28 (pines y 11.49–44.51) | x 38.41, **centro y = 25 (pines y 8.49–41.51)** |
+| 5.1 | C2 (Top) | (34.6, 11.49) / (34.6, 13.99) | **(34.6, 8.49) / (34.6, 10.99)**, pad 1 a la altura del pin 1 de J3 |
+| 5.1 | Contorno de la pantalla (F.SilkS) | x 36.41–113.59, y 6.64–49.36 | x 36.41–113.59, **y 3.64–46.36** |
+| 5.2 | J5 (Bottom) | x = 59, y 47.1–59.8 | **x = 56**, y 47.1–59.8 (VIN abajo) |
+| 5.2 | Contorno del DAC (B.SilkS) | x 28.65–60.5, y 44.2–61.98 | **x 25.65–57.5**, y 44.2–61.98 |
+| 5.2 | Jack (B.SilkS) | x 30–36, y 52–64.3, centro x = 33 | **x 27–33**, y 52–64.3, **centro x = 30**, boca al borde inferior |
+| 5.3 | C3 (Bottom) | horizontal en y = 63.3 (pads x 60.6 / 58.1), junto al borde | **vertical en x = 59.5: pad 1 (+3V3) en y = 59.8 (altura de VIN), pad 2 (GND) en y = 57.3** |
+
+Medidas (con `pcbnew` sobre el archivo generado):
+- **J3:** el último pin (14) queda a 2.69 mm del borde superior del DAC (y 44.2), centro a centro, y el borde de su pad a 1.84 mm (pedido: ≥ 1.5).
+  Su courtyard termina en y 43.33, también fuera.
+- **C3:** cobre en x 58.7–60.3. Quedan 1.85 mm de cobre a J5 y 1.98 mm a los pads de SELECT (pedido: ≥ 0.5). El contorno del DAC queda a
+  1.2 mm. Sus agujeros quedan fuera del courtyard de SW5 (desde x 61.75), que es lo que en la Fase 3 impidió poner C4 entre las patas de SW5.
+- `gen_pcb.py` ahora **falla** si alguna pata, salvo las de J5, cae dentro del contorno del DAC, o si J3 queda a menos de 1.5 mm de él.
+
+Ruteo (sigue sin vías y sin pistas en B.Cu; 116 segmentos, 1096 mm):
+- **SPI (CS, RST, DC, MOSI, SCK):** los huecos de J2 no se mueven, así que las pistas llegan 0.22 mm por encima de los pines de J3. Hay un salto
+  corto a 45° en x 45.5 (antes la diagonal bajaba 3.22 mm). LED baja 1.49 mm en x 45.5–47.
+- **3V3:** J2.16 → diagonal a J3.1 (38.41, 8.49) → C2 → x 36.2 hasta y 30.08. El tramo de 0.40 mm pasa entre los pines 9 y 10 de J3 (antes en y 33.08).
+  Sigue por y 30.08 hasta el mismo paso entre J2.10 y J2.9. Después baja por x 69.5 y por **x 61.3, entre C3 y SELECT**. Desde ahí, una rama va
+  a C3.1 y J5.1 (y 59.8) y la otra a C4+ por y 62.4, como antes.
+- **I2S y cruceta:** el mismo trazado de la Fase 3, corrido 3 mm a la izquierda junto con J5 (LCK sigue cruzando entre los pines 5 y 4).
+  Las diagonales del haz de la cruceta bajan en x 51.5–53 → 47, antes en x 54.5–56 → 50.
+- Serigrafía que se movió con sus piezas: "PANTALLA TFT 2.4" (J3)" en y = 6, el "1" de J3 en y = 6.3 y las referencias de J3 y C2.
+  En el DAC: "JACK" en x = 30, "DAC PCM5102" en x = 42, "VIN"/"GND" en x = 52.9, la referencia de J5 en (53, 48.4) y la de C3 en (59.5, 61.7).
+- No se movió nada más: pulsadores, RP2350-Plus, SW10, C4, agujeros, zona de batería y textos de batería y JLC.
+
+Resultado: `verificar.py` SIN ERRORES (ERC 0/0, DRC 0/0, sin conectar 0, paridad 0). `verificar_extra.py`: 0 en todo y F8 con 0 cambios.
+Gerbers, zip y PDF 1:1 regenerados. Como el PCB cambió, la prueba de impresión 1:1 del README hay que repetirla.
+
+## 13. v0.8 — C2 y C3 con huella de paso 5 mm (21-oct-2026)
+
+Los cerámicos reales de 100 nF tienen **paso de 5 mm (medido por el alumno)**. C2 y C3 pasan de `C_Disc_D3.0mm_W1.6mm_P2.50mm` a
+**`Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm`**. Los pads siguen siendo de Ø1.6 mm con taladro de 0.8 mm, así que el total de taladros
+no cambia (9 × 0.8 mm). Se cierra el pendiente "paso de patas de C2/C3"; sigue abierto el de C4.
+
+| Pieza | Antes (paso 2.5 mm) | Ahora (paso 5 mm), ambos en vertical |
+| :--- | :--- | :--- |
+| C2 (Top) | (34.6, 8.49) / (34.6, 10.99) | **pad 1 (+3V3) en (34.6, 8.49)**, a la altura del pin 1 de J3; **pad 2 (GND) en (34.6, 13.49)** |
+| C3 (Bottom) | (59.5, 59.8) / (59.5, 57.3) | **pad 1 (+3V3) en (59.5, 59.8)**, a la altura de VIN; **pad 2 (GND) en (59.5, 54.8)** |
+
+Separaciones, medidas con `pcbnew` entre el contorno de cada pad y cualquier pad o pista de otra red (pedido: ≥ 0.5 mm):
+- **C2:** la menor es 0.55 mm, del pad 2 (GND) a la pista vertical de 3V3 en x = 36.2. Le siguen J3.3 a 2.16 mm y LCD_CS a 2.89 mm.
+  Courtyard en x 33.05–36.15, fuera del de J3 (desde x 36.59).
+- **C3:** la menor es 0.75 mm, del pad 2 (GND) a la pista de 3V3 en x = 61.3. Le siguen el codo de 3V3 en (61.3, 53.4) a 1.23 mm y I2S_DIN
+  (y 52.6) a 1.27 mm. Además quedan 1.85 mm a J5 y 1.98 mm a SELECT. El cobre ocupa x 58.7–60.3, a 1.2 mm del contorno del DAC (x 57.5).
+- No hubo que re-rutear: las pistas existentes ya dejan esas separaciones. Solo se movió la referencia de C2 a (32.3, 10.99) para que
+  no pise el cuerpo, que ahora es más largo.
+- Archivos: `kidbox_datos.py` (FP_C), `gen_bom_netlist.py` (descripción), `gen_pcb.py` → `KIDBOX.kicad_sch`, `BOM.csv`, `KIDBOX.kicad_pcb`.
+
+Resultado: `verificar.py` SIN ERRORES y `verificar_extra.py` en 0 (F8 con 0 cambios). Imágenes, Gerbers, zip y PDF 1:1 regenerados.
+
+## 14. v0.8 — C4 medido (21-oct-2026)
+
+- **C4 real (medido por el alumno):** Ø ≈ 4 mm, alto ≈ 7–8 mm, paso ≈ 1.5 mm.
+- **Se mantiene la huella `Capacitor_THT:CP_Radial_D5.0mm_P2.00mm`, por decisión del alumno.** Las patas se abren 0.25 mm por lado al
+  soldar. El contorno de Ø5 mm de la huella cubre el cuerpo real de Ø4 mm. **El PCB no cambia**: mismo `.kicad_pcb`, Gerbers y zip.
+- Se cierra el pendiente de C4 (sección 11 de la especificación y recuadro del README).
+- La tabla de soldadura del README dice "abrir levemente las patas de C4" y "respetar la polaridad". La nota de C4 en `BOM.csv` sale de `kidbox_datos.py`.
+
+## 15. v0.8 — continuidad de SW10 confirmada (21-oct-2026)
+
+- **Medido por el alumno en protoboard.** Visto desde arriba, que es la vista desde atrás de la consola: con la palanca a la izquierda, el común
+  se une con la pata izquierda, y con la palanca a la derecha, con la derecha.
+- **Coincide con el diseño**, sin cambios: OFF junto al pad 2 (GND, x 136.54) y ON junto al pad 3 (x 131.46). Visto desde atrás, OFF queda a la
+  izquierda y ON a la derecha (sección 9, ronda 3.1).
+- Se cierra el pendiente en la sección 11 de la especificación, en el recuadro del README y en la nota de SW10 de `BOM.csv`. **El PCB no cambia.**

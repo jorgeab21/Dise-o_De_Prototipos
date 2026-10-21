@@ -6,7 +6,7 @@ PROYECTO = "KIDBOX"
 
 FP_SOCKET = "Connector_PinSocket_2.54mm:PinSocket_1x{:02d}_P2.54mm_Vertical"
 FP_PUSH = "Button_Switch_THT:SW_PUSH_6mm"
-FP_C = "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm"
+FP_C = "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"  # paso 5 mm medido en los ceramicos reales (21-oct)
 
 # Pines de la RP2350-Plus (= Pico, confirmado con el pinout oficial de Waveshare).
 # pin del modulo -> (nombre en el modulo, red o None = sin conectar)
@@ -62,14 +62,15 @@ COMPONENTES = {
     "SW10": dict(lib="Switch:SW_SPDT_312", valor="ON/OFF",
                  huella="Button_Switch_THT:SW_Slide-03_Wuerth-WS-SLTV_10x2.5x6.4_P2.54mm",
                  cara="Bottom", notas="Deslizante recto, paso 2.54 mm confirmado en protoboard (14-oct); comun = pad 1 (central) a 3V3_EN; "
-                                      "OFF = pad 2 a GND; pad 3 sin conectar; posicion OFF [PENDIENTE: continuidad]",
+                                      "OFF = pad 2 a GND; pad 3 sin conectar; continuidad confirmada en protoboard (21-oct): palanca hacia "
+                                      "un lado = comun con la pata de ese lado (OFF junto al pad 2, ON junto al pad 3)",
                  pines={1: ("comun (B)", "PWR_EN"), 2: ("C (OFF)", "GND"), 3: ("A (ON, al aire)", None)}),
     "C2": dict(lib="Device:C", valor="100n", huella=FP_C, cara="Top",
                notas="Ceramico; desacoplo de la pantalla, junto a J3", pines={1: ("1", "+3V3"), 2: ("2", "GND")}),
     "C3": dict(lib="Device:C", valor="100n", huella=FP_C, cara="Bottom",
                notas="Ceramico; desacoplo del DAC, junto a J5", pines={1: ("1", "+3V3"), 2: ("2", "GND")}),
     "C4": dict(lib="Device:C_Polarized", valor="10u 25V", huella="Capacitor_THT:CP_Radial_D5.0mm_P2.00mm",
-               cara="Bottom", notas="Electrolitico; desacoplo del DAC; polaridad (+ = pin 1)",
+               cara="Bottom", notas="Electrolitico; desacoplo del DAC; polaridad (+ = pin 1); pieza real medida ~D4 x 7-8 mm, paso ~1.5 mm: abrir levemente las patas (0.25 mm por lado) para la huella P2.00",
                pines={1: ("+", "+3V3"), 2: ("-", "GND")}),
 }
 for ref, nombre, red in BOTONES:

@@ -6,12 +6,13 @@
 > y se vuelven a generar los Gerbers.
 >
 > - [ ] **Medidas del DAC con pie de metro:** posición de la columna de pines (hoy, a 1.5 mm del lado corto y centrada) y de la boca del
->       jack (hoy, centro en x = 33). Ambas son estimaciones de fotos. Si cambian, se mueven J5 y la serigrafía del DAC.
-> - [ ] **Continuidad de SW10:** confirmar con el multímetro qué posición de la palanca une el pad central (1) con el pad 2 (GND). Esa
->       posición es OFF; la serigrafía dice OFF junto al pad 2 y ON junto al pad 3.
+>       jack (hoy, centro en x = 30). Ambas son estimaciones de fotos. Si cambian, se mueven J5 y la serigrafía del DAC.
+> - [x] **Continuidad de SW10 (confirmada en protoboard el 21-oct):** la palanca une el común con la pata de su lado. Coincide con la
+>       serigrafía: OFF junto al pad 2 (GND) y ON junto al pad 3.
 > - [ ] **DAC con 3V3 y audífonos en protoboard (16–17 oct):** que funcione con VIN = 3V3 y suene bien. Revisar los puentes del reverso
 >       (FLT → L, DEMP → L, **XSMT → H**, FMT → L).
-> - [ ] **Condensadores:** paso de patas y diámetro reales de C2/C3 (disco, paso 2.5 mm) y C4 (Ø5 mm, paso 2 mm) al recibirlos.
+> - [x] **Condensadores medidos (21-oct):** C2/C3 con paso de 5 mm; C4 de Ø ≈ 4 mm, alto ≈ 7–8 mm y paso ≈ 1.5 mm (va en la huella de
+>       paso 2 mm abriendo levemente las patas).
 > - [ ] **Polaridad del adaptador de la batería** (lo hace el profesor): medir con el multímetro antes de conectar (rojo = + → ⊕ del BAT).
 > - [ ] **Impresión 1:1:** imprimir `fabricacion/KIDBOX_1a1_frente.pdf` y `KIDBOX_1a1_reverso.pdf` al **100 % / tamaño real**. Medir con
 >       regla que la placa mida 150 × 65 mm y apoyar encima las piezas reales: módulos, pulsadores, SW10, condensadores y batería.
@@ -61,20 +62,24 @@ por detrás. Primero va todo Bottom, de lo más bajo a lo más alto, y después 
 | 1 | J1 | Bottom | Tira hembra 1×20 (pines 1–20 del módulo) | Pin 1 = pad cuadrado, junto al USB-C. Cortar al ras |
 | 2 | J2 | Bottom | Tira hembra 1×20 (pines 21–40) | Las pistas SPI y la de 3V3 pasan entre sus pines por delante: poco estaño. Cortar al ras |
 | 3 | J5 | Bottom | Tira hembra 1×6 (DAC) | **Poco estaño**: la pista LCK pasa entre sus pines 5 y 4. VIN = pin 1, pad cuadrado, abajo |
-| 4 | C3 | Bottom | 100 nF cerámico | Bajo VIN de J5, junto al borde inferior |
-| 5 | C4 | Bottom | 10 µF 25 V electrolítico | **Polaridad:** + en el pad cuadrado (x = 74; visto desde atrás queda a la derecha) |
+| 4 | C3 | Bottom | 100 nF cerámico (paso 5 mm) | Vertical entre J5 y SELECT; pata +3V3 a la altura de VIN |
+| 5 | C4 | Bottom | 10 µF 25 V electrolítico (Ø4 × 7–8 mm) | **Abrir levemente las patas de C4** (paso real 1.5 mm, huella 2 mm: 0.25 mm por lado). **Respetar la polaridad:** + en el pad cuadrado (x = 74; visto desde atrás queda a la derecha) |
 | 6 | SW10 | Bottom | Interruptor deslizante, paso 2.54 mm | Palanca hacia atrás; pad central = común |
-| 7 | J3 | Top | Tira hembra 1×14 (pantalla) | Pin 1 (VCC) arriba, marcado "1". Cortar al ras (sus patas quedan bajo el DAC) |
-| 8 | C2 | Top | 100 nF cerámico | Junto a J3 |
+| 7 | J3 | Top | Tira hembra 1×14 (pantalla) | Pin 1 (VCC) arriba, marcado "1". Cortar al ras |
+| 8 | C2 | Top | 100 nF cerámico (paso 5 mm) | Vertical junto al pin 1 de J3 |
 | 9 | SW1–SW8 | Top | Pulsadores 6×6 | Bien apoyados contra la placa para que los capuchones queden a la misma altura |
 
 ### Notas de montaje
 - **J5 con poco estaño:** la pista I2S_LRCK (LCK) pasa entre los pines 5 y 4 de J5, por la cara donde se suelda. La máscara la protege,
   pero un puente de estaño la corta o la cortocircuita con BCK o DIN. Revisar con lupa y medir continuidad entre pines vecinos.
   Lo mismo con J2: el haz SPI pasa entre sus pines y 3V3 pasa entre J2.10 y J2.9.
+- **J3 con poco estaño:** la pista de 3V3 (0.40 mm) pasa entre los pines 9 y 10 de J3, a 0.22 mm de cada pad. J3 se suelda por detrás
+  y la pista va por delante, pero el estaño que sube por el agujero puede hacer puente. Igual que en J5 y J2: poco estaño, revisar
+  con lupa y medir que no haya continuidad entre 3V3 y J3.9 ni J3.10.
 - **Tira macho del DAC:** se suelda con el **plástico del lado sin componentes** del módulo. Los componentes del DAC quedan hacia afuera
   (tapa trasera) y el jack apunta al borde inferior.
-- **Cortar al ras las patas de J1, J2 y J3** después de soldar. Las de J1/J2 quedan bajo la pantalla y las de J3 bajo el DAC.
+- **Cortar al ras las patas de J1, J2 y J3** después de soldar. Las de J1/J2 quedan bajo la pantalla. Bajo el DAC no queda ninguna
+  pata salvo las de J5, así que el módulo también se puede soldar directo a la placa para bajar el grosor.
 - **Puente XSMT → H del DAC:** sin él, el DAC queda en silencio. Revisar también FLT → L, DEMP → L y FMT → L.
 - La placa no tiene vías. La cara de atrás es un plano de masa con alivios térmicos, así que los pads de GND se sueldan igual que los demás.
 - Antes de poner los módulos: medir que no haya corto entre 3V3 y GND (J2.16 contra J2.18, o J5.1 contra J5.2).
@@ -128,7 +133,7 @@ por detrás. Primero va todo Bottom, de lo más bajo a lo más alto, y después 
 9. En la serigrafía inferior aparece **"JLCJLCJLCJLC"** en vertical, dentro de la zona de batería, junto a "BATERÍA 103450". Ahí JLCPCB pone su número de pedido (con "Specify a location").
 10. Precio y plazo coherentes con 5 placas de 150 × 65 mm, sin ensamblaje ni opciones extra marcadas por error.
 
-## Verificación del diseño (14-oct-2026)
+## Verificación del diseño (21-oct-2026)
 
 `verificar.py`: ERC 0/0 · DRC 0 errores, 0 avisos · 0 sin conectar · paridad esquemático-PCB 0 · mínimos DFM OK.
 `verificar_extra.py`:

@@ -4,6 +4,8 @@
 # Fase 3: sin H5/H6 (ni KIDBOX.kicad_dru); SW5/SW6 en x = 66.5 / 83.5; DAC horizontal (J5 en columna en x = 59,
 # VIN abajo, jack al borde inferior) con I2S, 3V3, C3 y C4 re-ruteados; huellas con hoja, archivo y filtros del
 # simbolo para que "Actualizar PCB desde esquematico" (F8) no tenga nada que cambiar.
+# Fase 4 (21-oct): pantalla (J3, C2) 3 mm mas arriba, DAC (J5, contorno, jack) 3 mm hacia la cruceta (x = 56) y C3
+# vertical entre J5 y SELECT: nada queda bajo el DAC y C3 deja el borde inferior (DECISIONES.md seccion 12).
 # Las huellas, sus redes y su enlace con el esquematico (path = uuid del simbolo) salen de la netlist real
 # que exporta kicad-cli, asi que la paridad esquematico-PCB queda en 0. Las pistas son una lista fija de
 # polilineas (ruteo manual planificado, sin autorouter); ver DECISIONES.md seccion 6.
@@ -183,11 +185,10 @@ def columna(x, y0, n, paso=2.54):
 Y_PIN1 = 1.92
 J1 = colocar("J1", columna(83.89, Y_PIN1, 20), abajo=True)          # pines 1-20, arriba -> abajo
 J2 = colocar("J2", columna(66.11, Y_PIN1 + 19 * 2.54, 20, -2.54), abajo=True)  # pin 21 abajo -> 40 arriba
-J3 = colocar("J3", columna(38.41, 28 - 6.5 * 2.54, 14))             # pin 1 (VCC) arriba
+J3 = colocar("J3", columna(38.41, 25 - 6.5 * 2.54, 14))             # pin 1 (VCC) arriba, pines y 8.49-41.51
 # J5 (DAC horizontal, por detras): columna vertical junto a J2, VIN (pin 1) abajo en y = 59.8 y SCK (pin 6) arriba
-# en y = 47.1. En x = 59 (1 mm hacia la cruceta respecto de x = 60 de la especificacion): en x = 60 la pista de
-# DOWN, que pasa por encima de J5, quedaba a 0.07 mm de la esquina del pin 6 (ver DECISIONES.md seccion 8).
-X_J5 = 59.0
+# en y = 47.1. En x = 56 (Fase 4: 3 mm hacia la cruceta respecto de x = 59, ver DECISIONES.md seccion 12).
+X_J5 = 56.0
 J5 = colocar("J5", {str(i + 1): [(X_J5, round(59.8 - i * 2.54, 4))] for i in range(6)}, abajo=True)
 
 
@@ -202,12 +203,14 @@ SW = {"SW3": boton("SW3", 18, 20, True), "SW1": boton("SW1", 18, 40, True), "SW2
       "SW5": boton("SW5", 66.5, 58, False), "SW6": boton("SW6", 83.5, 58, False)}
 # SW10 por detras, centro del cuerpo (134, 8) = pad 1 (central, comun). Pad 2 (GND) queda a la derecha.
 SW10 = colocar("SW10", {"1": [(134, 8)], "2": [(136.54, 8)], "3": [(131.46, 8)]}, abajo=True)
-C2 = colocar("C2", {"1": [(34.6, 11.49)], "2": [(34.6, 13.99)]}, fija=False)
-# C3 y C4 junto a VIN pero fuera del contorno del DAC (x 28.65-60.5, y 44.2-62): C3 bajo el modulo, en la franja
-# y 62-65 junto al borde; C4 (D5 mm, mas alto que la separacion bajo el modulo) no cabe mas cerca: entre J5 y SELECT
-# hay 2.4 mm, bajo el modulo no puede ir, y entre las patas de SW5 sus pads caen dentro del courtyard de SW5
-# (error pth_inside_courtyard). Va entre SELECT y START, alimentado desde C3 por la franja inferior.
-C3 = colocar("C3", {"1": [(60.6, 63.3)], "2": [(58.1, 63.3)]}, abajo=True, fija=False)
+# C2 y C3: disco D5 x W2.5, paso 5 mm (medido), en vertical con el pad 1 (+3V3) arriba o abajo segun la pieza
+# C2 vertical a la izquierda de J3: pad 1 (+3V3) a la altura del pin 1 de J3, pad 2 (GND) 5 mm mas abajo
+C2 = colocar("C2", {"1": [(34.6, 8.49)], "2": [(34.6, 13.49)]}, fija=False)
+# C3 vertical entre J5 y SELECT, fuera del contorno del DAC (x 25.65-57.5): pad 1 (+3V3) a la altura de VIN (y 59.8),
+# pad 2 (GND) 5 mm arriba (y 54.8). Cobre en x 58.7-60.3: 1.85 mm al pad de J5 (hasta 56.85) y 1.95 mm al de SW5 (desde 62.25);
+# agujeros fuera del courtyard de SW5 (desde x 61.75). C4 (D5 mm) sigue entre SELECT y START: entre las patas de SW5
+# sus pads caerian dentro del courtyard de SW5 (error pth_inside_courtyard).
+C3 = colocar("C3", {"1": [(59.5, 59.8)], "2": [(59.5, 54.8)]}, abajo=True, fija=False)
 C4 = colocar("C4", {"1": [(74.0, 59.0)], "2": [(76.0, 59.0)]}, abajo=True, fija=False)
 H = {}
 for ref, (x, y) in {"H1": (4, 4), "H2": (146, 4), "H3": (4, 61), "H4": (146, 61)}.items():
@@ -223,43 +226,45 @@ for ref, (x, y) in {"H1": (4, 4), "H2": (146, 4), "H3": (4, 61), "H4": (146, 61)
 PISTAS = [
     # SPI y control de la pantalla: de J1 (columna derecha del modulo) cruzan entre los pines de J2
     # (huecos y 13.35-23.51) y llegan a J3 en paralelo, a 2.54 mm. Mismo orden arriba-abajo en ambos extremos.
-    ("LCD_CS", SENAL, [(83.89, 1.92), (79.58, 1.92), (68.15, 13.35), (45.5, 13.35), (42.28, 16.57), (38.41, 16.57)]),
-    ("LCD_RST", SENAL, [(83.89, 4.46), (79.54, 4.46), (68.11, 15.89), (45.5, 15.89), (42.28, 19.11), (38.41, 19.11)]),
-    ("LCD_DC", SENAL, [(83.89, 9.54), (76.96, 9.54), (68.07, 18.43), (45.5, 18.43), (42.28, 21.65), (38.41, 21.65)]),
-    ("LCD_MOSI", SENAL, [(83.89, 12.08), (76.92, 12.08), (68.03, 20.97), (45.5, 20.97), (42.28, 24.19),
-                         (38.41, 24.19)]),
-    ("LCD_SCK", SENAL, [(83.89, 22.24), (69.26, 22.24), (67.99, 23.51), (45.5, 23.51), (42.28, 26.73),
-                        (38.41, 26.73)]),
-    ("LCD_LED", SENAL, [(66.11, 24.78), (47.0, 24.78), (42.51, 29.27), (38.41, 29.27)]),
+    # Con J3 en y 8.49-41.51 sus pines 3-7 quedan 0.22 mm bajo los huecos de J2: un salto corto a 45 grados en x 45.5.
+    ("LCD_CS", SENAL, [(83.89, 1.92), (79.58, 1.92), (68.15, 13.35), (45.5, 13.35), (45.28, 13.57), (38.41, 13.57)]),
+    ("LCD_RST", SENAL, [(83.89, 4.46), (79.54, 4.46), (68.11, 15.89), (45.5, 15.89), (45.28, 16.11), (38.41, 16.11)]),
+    ("LCD_DC", SENAL, [(83.89, 9.54), (76.96, 9.54), (68.07, 18.43), (45.5, 18.43), (45.28, 18.65), (38.41, 18.65)]),
+    ("LCD_MOSI", SENAL, [(83.89, 12.08), (76.92, 12.08), (68.03, 20.97), (45.5, 20.97), (45.28, 21.19),
+                         (38.41, 21.19)]),
+    ("LCD_SCK", SENAL, [(83.89, 22.24), (69.26, 22.24), (67.99, 23.51), (45.5, 23.51), (45.28, 23.73),
+                        (38.41, 23.73)]),
+    ("LCD_LED", SENAL, [(66.11, 24.78), (47.0, 24.78), (45.51, 26.27), (38.41, 26.27)]),
     # I2S al DAC (J5 en columna, de arriba abajo SCK, BCK, DIN, LCK, GND, VIN). El haz de la cruceta sale de J2
     # hacia la izquierda por encima de J5, asi que el I2S sale de J2 hacia la DERECHA, baja por dentro del modulo
     # (entre J2 y SELECT), pasa bajo J2.1 y llega a J5 por la derecha. LCK cruza entre los pines 5 y 4 de J5 y entra
     # al pin 3 por la izquierda: es el unico orden sin cruces ni vias.
-    ("I2S_BCK", SENAL, [(66.11, 37.48), (67.5, 37.48), (67.5, 51.4), (61.2, 51.4), (61.2, 49.64), (X_J5, 49.64)]),
-    ("I2S_LRCK", SENAL, [(66.11, 34.94), (68.1, 34.94), (68.1, 51.95), (60.4, 51.95), (60.4, 50.91), (57.7, 50.91),
-                         (57.7, 54.72), (X_J5, 54.72)]),
-    ("I2S_DIN", SENAL, [(66.11, 29.86), (68.7, 29.86), (68.7, 52.6), (59.42, 52.6), (X_J5, 52.18)]),
+    ("I2S_BCK", SENAL, [(66.11, 37.48), (67.5, 37.48), (67.5, 51.4), (58.2, 51.4), (58.2, 49.64), (X_J5, 49.64)]),
+    ("I2S_LRCK", SENAL, [(66.11, 34.94), (68.1, 34.94), (68.1, 51.95), (57.4, 51.95), (57.4, 50.91), (54.7, 50.91),
+                         (54.7, 54.72), (X_J5, 54.72)]),
+    ("I2S_DIN", SENAL, [(66.11, 29.86), (68.7, 29.86), (68.7, 52.6), (56.42, 52.6), (X_J5, 52.18)]),
     # 3V3: J2.16 -> J3.1 -> C2 -> por la izquierda de J3, entre sus pines 9 y 10 (sin uso), -> entra al modulo
-    # entre J2.10 (RUN, sin uso) y J2.9 -> baja por fuera del I2S -> J5.1 (VIN) -> C3 -> bajo SW5 -> C4+.
-    # Los huecos de 0.84 mm entre pines (J3 y J2) obligan a 0.40 mm en esos dos tramos.
-    ("+3V3", POTENCIA, [(66.11, 12.08), (39.0, 12.08), (38.41, 11.49)]),
-    ("+3V3", POTENCIA, [(38.41, 11.49), (34.6, 11.49)]),
-    ("+3V3", POTENCIA, [(36.2, 11.49), (36.2, 33.08)]),
-    ("+3V3", 0.40, [(36.2, 33.08), (40.2, 33.08)]),
-    ("+3V3", POTENCIA, [(40.2, 33.08), (57.7, 33.08), (62.19, 28.59), (64.0, 28.59)]),
+    # entre J2.10 (RUN, sin uso) y J2.9 -> baja por fuera del I2S -> entre C3 y SELECT -> C3 y J5.1 (VIN) -> bajo
+    # SW5 -> C4+. Los huecos de 0.84 mm entre pines (J3 y J2) obligan a 0.40 mm en esos dos tramos.
+    ("+3V3", POTENCIA, [(66.11, 12.08), (42.0, 12.08), (38.41, 8.49)]),
+    ("+3V3", POTENCIA, [(38.41, 8.49), (34.6, 8.49)]),
+    ("+3V3", POTENCIA, [(36.2, 8.49), (36.2, 30.08)]),
+    ("+3V3", 0.40, [(36.2, 30.08), (40.2, 30.08)]),
+    ("+3V3", POTENCIA, [(40.2, 30.08), (60.7, 30.08), (62.19, 28.59), (64.0, 28.59)]),
     ("+3V3", 0.40, [(64.0, 28.59), (68.0, 28.59)]),
-    ("+3V3", POTENCIA, [(68.0, 28.59), (69.5, 28.59), (69.5, 53.4), (60.6, 53.4), (60.6, 63.3)]),
-    ("+3V3", POTENCIA, [(60.6, 59.8), (X_J5, 59.8)]),
-    ("+3V3", POTENCIA, [(60.6, 63.3), (61.5, 62.4), (74.0, 62.4), (74.0, 59.0)]),
+    ("+3V3", POTENCIA, [(68.0, 28.59), (69.5, 28.59), (69.5, 53.4), (61.3, 53.4), (61.3, 61.5), (62.2, 62.4),
+                        (74.0, 62.4), (74.0, 59.0)]),
+    ("+3V3", POTENCIA, [(61.3, 59.8), (X_J5, 59.8)]),  # pasa por el pad 1 de C3 (59.5, 59.8)
     # Cruceta (GP16-19, columna izquierda): el haz pasa por encima de J5 (y 44.1-45.6), baja bajo el DAC
-    # (permitido, seccion 8) a y 48.6-51.6 y sigue como antes por debajo de J3, repartiendose de derecha a izquierda
-    ("BTN_RIGHT", SENAL, [(66.11, 40.02), (64.0, 40.02), (59.92, 44.1), (54.5, 44.1), (50.0, 48.6), (34.5, 48.6),
+    # (permitido, seccion 8) a y 48.6-51.6 y sigue como antes por debajo de J3, repartiendose de derecha a izquierda.
+    # Las diagonales bajan 3 mm mas a la izquierda que antes porque J5 se corrio 3 mm hacia la cruceta.
+    ("BTN_RIGHT", SENAL, [(66.11, 40.02), (64.0, 40.02), (59.92, 44.1), (51.5, 44.1), (47.0, 48.6), (34.5, 48.6),
                           (34.5, 35.5), (31.25, 32.25)]),
-    ("BTN_UP", SENAL, [(66.11, 42.56), (64.0, 42.56), (61.96, 44.6), (55.0, 44.6), (50.0, 49.6), (23.4, 49.6),
+    ("BTN_UP", SENAL, [(66.11, 42.56), (64.0, 42.56), (61.96, 44.6), (52.0, 44.6), (47.0, 49.6), (23.4, 49.6),
                        (23.4, 22.25), (21.25, 22.25)]),
-    ("BTN_LEFT", SENAL, [(66.11, 47.64), (64.5, 47.64), (61.96, 45.1), (55.5, 45.1), (50.0, 50.6), (22.7, 50.6),
+    ("BTN_LEFT", SENAL, [(66.11, 47.64), (64.5, 47.64), (61.96, 45.1), (52.5, 45.1), (47.0, 50.6), (22.7, 50.6),
                          (22.7, 35.0), (14.0, 35.0), (11.25, 32.25)]),
-    ("BTN_DOWN", SENAL, [(66.11, 50.18), (64.5, 50.18), (59.92, 45.6), (56.0, 45.6), (50.0, 51.6), (14.75, 51.6),
+    ("BTN_DOWN", SENAL, [(66.11, 50.18), (64.5, 50.18), (59.92, 45.6), (53.0, 45.6), (47.0, 51.6), (14.75, 51.6),
                          (14.75, 42.25)]),
     # SELECT y START bajan por entre las dos filas del modulo
     ("BTN_SELECT", SENAL, [(83.89, 40.02), (72.5, 40.02), (72.5, 53.0), (69.75, 55.75)]),
@@ -380,12 +385,12 @@ for ref, nombre, (x, y) in (("SW3", "UP", (18, 15.3)), ("SW1", "DOWN", (18, 44.8
 for ref, (cx, cy) in {"SW3": (18, 20), "SW1": (18, 40), "SW2": (8, 30), "SW4": (28, 30), "SW5": (66.5, 58),
                       "SW6": (83.5, 58), "SW7": (128, 35), "SW8": (138, 25)}.items():
     ref_en(SW[ref], cx, cy)
-# Frente: contorno del modulo de pantalla (77.18 x 42.72 centrado en (75, 28)) y pin 1 de J3
-rect(36.41, 6.64, 113.59, 49.36, F)
-texto("PANTALLA TFT 2.4\" (J3)", 53.5, 9.0, F)
-texto("1", 38.41, 9.3, F)
-ref_en(J3, 40.6, 38.0, 90)
-ref_en(C2, 33.0, 12.74, 90)
+# Frente: contorno del modulo de pantalla (77.18 x 42.72 centrado en (75, 25)) y pin 1 de J3
+rect(36.41, 3.64, 113.59, 46.36, F)
+texto("PANTALLA TFT 2.4\" (J3)", 53.5, 6.0, F)
+texto("1", 38.41, 6.3, F)
+ref_en(J3, 40.6, 35.0, 90)
+ref_en(C2, 32.3, 10.99, 90)
 # Frente: creditos (fuera de los modulos y de la zona de bateria)
 for i, linea_txt in enumerate(("KIDBOX v1.0 2026", "basado en", "Game*Mite de", "Thomas Hugo", "Williams",
                                "(CC BY 4.0)")):
@@ -409,17 +414,16 @@ texto("RP2350-Plus", 75, 36.0, B)
 ref_en(J1, 87.2, 26.0, 90)
 ref_en(J2, 62.9, 15.0, 90)
 # Detras: DAC horizontal 31.85 x 17.78 (columna J5 a 1.5 mm del lado corto derecho y centrada en el): placa en
-# x 28.65-60.5, y 44.56-62.34 -> se usa y 44.2-61.98 de la especificacion. Jack (estimado de fotos) con la boca al
-# borde inferior y centro en x = 33.
+# x 25.65-57.5, y 44.2-61.98. Jack (estimado de fotos) con la boca al borde inferior y centro en x = 30.
 DAC = (X_J5 + 1.5 - 31.85, 44.2, X_J5 + 1.5, 44.2 + 17.78)
 rect(*DAC, B)
-rect(30.0, 52.0, 36.0, 64.3, B)
-texto("JACK", 33.0, 58.0, B)
-texto("DAC PCM5102", 45.0, 53.0, B)
-texto("VIN", 55.9, 59.8, B)
-texto("GND", 55.9, 57.26, B)
-ref_en(J5, 56.0, 48.4)
-ref_en(C3, 55.8, 63.3)
+rect(27.0, 52.0, 33.0, 64.3, B)
+texto("JACK", 30.0, 58.0, B)
+texto("DAC PCM5102", 42.0, 53.0, B)
+texto("VIN", 52.9, 59.8, B)
+texto("GND", 52.9, 57.26, B)
+ref_en(J5, 53.0, 48.4)
+ref_en(C3, 59.5, 61.7)
 ref_en(C4, 75.0, 63.0)
 # Detras: interruptor y zona de bateria
 ref_en(SW10, 134.0, 4.6)
@@ -448,6 +452,18 @@ for fp in board.GetFootprints():
         if x1 - r < x < x2 + r and y1 - r < y < y2 + r:
             avisos.append(f"{fp.GetReference()} pad {p.GetNumber()} en ({x:.2f}, {y:.2f}): el cobre del pad "
                           f"(r = {r:.2f}) entra en el margen de la zona de bateria")
+
+# ---------------------------------------------------------------- nada bajo el DAC (seccion 6)
+# Ningun agujero (de ninguna cara) dentro del contorno del DAC salvo los de J5, y el de J3 mas cercano a >= 1.5 mm
+for fp in board.GetFootprints():
+    for p in fp.Pads():
+        (x, y) = xy(p.GetPosition())
+        r = pcbnew.ToMM(p.GetSize(pcbnew.F_Cu).x) / 2
+        if fp.GetReference() != "J5" and DAC[0] - r < x < DAC[2] + r and DAC[1] - r < y < DAC[3] + r:
+            sys.exit(f"{fp.GetReference()} pad {p.GetNumber()} ({x:.2f}, {y:.2f}) bajo el contorno del DAC")
+borde_j3 = DAC[1] - max(xy(p.GetPosition())[1] for p in J3.Pads())
+if borde_j3 < 1.5:
+    sys.exit(f"ultimo pin de J3 a {borde_j3:.2f} mm del borde superior del DAC (minimo 1.5)")
 
 # ---------------------------------------------------------------- relleno, guardado y UUID deterministas
 # KiCad ordena las huellas por UUID al guardar: con UUID deterministas el archivo sale siempre igual
