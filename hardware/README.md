@@ -5,9 +5,10 @@
 > fabrican** hasta cerrar los pendientes que afectan a la placa (`ESPECIFICACION.md`, sección 11). Si alguno obliga a cambiarla, se
 > corrige en los scripts, se regenera todo y se vuelven a generar los Gerbers.
 >
-> - [ ] **Prueba 1:1 de la v0.9:** imprimir `fabricacion/KIDBOX_1a1_frente_A4.pdf` y `KIDBOX_1a1_reverso_A4.pdf` (o las versiones `_Carta`)
->       al **100 % / tamaño real**. Medir con regla que la placa mida **155 × 75 mm** y apoyar encima las piezas reales: pantalla, DAC con su
->       tira (adelante), RP2350-Plus, pulsadores con capuchón, SW10, condensadores y la batería por detrás. Foto con la regla visible.
+> - [ ] **Prueba 1:1 del ajuste 150 × 70:** imprimir `fabricacion/KIDBOX_1a1_frente_A4.pdf` y `KIDBOX_1a1_reverso_A4.pdf` (o las versiones `_Carta`)
+>       al **100 % / tamaño real**. Medir con regla que la placa mida **150 × 70 mm** y apoyar encima las piezas reales: pantalla, DAC con su
+>       tira (adelante), RP2350-Plus, pulsadores con capuchón Ø9, SW10 y condensadores. Foto con la regla visible.
+> - [ ] **Carcasa:** muro colgante entre pantalla y DAC, y bolsillo de la batería (ver "Carcasa").
 > - [ ] **Alto real del jack** sobre la placa del DAC (hoy ≈ 6 mm, provisorio): define la abertura de la carcasa, no la placa.
 > - [ ] **Polaridad del adaptador de la batería** (lo hace el profesor): medir con el multímetro antes de conectar (rojo = + → ⊕ del BAT).
 > - [ ] Pantalla: revisar el puente J1 del módulo (3.3 V). No afecta a la PCB.
@@ -24,15 +25,16 @@
 
 ## Qué es
 
-Consola portátil educativa basada en el **Game★Mite v1.3.2 de Thomas Hugo Williams (CC BY 4.0)**. Placa de **155 × 75 mm**, 2 capas,
-todo THT, **simétrica respecto de x = 77.5**. Lleva:
+Consola portátil educativa basada en el **Game★Mite v1.3.2 de Thomas Hugo Williams (CC BY 4.0)**. Placa de **150 × 70 mm**, 2 capas,
+todo THT, **simétrica respecto de x = 75**. Lleva:
 - un **Waveshare RP2350-Plus** (J1/J2, por detrás, centrado, con el USB-C en el borde superior);
 - una **pantalla TFT ILI9341 de 2.4"** por SPI (J3, por delante), con la **imagen** centrada en la placa (`tft.setRotation(3)`);
 - un **DAC PCM5102A (GY-PCM5102)** por I2S (J5, **por delante**, bajo la pantalla), con el **jack de 3.5 mm centrado** en el borde inferior;
-- **8 pulsadores** con capuchones redondos de Ø10: cruceta a la izquierda, A y B en espejo a la derecha, SELECT y START abajo;
+- **8 pulsadores** con capuchones redondos de Ø9: cruceta a la izquierda, A y B en espejo a la derecha, SELECT y START abajo;
 - un **interruptor ON/OFF** (SW10, por detrás, arriba a la izquierda) que corta 3V3_EN;
 - **TP1 (+3V3) y TP2 (GND)**, puntos de prueba junto a C2;
-- una **batería LiPo 103450** que va por detrás, en la zona marcada (sin patas THT debajo). Está en el esquemático como BT1, excluida de la placa.
+- una **batería LiPo 103450** que va en un bolsillo de la **carcasa**, detrás, no pegada a la PCB (ver "Carcasa"). Está en el esquemático
+  como BT1, excluida de la placa.
 
 Volumen por software, con máximo limitado.
 
@@ -47,10 +49,10 @@ La carpeta de entrega (`KIDBOX_PCB_v0.9/`, la arma `scripts/gen_entrega.py`) tie
 | :--- | :--- |
 | `README.md` | Este archivo |
 | `ESPECIFICACION.md` | Fuente de verdad del proyecto (la escribe el alumno), v0.9 |
-| `DECISIONES.md` | Supuestos y decisiones del diseño, fase por fase (la v0.9 está en la sección 16) |
+| `DECISIONES.md` | Supuestos y decisiones del diseño, fase por fase (la v0.9 está en las secciones 16 y 17) |
 | `KIDBOX/` | Proyecto KiCad 10: `KIDBOX.kicad_pro`, `.kicad_sch`, `.kicad_pcb`, `.kicad_dru` (reglas de 0.29 mm), `fp-lib-table` y `KIDBOX.pretty/` (huella propia del DAC) |
 | `KIDBOX/BOM.csv` | Lista de materiales del esquemático (referencia, valor, huella, cara, notas) |
-| `KIDBOX/BOM_compra.csv` | **Lista de compra completa**: módulos, batería, tiras, pulsadores, capuchones, tornillos, cinta y la placa, con cantidades, estado y proveedor (o "por cotizar") |
+| `KIDBOX/BOM_compra.csv` | **Lista de compra completa**: módulos, batería, tiras, pulsadores, capuchones, tornillos, sujeción de la batería y la placa, con cantidades, estado y proveedor (o "por cotizar") |
 | `KIDBOX/netlist.csv` | Red, componente, pin y función de cada pin |
 | `KIDBOX/verificacion/` | ERC/DRC en JSON, estadísticas, esquemático en SVG, cobre frontal y trasero (SVG) y vistas 3D (PNG) |
 | `scripts/` | Generadores (huella del DAC, esquemático, BOM/netlist, PCB, fabricación, entrega) y verificaciones; cada uno dice cómo se ejecuta en su cabecera |
@@ -71,6 +73,22 @@ python scripts/verificar.py KIDBOX
 python scripts/gen_fabricacion.py
 python scripts/gen_entrega.py
 ```
+
+## Carcasa: lo que la placa le exige
+
+- **Muro entre la pantalla y el DAC.** En la placa queda una **franja libre de 4.74 mm** en planta, entre el borde inferior del módulo de
+  pantalla (y = 46.36) y el contorno del DAC (y = 51.1), a lo ancho del DAC (x 48.6–80.45). En esa franja no hay piezas de la cara Top;
+  solo pistas. El muro va **colgado de la tapa frontal**:
+  - mide **≈ 2 mm** de ancho y va centrado en y = 48.73 (línea "muro carcasa" en F.Fab);
+  - su altura útil va de **9 a 18 mm sobre la PCB**, porque lo que debe tapar es la placa del DAC (≈ 11–18 mm sobre su socket);
+  - termina **≥ 4 mm sobre la PCB**. Las soldaduras de J2.21/J2.22 y J1.19/J1.20 (≈ 2 mm de alto) caen dentro de la franja, así que
+    **no hay que apoyar el muro sobre ellas**.
+- **Batería en la carcasa, no en la PCB.** La LiPo 103450 va en un **bolsillo de la carcasa con fondo de plástico** entre la batería y la
+  placa, con una **sujeción propia** (traba o tapa) y un **canal para el cable** hasta el conector BAT del RP2350-Plus. No se pega a la
+  PCB. El rectángulo "BATERÍA 103450" de la serigrafía trasera es solo la referencia de dónde queda, con una flecha hacia el conector BAT.
+  Ahí no van componentes altos de la cara Bottom, pero sí hay patas THT (las de START), que quedan bajo el fondo del bolsillo.
+- **Capuchones redondos Ø9** impresos en 3D: dejan ≥ 1.5 mm de aire a los módulos (el más justo es RIGHT, a 2.41 mm de la pantalla).
+- **Aberturas:** USB-C arriba (x 70.7–79.65) y jack abajo (x 72.65–77.35, boca al ras de y = 70, a ≈ 13–19 mm sobre la placa).
 
 ## Orden de soldadura
 
@@ -116,7 +134,7 @@ TP1 y TP2 son pads de la placa: no llevan pieza.
 | Archivo | `fabricacion/KIDBOX_gerbers_v0.9_PRELIMINAR.zip` (extensiones Protel, Gerber X2, taladros Excellon en mm con origen absoluto) |
 | Base material | FR-4 |
 | Layers | **2** |
-| Dimensions | **155 × 75 mm** (lo detecta solo; el sobrecosto por pasar de 100 × 100 mm está aceptado) |
+| Dimensions | **150 × 70 mm** (lo detecta solo; el sobrecosto por pasar de 100 × 100 mm está aceptado) |
 | PCB Qty | 5 (mínimo) |
 | Product type | Industrial/Consumer electronics |
 | Different design | 1 |
@@ -135,11 +153,11 @@ TP1 y TP2 son pads de la placa: no llevan pieza.
 
 ## Qué revisar en el visor de Gerbers de JLCPCB antes de pagar
 
-1. **2 capas y 155 × 75 mm.** El contorno tiene esquinas redondeadas (r = 4 mm), sin líneas sueltas ni recortes de más.
+1. **2 capas y 150 × 70 mm.** El contorno tiene esquinas redondeadas (r = 4 mm), sin líneas sueltas ni recortes de más.
 2. **Taladros: 107 en total.**
    - 103 metalizados: 2 × 0.6 mm (C4), 7 × 0.8 mm (C2, C3 y SW10), 62 × 1.0 mm (J1, J2, J3, J5, TP1 y TP2) y 32 × 1.1 mm (pulsadores).
-   - 4 sin metalizar de 2.2 mm, en las esquinas (4, 4), (151, 4), (4, 71) y (151, 71).
-   - Ningún agujero en la zona de la batería (rectángulo marcado "BATERÍA 103450" por detrás).
+   - 4 sin metalizar de 2.2 mm, en las esquinas (4, 4), (146, 4), (4, 66) y (146, 66).
+   - Dentro del rectángulo "BATERÍA 103450" (por detrás) solo caen las patas de START: la batería va en la carcasa, no sobre la placa.
 3. **Cobre superior (Top):** todas las pistas están aquí. Las de señal son de 0.25 mm y las de 3V3 de 0.5 mm, salvo un tramo de 0.25 mm entre
    dos pines de J2. Ninguna pista toca un pad que no le corresponde. No hay vías.
 4. **Cobre inferior (Bottom):** un plano de masa casi completo. Los pads de GND tienen alivios térmicos (4 "radios") y los demás pads,
@@ -154,10 +172,11 @@ TP1 y TP2 son pads de la placa: no llevan pieza.
 7. **Serigrafía inferior.** En la vista desde arriba se ve espejada, que es lo correcto; al dar vuelta la placa en el visor se lee al derecho:
    - "VISTA POSTERIOR / FILAS ESPEJADAS", el contorno de la RP2350-Plus con el USB-C arriba y "1" en J1 y J2;
    - "OFF" y "ON" en SW10 (desde atrás, arriba a la derecha, con OFF a la izquierda);
-   - "BATERÍA 103450" y, bajo la zona de batería, el cajetín "KIDBOX v0.9 – 155 x 75 mm – 1.6 mm – 2 capas".
+   - "BATERÍA 103450 / va en la carcasa, no pegar a la PCB" con una flecha hacia el conector BAT, y el cajetín
+     "KIDBOX v0.9 – 150 x 70 mm – 1.6 mm – 2 capas" abajo (a la izquierda al dar vuelta la placa).
 8. Ningún texto de serigrafía cae sobre un pad. El DRC dio 0 avisos, pero hay que confirmarlo a la vista.
 9. En la serigrafía inferior aparece **"JLCJLCJLCJLC"** en vertical, dentro de la zona de batería, junto a "BATERÍA 103450". Ahí JLCPCB pone su número de pedido (con "Specify a location").
-10. Precio y plazo coherentes con 5 placas de 155 × 75 mm, sin ensamblaje ni opciones extra marcadas por error.
+10. Precio y plazo coherentes con 5 placas de 150 × 70 mm, sin ensamblaje ni opciones extra marcadas por error.
 
 ## Verificación del diseño (26-oct-2026)
 
@@ -168,6 +187,6 @@ esquemático-PCB 0 · mínimos DFM OK.
 - ERC y DRC con los tests que el proyecto ignora activados: 0.
 - Emulación de "Actualizar PCB desde esquemático" (F8): 0 cambios.
 
-Detalle y holguras medidas en `DECISIONES.md`, sección 16.
+Detalle y holguras medidas en `DECISIONES.md`, secciones 16 y 17.
 
 Licencia y créditos: basado en el Game★Mite de Thomas Hugo Williams (CC BY 4.0).

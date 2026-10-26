@@ -10,11 +10,14 @@
 > **v0.8 (21-oct):** **pantalla 3 mm más arriba** (J3 centrada en y = 25), **DAC 3 mm hacia la cruceta** (J5 en x = 56, jack en x ≈ 30)
 > y **C3 al costado de J5** (vertical entre J5 y SELECT). Motivo: que nada quede bajo el DAC (por si se suelda directo para bajar el
 > grosor) y que C3 quede lejos del borde. Ver la sección 11, "Cambios v0.8".
-> **v0.9 (26-oct):** correcciones del profesor (informe G5 del 22-oct) y decisiones del equipo del 23–26 oct: **placa 155 × 75 mm**
-> simétrica respecto de **x = 77.5**; **imagen** de la pantalla centrada (el módulo va 4.0 mm hacia J3); RP2350-Plus centrado;
+> **v0.9 (26-oct):** correcciones del profesor (informe G5 del 22-oct) y decisiones del equipo del 23–26 oct: placa simétrica
+> (primero 155 × 75, ajustada a **150 × 70** tras la prueba 1:1); **imagen** de la pantalla centrada (el módulo va 4.0 mm hacia J3); RP2350-Plus centrado;
 > **DAC adelante** con huella propia y el **jack centrado** en el borde inferior; controles simétricos (propuesta P2 del estudio
 > ergonómico); SW10 arriba a la izquierda por detrás; C4 con huella P1.50; TP1/TP2; BT1 en el esquemático; reglas de 0.29 mm.
 > Ver la sección 11, "Cambios v0.9".
+> **Ajuste v0.9 tras la prueba 1:1 (26-oct):** placa **150 × 70** (eje x = 75), controles compactos con capuchones Ø9, DAC 5 mm más
+> arriba, franja de 4.74 mm para un **muro colgante** de la carcasa entre pantalla y DAC, y **batería en la carcasa** (la zona de la
+> PCB queda solo como referencia). Ver la sección 11, punto 15.
 
 Nombre del proyecto: `KIDBOX`
 
@@ -58,7 +61,7 @@ RP2350-Plus, accesibles por detrás (agujeros en la tapa de la carcasa). Formato
 | Modelo exacto | Waveshare **RP2350-Plus** (RP2350A, 16 MB flash, USB-C, cargador LiPo integrado). Respaldo: Raspberry Pi Pico (RP2040) del DEC, mismo pinout |
 | Cómo va montado | Sobre **2 tiras hembra 1×20** (el módulo trae pines macho soldados) |
 | Representación en el esquemático | **J1 y J2**, dos `Connector_Generic:Conn_01x20`. "U1.GPx" = pin del módulo en J1 (pines 1–20) o J2 (pines 21–40) |
-| Cara y orientación | **Cara posterior (Bottom)**, USB-C hacia el **borde superior** de la placa, módulo centrado en x = 77.5 (v0.9). ⚠ Montado por detrás queda espejado. El USB-C llegó al borde en las pruebas 1:1 de la v0.7 y la v0.8 ✅ |
+| Cara y orientación | **Cara posterior (Bottom)**, USB-C hacia el **borde superior** de la placa, módulo centrado en x = 75 (v0.9). ⚠ Montado por detrás queda espejado. El USB-C llegó al borde en las pruebas 1:1 de la v0.7 y la v0.8 ✅ |
 | Paso de pines / separación entre filas | 2.54 mm / **17.78 mm** (plano oficial; medido 17.3 interior y 18.6 exterior ✅) |
 | Dimensiones del módulo | **21.0 × 51.55 mm medido** (51 mm de placa + USB-C que sobresale) ✅ |
 | Pin 1 | GP0, junto al USB. Confirmado con la serigrafía de la pieza ("20" y "21" en el extremo opuesto al USB) ✅ |
@@ -72,7 +75,7 @@ RP2350-Plus, accesibles por detrás (agujeros en la tapa de la carcasa). Formato
 
 | Dato | Valor |
 | :--- | :--- |
-| Fuente de energía | **LiPo 103450, 3.7 V, 2000 mAh, 7.4 Wh** (del profesor). **Medida: 50.99 × 33.11 × 9.84 mm** ✅. Se conecta al conector BAT de la RP2350-Plus; **no pasa por esta PCB** |
+| Fuente de energía | **LiPo 103450, 3.7 V, 2000 mAh, 7.4 Wh** (del profesor). **Medida: 50.99 × 33.11 × 9.84 mm** ✅. Se conecta al conector BAT de la RP2350-Plus; **no pasa por esta PCB**. Va en un bolsillo de la **carcasa** (ajuste v0.9), no pegada a la placa |
 | Corriente de carga | 1 A (ETA6096, R13 = 160 kΩ) = **0.5C** para 2000 mAh ✅. **El riesgo de la v0.6 queda resuelto.** La LiPo de 500 mAh ya no se usa |
 | Cable de batería | Conector blanco de la batería (parece PH2.0) → **adaptador a 1.25 mm** (lo hace el profesor) **[PENDIENTE]**. **Verificar polaridad con multímetro antes de conectar** (rojo = + → ⊕ del BAT) |
 | Tensión de entrada | 3.0–4.2 V (LiPo); 5 V por USB-C al cargar |
@@ -151,83 +154,87 @@ Con J1/J2 como conectores genéricos, el ERC necesita `PWR_FLAG` en 3V3 y en GND
 
 ## 6. Mecánica y posiciones
 
-> Medidas de todos los módulos **confirmadas** con las piezas. Desde la v0.9 las posiciones siguen las decisiones del equipo del
-> 23–26 oct (simetría, imagen centrada, DAC adelante) y la propuesta P2 del estudio ergonómico del profesor, adaptada a 155 mm.
-> Se validan con la prueba 1:1 de la v0.9.
+> Medidas de todos los módulos **confirmadas** con las piezas. Las posiciones siguen las decisiones del equipo del 23–26 oct
+> (simetría, imagen centrada, DAC adelante) y el **ajuste tras la prueba 1:1 de la v0.9** (26-oct): placa 150 × 70, controles
+> compactos con capuchones Ø9, DAC 5 mm más arriba, franja para el muro de la carcasa y batería en la carcasa.
 
 | Dato | Valor |
 | :--- | :--- |
-| Dimensiones exteriores | **155 × 75 mm** (v0.9). Se acepta el sobrecosto de JLCPCB por superar 100 × 100 mm |
-| Eje de simetría | **x = 77.5**: centro de la imagen, del RP2350-Plus y del jack; controles en espejo |
+| Dimensiones exteriores | **150 × 70 mm** (ajuste v0.9). Se acepta el sobrecosto de JLCPCB por superar 100 × 100 mm |
+| Eje de simetría | **x = 75**: centro de la imagen, del RP2350-Plus (y su USB-C) y del jack; controles en espejo |
 | Forma / radio de esquinas | Rectángulo / 4 mm |
 | Origen | Esquina superior izquierda = (0,0), Y hacia abajo, **visto desde el frente** |
 | Referencia de las coordenadas | **Centro del cuerpo** de cada pieza |
 | Rotaciones | **Manda la descripción geométrica** (qué pin queda dónde, visto desde el frente). Verificar la posición de los pads |
-| Agujeros de montaje | M2 NPTH 2.2 mm en (4, 4), (151, 4), (4, 71), (151, 71) |
-| Alturas | Top: pulsadores 9.1 mm; pantalla ≈ 17 mm sobre la placa sobre la tira hembra (medido: módulo 6 mm + pines 10 mm; el lector SD baja ≈ 3 mm por detrás del módulo); **DAC sobre socket ≈ 18.6 mm** (tira hembra 8.5 + plástico de la tira macho 2.5 + placa 1.6 + jack ≈ 6, provisorio; las puntas de la tira macho sobresalen ≈ 2.5 mm, menos que el jack). Bottom: módulos sobre tira hembra ≈ 12 mm; batería 9.84 mm; SW10 ≈ 11 mm. **Grosor sin carcasa ≈ 18.6 + 1.6 + 12 ≈ 32 mm** (con el DAC soldado directo, ≈ 17 + 1.6 + 12 ≈ 31 mm) |
-| Zona prohibida Top | Bajo el módulo de pantalla (x 34.9–112.1, y 3.6–46.4) no van componentes salvo J3; **sí** pistas y soldaduras de piezas de la cara Bottom. Bajo el DAC (x 51.1–82.95, y 56.1–73.6) solo J5 |
-| **Zona de batería (Bottom)** | Rectángulo **x 90.5–126.0, y 4.0–62.0** (v0.9: corrida +2.5 mm igual que el RP2350-Plus; mismo tamaño, 35.5 × 58 mm, para una batería de 33.1 × 51.0 mm). **Sin componentes ni patas THT**; solo pistas y **vías tapadas**. La batería apoya con su lado largo vertical |
-| Bordes libres | Superior x 73.2–82.15 (USB-C; abertura de carcasa x ≈ 71–84). Inferior bajo el jack, x 75.15–79.85 (boca al ras de y = 75; el jack queda ≈ 13–19 mm sobre la placa) |
+| Agujeros de montaje | M2 NPTH 2.2 mm en (4, 4), (146, 4), (4, 66), (146, 66) |
+| Alturas | Top: pulsadores 9.1 mm; pantalla ≈ 17 mm sobre la placa sobre la tira hembra (medido: módulo 6 mm + pines 10 mm; el lector SD baja ≈ 3 mm por detrás del módulo); **DAC sobre socket ≈ 18.6 mm** (tira hembra 8.5 + plástico de la tira macho 2.5 + placa 1.6 + jack ≈ 6, provisorio; la placa del DAC queda a ≈ 11 mm; las puntas de la tira macho sobresalen ≈ 2.5 mm, menos que el jack). Bottom: módulos sobre tira hembra ≈ 12 mm; SW10 ≈ 11 mm. **Grosor sin carcasa ≈ 18.6 + 1.6 + 12 ≈ 32 mm** (con el DAC soldado directo, ≈ 31 mm). La batería (9.84 mm) va en la carcasa |
+| Zona prohibida Top | Bajo el módulo de pantalla (x 32.4–109.6, y 3.6–46.4) no van componentes salvo J3; **sí** pistas y soldaduras de piezas de la cara Bottom. Bajo el DAC (x 48.6–80.45, y 51.1–68.6) solo J5 |
+| **Franja del muro (Top)** | Entre el borde inferior de la pantalla (y 46.36) y el contorno del DAC (y 51.1): **4.74 mm** en planta, en x 48.6–80.45. Sin componentes ni patas de piezas de la cara Top (solo pistas). El **muro de la carcasa es colgante** desde la tapa frontal: ≈ 2 mm de ancho, centrado en **y = 48.73**, con altura útil entre **9 y 18 mm sobre la PCB** (lo que debe tapar es la placa del DAC, a ≈ 11–18 mm). Termina **≥ 4 mm sobre la PCB** para pasar sobre las soldaduras de J2.21/J2.22 y J1.19/J1.20 (≈ 2 mm de alto), que caen dentro de la franja. **No apoyar el muro sobre esas soldaduras.** Está dibujado en F.Fab |
+| **Batería (en la carcasa)** | **No va pegada a la PCB**: va en un **bolsillo de la carcasa con fondo de plástico** entre la LiPo y la placa, con sujeción propia y un canal para el cable hasta el conector BAT del módulo. En B.SilkS queda solo como **referencia**: rectángulo x 88.0–123.5, y 4.0–62.0 (al lado derecho del RP2350-Plus), con "BATERÍA 103450 / va en la carcasa, no pegar a la PCB" y una flecha hacia el conector BAT. **En esa zona no van componentes altos de la cara Bottom; las patas THT sí se permiten** (las de START caen ahí) |
+| Bordes libres | Superior x 70.7–79.65 (USB-C; abertura de carcasa x ≈ 68–82). Inferior bajo el jack, x 72.65–77.35 (boca al ras de y = 70; el jack queda ≈ 13–19 mm sobre la placa) |
 | Espesor | 1.6 mm |
 
 El boceto `datasheets/layout_propuesto.svg` corresponde a la v0.6 y queda como **histórico**: la referencia de posiciones es esta sección
 y las imágenes de `KIDBOX/verificacion/`.
 
 **Pantalla** (plano MSP2402 de LCDwiki; **confirmada con la pieza el 15-oct** ✅: 77 × 42 mm, J3 a la izquierda, pin 1 VCC arriba, mismo orden de pines): placa **77.18 × 42.72 mm**, horizontal, **sin girar**, tira de 14 pines (**J3**) **vertical en el borde corto izquierdo**, a 2.00 mm del borde, **pin 1 (VCC) arriba** ✅.
-- **v0.9: la IMAGEN va centrada en x = 77.5, no el módulo.** Medido con la pieza encendida (marco 320×240): del borde del módulo del lado
+- **La IMAGEN va centrada en x = 75, no el módulo.** Medido con la pieza encendida (marco 320×240): del borde del módulo del lado
   de J3 a los píxeles hay 19 mm y del borde opuesto 11 mm; el área activa está centrada en vertical. El centro de la imagen queda
   **4.0 mm** corrido respecto del centro del módulo, hacia el lado opuesto a J3.
-- Módulo centrado en **(73.5, 25)** → x 34.91–112.09, y 3.64–46.36. **J3 en x = 36.91**, pines y 8.49–41.51 (misma altura que la v0.8:
-  la imagen queda arriba y la franja inferior libre para el DAC).
-- Imagen dibujada con el dato del panel, **48.96 × 36.72 mm**, centrada en (77.5, 25) → x 53.02–101.98, y 6.64–43.36.
+- Módulo centrado en **(71, 25)** → x 32.41–109.59, y 3.64–46.36. **J3 en x = 34.41**, pines y 8.49–41.51.
+- Imagen dibujada con el dato del panel, **48.96 × 36.72 mm**, centrada en (75, 25) → x 50.52–99.48, y 6.64–43.36.
   (19 + 11 + 48.96 = 78.96 mm, 1.8 mm más que el módulo medido: el centro no cambia, por eso se usa el dato del panel.)
 - Firmware: `tft.setRotation(3)`.
 - El lector SD (por detrás del módulo, mitad derecha vista de frente) y el táctil quedan sin usar. Agujeros del módulo Ø3.2 a
-  67.26 × 36.72 entre centros: **no se usan en la PCB** (los del lado de J3 chocan con la tira y los del lado derecho caen sobre la zona de batería).
+  67.26 × 36.72 entre centros: **no se usan en la PCB**.
 
-**RP2350-Plus** (cara Bottom, vista "a través" desde el frente): vertical, USB-C arriba, **centrado en x = 77.5** (v0.9): placa en
-x 67.0–88.0, y ≈ 0.55–51.55. Columnas en **x = 68.61 (J2) y 86.39 (J1)**. Pin 1 (GP0) arriba a la derecha: pines 1–20 en la columna
+**RP2350-Plus** (cara Bottom, vista "a través" desde el frente): vertical, USB-C arriba, **centrado en x = 75**: placa en
+x 64.5–85.5, y ≈ 0.55–51.55. Columnas en **x = 66.11 (J2) y 83.89 (J1)**. Pin 1 (GP0) arriba a la derecha: pines 1–20 en la columna
 derecha de arriba hacia abajo; pines 21–40 en la columna izquierda de abajo hacia arriba. **USB-C según el plano oficial**: 8.95 mm de
-ancho, a 6.2 mm del borde izquierdo del módulo visto de frente → x 73.2–82.15 (0.15 mm descentrado respecto del módulo).
-Conector BAT en el extremo inferior del módulo (y ≈ 48–51), del lado de la batería.
+ancho, a 6.2 mm del borde izquierdo del módulo visto de frente → x 70.7–79.65 (0.15 mm descentrado respecto del módulo).
+Conector BAT en el extremo inferior del módulo (y ≈ 48–51); la flecha de la serigrafía trasera lo señala.
 
-**DAC GY-PCM5102** (**cara Top desde la v0.9**): medidas reales **31.85 × 17.5 mm** (ancho medido 17.3–17.5); la tira de 6 pines está
+**DAC GY-PCM5102** (**cara Top**): medidas reales **31.85 × 17.5 mm** (ancho medido 17.3–17.5); la tira de 6 pines está
 en un **lado corto**, a 1.5 mm del borde y centrada a lo ancho; el **eje del jack está a 24.9 mm de la columna**; el jack mide
 **4.7 mm de ancho × 14 mm de largo** y **sobresale 1.4 mm** del borde largo; alto del jack sobre la placa del DAC ≈ 6 mm (provisorio).
 - Va **adelante**, en la franja bajo la pantalla, con los componentes del módulo hacia el frente y la tira macho hacia la PCB.
-- **Jack centrado en x = 77.5** con la **boca al ras del borde inferior** (y = 75). Visto de frente: pines a la izquierda (hacia la
+- **Jack con eje en x = 75** y la **boca al ras del borde inferior** (y = 70). Visto de frente: pines a la izquierda (hacia la
   cruceta), jack a la derecha, boca abajo, **VIN abajo** (el pin más cercano a la boca), SCK arriba.
-- **J5 en x = 52.6**, pines de **y = 58.5 (pin 6, SCK) a y = 71.2 (pin 1, VIN)**. Módulo en **x 51.1–82.95, y 56.1–73.6**; jack en
-  x 75.15–79.85, y 61.0–75.0. Separación con la pantalla: 9.74 mm (no se superponen en planta, así que no chocan en altura).
+- **J5 en x = 50.1**, pines de **y = 53.5 (pin 6, SCK) a y = 66.2 (pin 1, VIN)**. Módulo en **x 48.6–80.45, y 51.1–68.6**; jack en
+  x 72.65–77.35, y 56–70. Separación con la pantalla: **4.74 mm** (franja del muro); no se superponen en planta.
+- **J2.21 (cara Bottom) queda con su cobre a 0.07 mm del contorno del DAC** (fuera de él). No es violación: J2 está en la cara Bottom
+  y la huella de J5 en la Top, y el agujero de J2.21 queda 0.13 mm fuera del courtyard de J5. Físicamente no chocan: la soldadura de
+  J2.21 mide ≈ 2 mm y la placa del DAC está a ≈ 11 mm sobre la PCB.
 - **Huella propia** `Connector_KIDBOX:GY-PCM5102_1x06_P2.54mm` (pads de la tira + contorno del módulo y del jack + courtyard).
 - **Nada bajo el DAC:** ninguna pata THT dentro de su contorno salvo J5, por si el módulo se suelda directo a la placa (sin tira
   hembra) para bajar el grosor. Solo pasan pistas de F.Cu y el plano de B.Cu.
-- **C4 a la altura de VIN**, entre SELECT y el DAC: pad + en (49.05, 71.2), pad − en (47.55, 71.2). **C3 vertical justo encima**:
-  pad +3V3 en (48.3, 67.6), pad GND en (48.3, 62.6). Los dos fuera del contorno del DAC (courtyards: SELECT hasta x 45.8, C3 46.8–49.8,
-  C4 46.0–50.6, DAC desde 50.8).
+- **C4 a la altura de VIN**, entre SELECT y el DAC: pad + en (46.55, 66.2), pad − en (45.05, 66.2). **C3 vertical justo encima**:
+  pad +3V3 en (45.8, 62.6), pad GND en (45.8, 57.6). Los dos fuera del contorno del DAC (courtyards: SELECT hasta x 43.3, C3 44.3–47.3,
+  C4 43.5–48.1, DAC desde 48.3).
 - Puentes del reverso del módulo: **FLT, DEMP y FMT = L; XSMT = H** (3.21 V). En este módulo **H3L controla FMT y H4L controla XSMT**;
   venían abiertos. Volumen por software, con máximo limitado.
 
-**Controles** (v0.9): simétricos respecto de x = 77.5, según la propuesta P2 del estudio ergonómico adaptada a 155 mm. Capuchones
-**redondos Ø10**: ≥ 1.5 mm de aire entre el círculo de Ø10 y el contorno de cualquier módulo (`gen_pcb.py` lo comprueba).
+**Controles**: simétricos respecto de x = 75 y compactos (ajuste v0.9). Capuchones **redondos Ø9**: ≥ 1.5 mm de aire entre el
+círculo de Ø9 y el contorno de cualquier módulo (`gen_pcb.py` lo comprueba). Con brazos de 9 mm, entre las columnas de pads de la
+cruceta quedan solo 0.5 mm; el ruteo usa los canales horizontales entre filas, y UP entra por el borde izquierdo.
 
 Posiciones fijas (centro del cuerpo):
 
 | Ref | x (mm) | y (mm) | Cara | Por qué es fija |
 | :--- | :--- | :--- | :--- | :--- |
-| SW3 (UP) | 18 | 34 | Top | Cruceta, centro (18, 44), brazos de 10 mm. Capuchón a 11.9 mm de la pantalla |
-| SW1 (DOWN) | 18 | 54 | Top | Cruceta |
-| SW2 (LEFT) | 8 | 44 | Top | Cruceta; capuchón a 3.0 mm del borde izquierdo |
-| SW4 (RIGHT) | 28 | 44 | Top | Cruceta; capuchón a **1.91 mm** de la pantalla (mínimo de la placa) |
-| SW7 (B) | 132 | 49 | Top | Espejo de la cruceta: punto medio de A/B en x = 137. Cobre a 1.75 mm de la zona de batería |
-| SW8 (A) | 142 | 39 | Top | A arriba a la derecha, en diagonal con B (14.1 mm) |
-| SW5 (SELECT) | **41** | **67** | Top | Franja inferior, simétrico con START. Capuchón a 5.1 mm del DAC |
-| SW6 (START) | **114** | **67** | Top | Franja inferior; cobre a 1.75 mm por debajo de la zona de batería |
-| SW10 (ON/OFF) | **50** | **8** | **Bottom** | Arriba a la izquierda por detrás, fuera de la zona de los índices. Pad 2 (GND = OFF) en x = 52.54, pad 3 en x = 47.46 |
-| J3 (pantalla 1×14) | **36.91** | 25 | Top | Borde izquierdo del módulo de pantalla, pin 1 arriba ✅ |
-| J1+J2 (RP2350-Plus) | centro (77.5, 26.05) | — | **Bottom** | USB-C en el borde superior; columnas x = 86.39 / 68.61 |
-| J5 (DAC) | columna en **x = 52.6**, y = 58.5–71.2 | — | **Top** | Jack centrado en x = 77.5, boca en y = 75 |
-| TP1 / TP2 | 29.8 | 8.49 / 13.49 | Top | Puntos de prueba +3V3 / GND junto a C2 |
+| SW3 (UP) | 16.5 | 30 | Top | Cruceta, centro (16.5, 39), brazos de 9 mm |
+| SW1 (DOWN) | 16.5 | 48 | Top | Cruceta |
+| SW2 (LEFT) | 7.5 | 39 | Top | Cruceta; capuchón a 3.0 mm del borde izquierdo |
+| SW4 (RIGHT) | 25.5 | 39 | Top | Cruceta; capuchón a **2.41 mm** de la pantalla (mínimo de la placa) |
+| SW7 (B) | 129 | 43.5 | Top | Espejo de la cruceta: punto medio de A/B en x = 133.5, diagonal de 9 mm |
+| SW8 (A) | 138 | 34.5 | Top | A arriba a la derecha |
+| SW5 (SELECT) | 38.5 | 62 | Top | Franja inferior, simétrico con START. Capuchón a 5.6 mm del DAC |
+| SW6 (START) | 111.5 | 62 | Top | Franja inferior. Sus patas caen en la zona de referencia de la batería (permitido) |
+| SW10 (ON/OFF) | 47.5 | 8 | **Bottom** | Arriba a la izquierda por detrás, fuera de la zona de los índices. Pad 2 (GND = OFF) en x = 50.04, pad 3 en x = 44.96 |
+| J3 (pantalla 1×14) | 34.41 | 25 | Top | Borde izquierdo del módulo de pantalla, pin 1 arriba ✅ |
+| J1+J2 (RP2350-Plus) | centro (75, 26.05) | — | **Bottom** | USB-C en el borde superior; columnas x = 83.89 / 66.11 |
+| J5 (DAC) | columna en **x = 50.1**, y = 53.5–66.2 | — | **Top** | Jack con eje en x = 75, boca en y = 70 |
+| TP1 / TP2 | 27.3 | 8.49 / 13.49 | Top | Puntos de prueba +3V3 / GND junto a C2 (C2 en x = 30.6) |
 
 ## 7. Fabricante y reglas de diseño (DFM)
 
@@ -264,11 +271,12 @@ Posiciones fijas (centro del cuerpo):
 ## 9. Serigrafía y marcas
 
 - F.SilkS: nombre de cada botón (UP, DOWN, LEFT, RIGHT, A, B, SELECT, START) en **1.2 mm / 0.18 mm** (v0.9). **Sin "RESET"** (ya no hay botón en el frente).
-- F.SilkS: contorno del módulo de pantalla, **contorno de la imagen (48.96 × 36.72, centrada en x = 77.5)** y pin 1 de J3.
+- F.SilkS: contorno del módulo de pantalla, **contorno de la imagen (48.96 × 36.72, centrada en x = 75)** y pin 1 de J3.
 - F.SilkS: contorno del DAC y del jack (en la huella de J5), "VIN" y "GND" junto a J5, y "3V3" / "GND" junto a TP1 / TP2.
 - B.SilkS: contorno de la RP2350-Plus **con la forma del USB-C**, el **pin 1 marcado en J1 y J2**, la posición de **BOOT/RESET** del módulo y "VISTA POSTERIOR — FILAS ESPEJADAS".
 - B.SilkS: junto a SW10, **"OFF" sobre el pad 2 (GND, x 52.54) y "ON" sobre el pad 3 (x 47.46)**: visto desde atrás, OFF a la izquierda y ON a la derecha. La continuidad está medida (21-oct ✅): la palanca une el común con la pata de su lado.
-- B.SilkS: **contorno de la zona de batería** con el texto "BATERÍA 103450", y el cajetín "KIDBOX v0.9 — 155 × 75 mm — 1.6 mm — 2 capas" bajo la zona de batería.
+- B.SilkS: **contorno de referencia de la batería** con "BATERÍA 103450 / va en la carcasa, no pegar a la PCB" y una flecha hacia el conector BAT del módulo, y el cajetín "KIDBOX v0.9 — 150 × 70 mm — 1.6 mm — 2 capas".
+- F.Fab: línea del **muro de la carcasa** al centro de la franja pantalla–DAC (y = 48.73), con su descripción.
 - Texto "KIDBOX v0.9 2026 — basado en Game★Mite de Thomas Hugo Williams (CC BY 4.0)" (o "Game*Mite" si no sale la ★), fuera de los módulos y de la zona de batería (en el frente, entre el DAC y START).
 
 ## 10. Entregables que espero del agente
@@ -277,7 +285,7 @@ Posiciones fijas (centro del cuerpo):
 - [ ] ERC y DRC con 0 errores, mínimos DFM de la sección 7 escritos en el proyecto.
 - [ ] `BOM.csv`, `BOM_compra.csv`, `netlist.csv`, `DECISIONES.md`, `README.md` (con el **orden de soldadura**: primero las piezas de la cara Bottom, J1, J2, SW10, después las de Top).
 - [ ] Imágenes de verificación (`verificacion/`).
-- [ ] Gerbers, taladros, zip y PDF 1:1 (A4 y Carta) con la versión **v0.9**, marcados como **preliminares** hasta la prueba 1:1 de la v0.9.
+- [ ] Gerbers, taladros, zip y PDF 1:1 (A4 y Carta) con la versión **v0.9**, marcados como **preliminares** hasta la prueba 1:1 del ajuste 150 × 70.
 - [ ] Carpeta de entrega con la especificación, `DECISIONES.md` y los scripts (`scripts/gen_entrega.py`).
 
 ## 11. Decisiones tomadas y pendientes
@@ -286,8 +294,8 @@ Decisiones vigentes:
 - Base Game★Mite v1.3.2. RP2350-Plus (respaldo Pico). Firmware en Arduino IDE.
 - Pantalla TFT ILI9341 2.4" SPI (AFEL, MSP2402), sin SD ni táctil, brillo por PWM (GP26). Firmware con `tft.setRotation(3)`.
 - Audio por DAC PCM5102A (I2S) con jack de 3,5 mm; sin parlante. VIN = 3V3 (probado el 23-oct). **Volumen por software con máximo limitado.**
-- 8 pulsadores 6×6 del DEC; capuchones 3D redondos Ø10. Formato horizontal. Todo THT, 2 capas.
-- USB-C arriba y jack abajo, los dos centrados en x = 77.5; ON/OFF por detrás, arriba a la izquierda. Cruceta en GP16–GP19.
+- 8 pulsadores 6×6 del DEC; capuchones 3D redondos Ø9. Formato horizontal. Todo THT, 2 capas.
+- USB-C arriba y jack abajo, los dos centrados en x = 75; ON/OFF por detrás, arriba a la izquierda. Batería en la carcasa. Cruceta en GP16–GP19.
 - Fase 0 y Fase 1: ver historial en git (v0.5 y v0.6).
 
 Cambios v0.7 (14-oct-2026, decididos por el alumno tras medir las piezas):
@@ -307,7 +315,7 @@ Cambios v0.8 (21-oct-2026, decididos por el alumno en la revisión de la Fase 4)
    SELECT** (pad +3V3 a la altura de VIN). Así ninguna pata queda bajo el DAC, por si se suelda directo para bajar el grosor, y C3 deja el
    borde inferior.
 Cambios v0.9 (26-oct-2026, correcciones del profesor del 22-oct y decisiones del equipo del 23–26 oct; posiciones en la sección 6):
-9. **Placa 155 × 75 mm**, esquinas r = 4, agujeros M2 en (4, 4), (151, 4), (4, 71), (151, 71). Eje de simetría x = 77.5.
+9. *(Coordenadas 9–12 reemplazadas por el ajuste del punto 15.)* **Placa 155 × 75 mm**, esquinas r = 4, agujeros M2 en (4, 4), (151, 4), (4, 71), (151, 71). Eje de simetría x = 77.5.
 10. **Imagen de la pantalla centrada** en x = 77.5 (módulo en x = 73.5, J3 en x = 36.91). **RP2350-Plus centrado** (columnas 68.61 / 86.39)
     y zona de batería corrida igual (x 90.5–126.0).
 11. **DAC adelante** con huella propia, jack centrado con la boca al ras del borde inferior; C3 y C4 junto a VIN, fuera del DAC.
@@ -318,9 +326,16 @@ Cambios v0.9 (26-oct-2026, correcciones del profesor del 22-oct y decisiones del
     la placa; PWR_EN lejos del borde; rótulos de botones a 1.2/0.18; versión v0.9 en serigrafía, cajetín, README y zip; BOM de compra
     completa; tabla de archivos del README; carpeta de entrega.
 14. No se re-anotan las referencias (C1, J4 y SW9 faltan): basta la nota del README.
+15. **Ajuste tras la prueba 1:1 (26-oct, mismo PR):** placa **150 × 70** (agujeros en (4, 4), (146, 4), (4, 66), (146, 66)), eje
+    x = 75; imagen centrada en x = 75 (módulo x 32.41–109.59, J3 en x = 34.41); controles compactos con capuchones **Ø9**: cruceta
+    centro (16.5, 39) con brazos de 9 mm, A (138, 34.5) / B (129, 43.5), SELECT/START (38.5, 62) / (111.5, 62); DAC 5 mm más arriba
+    (J5 en x = 50.1, jack con eje en x = 75 y boca en y = 70); **franja de 4.74 mm para un muro colgante** de la carcasa entre
+    pantalla y DAC; RP2350-Plus en 66.11 / 83.89; SW10 en (47.5, 8); **batería en la carcasa** (zona solo de referencia: patas THT
+    permitidas, sin componentes altos). El resto de la v0.9 se mantiene.
 
 Pendientes (antes de fabricar):
-- **Prueba 1:1 de la v0.9:** imprimir los PDF nuevos al 100 % (A4 o Carta), medir 155 × 75 mm y apoyar las piezas reales.
+- **Prueba 1:1 del ajuste 150 × 70:** imprimir los PDF nuevos al 100 % (A4 o Carta), medir 150 × 70 mm y apoyar las piezas reales.
+- **Carcasa:** muro colgante entre pantalla y DAC (≈ 2 mm, termina ≥ 4 mm sobre la PCB) y bolsillo de la batería con fondo de plástico.
 - **Alto real del jack** sobre la placa del DAC (hoy ≈ 6 mm, provisorio): define la abertura de la carcasa.
 - Pantalla: falta solo revisar el **puente J1** del módulo (alimentación a 3.3 V); no afecta a la PCB.
 - Adaptador y polaridad de la batería (profesor).
@@ -334,6 +349,7 @@ y filas a 17.78 ✅; continuidad de SW10 ✅; C2/C3/C4 medidos ✅.
 - No usar componentes SMD. No modificar huellas oficiales. No descargar huellas de internet (la del DAC es propia, generada por script).
 - No mover las posiciones fijas de la sección 6 sin preguntar.
 - No reasignar pines de SPI, pantalla ni I2S.
-- **No colocar componentes ni patas THT en la zona de batería** (Bottom, x 90.5–126.0, y 4.0–62.0).
+- **Zona de batería** (Bottom, x 88.0–123.5, y 4.0–62.0, solo referencia: la batería va en la carcasa): no colocar componentes altos de la cara Bottom; las patas THT se permiten.
+- **Franja del muro** (Top, y 46.36–51.1, x 48.6–80.45): sin componentes ni patas de piezas de la cara Top; solo pistas.
 - Anotar toda decisión no escrita aquí en `DECISIONES.md`.
-- No generar Gerbers "para fabricar" mientras quede un pendiente que afecte a la placa (hoy: la prueba 1:1 de la v0.9); hasta entonces van marcados como **preliminares**.
+- No generar Gerbers "para fabricar" mientras quede un pendiente que afecte a la placa (hoy: la prueba 1:1 del ajuste 150 × 70); hasta entonces van marcados como **preliminares**.

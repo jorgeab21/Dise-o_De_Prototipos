@@ -1,25 +1,25 @@
 Informe de estadísticas de la placa
 =============================
-- Fecha: 26-10-2026 18:33:40
+- Fecha: 26-10-2026 19:45:56
 - Proyecto: KIDBOX
 - Nombre de placa: KIDBOX
 
 Placa
 -----
-- Ancho: 155,0000 mm
-- Alto: 75,0000 mm
-- Área: 11611,248 mm²
-- Área de cobre frontal: 622,739 mm²
-- Área de cobre posterior: 11259,252 mm²
-- Margen mínimo de pista: 0,3500 mm
+- Ancho: 150,0000 mm
+- Alto: 70,0000 mm
+- Área: 10486,248 mm²
+- Área de cobre frontal: 628,135 mm²
+- Área de cobre posterior: 10140,263 mm²
+- Margen mínimo de pista: 0,3050 mm
 - Ancho mínimo de pista: 0,2500 mm
 - Diámetro mínimo de taladro: 0,6000 mm
 - Grosor del apilado de la placa: 1,6000 mm
 
-- Área de huellas frontal: 1580,745 mm²
+- Área de huellas frontal: 1579,977 mm²
 - Área de huellas posterior: 649,949 mm²
-- Densidad de componentes frontal: 13,61 %
-- Densidad de componentes posterior: 5,60 %
+- Densidad de componentes frontal: 15,07 %
+- Densidad de componentes posterior: 6,20 %
 Pads
 ----
 - Agujero pasante: 103

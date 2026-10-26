@@ -404,3 +404,66 @@ Eso demuestra que las reglas están activas.
 Placa: 101 segmentos, 1192 mm, 0 vías. Taladros PTH: 2 × 0.6 (C4), 7 × 0.8 (C2, C3, SW10), 62 × 1.0 (J1, J2, J3, J5, TP1, TP2) y
 32 × 1.1 (pulsadores) = 103; NPTH 4 × 2.2. Archivos: Gerbers, taladros, `fabricacion/KIDBOX_gerbers_v0.9_PRELIMINAR.zip` y PDF 1:1 en
 A4 y Carta.
+
+## 17. v0.9 — ajuste tras la prueba 1:1: 150 × 70, controles Ø9, muro DAC–pantalla, batería en carcasa (26-oct-2026)
+
+Decisiones del equipo tras imprimir la v0.9 a escala real. Sigue siendo la v0.9 y va en el mismo PR #27. Reemplaza las coordenadas de la
+sección 16; el resto de la sección 16 (huella del DAC, C4 P1.50, reglas de 0.29 mm, LRCK y 3V3 por J2, TP, serigrafía) se mantiene.
+
+| Elemento | v0.9 (sección 16) | Ajuste |
+| :--- | :--- | :--- |
+| Placa | 155 × 75, eje x = 77.5 | **150 × 70**, eje **x = 75**; agujeros en (4, 4), (146, 4), (4, 66), (146, 66) |
+| Pantalla | módulo x 34.91–112.09, J3 en x = 36.91 | módulo **x 32.41–109.59**, **J3 en x = 34.41** (misma altura); imagen en x 50.52–99.48 |
+| RP2350-Plus | 68.61 / 86.39 | **66.11 / 83.89**; USB-C x 70.7–79.65 |
+| DAC | J5 en x = 52.6, VIN en y = 71.2, módulo y 56.1–73.6 | **J5 en x = 50.1, VIN en y = 66.2**, módulo **x 48.6–80.45, y 51.1–68.6**, jack x 72.65–77.35, boca en y = 70 |
+| Cruceta | centro (18, 44), brazos de 10 | **centro (16.5, 39), brazos de 9**: UP (16.5, 30), DOWN (16.5, 48), LEFT (7.5, 39), RIGHT (25.5, 39) |
+| A / B | (142, 39) / (132, 49) | **(138, 34.5) / (129, 43.5)** (punto medio x = 133.5, diagonal de 9 mm) |
+| SELECT / START | (41, 67) / (114, 67) | **(38.5, 62) / (111.5, 62)** |
+| Capuchones | redondos Ø10 | **redondos Ø9** (mínimo 1.5 mm de aire a los módulos) |
+| SW10 | (50, 8) | **(47.5, 8)**; pad 2 (GND = OFF) en x = 50.04 |
+| C2 / TP1 / TP2 | x 33.1 / 29.8 | **x 30.6 / 27.3** (igual respecto de J3) |
+| C3 / C4 | + en (48.3, 67.6) / (49.05, 71.2) | **+ en (45.8, 62.6) / (46.55, 66.2)** (grupo corrido −2.5 / −5 junto con SELECT y el DAC) |
+| Batería | zona sin patas THT en x 90.5–126.0 | **va en la carcasa**: zona solo de referencia en x 88.0–123.5, y 4–62, con una flecha hacia el conector BAT. Patas THT permitidas (caen las de START); sin componentes altos de la cara Bottom |
+| Muro | — | **franja de 4.74 mm** (y 46.36–51.1, x 48.6–80.45) sin piezas de la cara Top; línea "muro carcasa" en F.Fab en y = 48.73 |
+
+### Decisiones y supuestos
+
+- **26-oct · Muro colgante (decisión del alumno).** La franja de 4.74 mm entre la pantalla y el DAC no puede quedar libre de patas: las
+  últimas patas del RP2350-Plus (J2.21/J2.22 en x = 66.11 y J1.19/J1.20 en x = 83.89, cobre en y 46.79–51.03) caen dentro. Para que el muro
+  pasara entero por debajo de J2 habría hecho falta bajar el DAC 4.43 mm, y la placa no da. Por eso el muro cuelga de la tapa frontal, mide
+  ≈ 2 mm, tiene una altura útil de 9 a 18 mm sobre la PCB y termina ≥ 4 mm sobre ella: pasa por encima de las soldaduras (≈ 2 mm). El
+  generador comprueba que ninguna pieza de la cara Top tenga patas en la franja.
+- **26-oct · J2.21 junto al DAC.** El cobre de J2.21 queda a 0.07 mm del contorno del DAC, por fuera.
+  - No hay violación en el DRC: J2 está en la cara Bottom y J5 en la Top, y el agujero de J2.21 (hasta y 50.68) queda 0.13 mm fuera del
+    courtyard de J5 (desde y 50.81).
+  - Tampoco hay choque físico: la soldadura mide ≈ 2 mm y la placa del DAC está a ≈ 11 mm.
+- **26-oct · Ruteo de la cruceta con brazos de 9 mm.** Entre las columnas de pads de la cruceta solo quedan 0.5 mm, y una pista de 0.25
+  necesita 0.83 mm con la regla de 0.29. Por eso el ruteo usa los dos canales horizontales de 2.5 mm que quedan entre las filas.
+  - RIGHT, LEFT y DOWN salen de J2 por la izquierda y van por el canal inferior (y 43.6 / 44.2 / 44.8).
+  - **UP sale de J2 hacia el interior del módulo**, baja a 0.315 mm de J2.21–J2.23, pasa bajo la cruceta (y = 52), sube por el borde
+    izquierdo (x = 2) y entra por el canal superior (y = 34.5) a su pad oeste. Es la única forma sin vías ni cambio de pines: en J2,
+    RIGHT está por encima de UP y la cruceta ya no deja pasar una pista entre sus columnas.
+  - UP mide ≈ 110 mm; para un pulsador eso no importa.
+- **26-oct · A** pasa bajo B y sube por la derecha de A (x = 144), porque entre B y A también quedan 0.5 mm.
+- **26-oct · Zona de batería.** Ahora es solo una referencia en B.SilkS. `gen_pcb.py` ya no prohíbe patas THT ahí; prohíbe el cuerpo
+  (courtyard) de cualquier pieza de la cara Bottom salvo J1/J2.
+
+### Holguras logradas (medidas con `pcbnew`)
+
+| Qué | Mínimo | Logrado |
+| :--- | :--- | :--- |
+| Capuchón Ø9 → pantalla | 1.5 mm | **2.41 mm** (RIGHT); el resto ≥ 11.1 mm |
+| Capuchón Ø9 → DAC | 1.5 mm | **5.60 mm** (SELECT) |
+| Capuchón Ø9 → borde de la placa | — | 3.0 mm (LEFT); 3.5 mm (SELECT y START) |
+| Franja del muro (pantalla → DAC) | 4.5 mm | **4.74 mm** |
+| Pista → pad de otra red | 0.29 mm | 0.295 mm solo en los cruces de J2 (SPI ×5, 3V3, LRCK); después 0.31 (3V3 bajo J3.14) y 0.315 (UP junto a J2.21–J2.23) |
+| Pista → pista | 0.20 mm | 0.305 mm (3V3 bajo J3.14 / RIGHT) |
+| Cobre → borde | 0.30 mm | 1.07 mm (J1.1 / J2.20); SELECT a 1.275 mm del borde inferior; UP a 1.875 mm del borde izquierdo |
+| Courtyards | sin solaparse | sin solapes (cruceta, A/B, C3/C4/SELECT/DAC) |
+
+### Verificación
+
+`verificar.py`: ERC 0/0 · DRC 0 errores, 0 avisos (con las reglas de 0.29 mm) · 0 sin conectar · paridad 0 → SIN ERRORES.
+`verificar_extra.py`: ERC, DRC, sin conectar y paridad en 0 con los tests ignorados activados; F8 en seco con 0 cambios (22 símbolos, 22 huellas).
+Placa: 103 segmentos, 1219 mm, 0 vías. Taladros: 103 PTH (2 × 0.6, 7 × 0.8, 62 × 1.0, 32 × 1.1) y 4 NPTH × 2.2.
+`BOM_compra.csv`: capuchones Ø9 y "sujeción de la batería en la carcasa" en lugar de la cinta doble faz.

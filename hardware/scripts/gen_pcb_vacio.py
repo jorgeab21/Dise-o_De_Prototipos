@@ -1,4 +1,4 @@
-# Crea KIDBOX/KIDBOX.kicad_pcb solo con el contorno (Edge.Cuts) de 155 x 75 mm (v0.9) y esquinas de radio 4 mm,
+# Crea KIDBOX/KIDBOX.kicad_pcb solo con el contorno (Edge.Cuts) de 150 x 70 mm (v0.9) y esquinas de radio 4 mm,
 # y escribe en KIDBOX/KIDBOX.kicad_pro las reglas DFM de ESPECIFICACION.md seccion 7 (minimos y net class Default)
 # mas la net class "Potencia" (pista de 0.5 mm) para +3V3 (seccion 8), y KIDBOX/KIDBOX.kicad_dru con las dos reglas
 # de 0.29 mm de la v0.9 (3V3 y cualquier pista contra pads de otra red; sugerencias del profesor 3.1 y 3.2).
@@ -20,7 +20,7 @@ CARPETA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", PROYECT
 PCB = os.path.normpath(os.path.join(CARPETA, PROYECTO + ".kicad_pcb"))
 PRO = os.path.normpath(os.path.join(CARPETA, PROYECTO + ".kicad_pro"))
 DRU = os.path.normpath(os.path.join(CARPETA, PROYECTO + ".kicad_dru"))
-ANCHO, ALTO, RADIO = 155.0, 75.0, 4.0
+ANCHO, ALTO, RADIO = 150.0, 70.0, 4.0
 
 # Reglas propias (v0.9). Una violacion de una regla de clearance sale como ERROR en el DRC.
 REGLAS_DRU = """(version 1)
