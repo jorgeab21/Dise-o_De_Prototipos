@@ -1,0 +1,4 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "Connector_KIDBOX") (type "KiCad") (uri "${KIPRJMOD}/KIDBOX.pretty") (options "") (descr "Huellas propias del proyecto KIDBOX (scripts/gen_huella_dac.py)"))
+)

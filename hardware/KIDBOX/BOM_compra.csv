@@ -1,0 +1,18 @@
+Referencia,Articulo,Cant. por consola,Cant. a comprar,Fabricante,MPN,Proveedor,Codigo proveedor / link,Precio unitario (CLP),Estado,Notas
+U1,"Waveshare RP2350-Plus (RP2350A, 16 MB flash, USB-C, cargador LiPo ETA6096)",1,1,Waveshare,RP2350-Plus,por cotizar,por cotizar,por cotizar,"En mano; medido 21.0 x 51.55 mm, filas a 17.78 mm (confirmado)",Pinout Pico 2; trae la tira macho soldada; va sobre J1/J2
+U2,"Modulo TFT 2.4in SPI ILI9341 240x320, 14 pines (MSP2402 o clon)",1,1,AFEL (clon de LCDwiki MSP2402),MSP2402,por cotizar,por cotizar,por cotizar,En mano; confirmado con la pieza (15-oct),Sin tactil ni SD; firmware con tft.setRotation(3); revisar el puente J1 del modulo (3.3 V)
+U3,"Modulo DAC GY-PCM5102 (PCM5102A, I2S, jack 3.5 mm)",1,1,generico,GY-PCM5102,por cotizar,por cotizar,por cotizar,En mano; medido 31.85 x 17.5 mm; probado con VIN = 3V3 (23-oct),Puentes FLT/DEMP/FMT = L y XSMT = H (en este modulo H3L = FMT y H4L = XSMT); trae la tira macho; va sobre J5
+BT1,Bateria LiPo 103450 3.7 V 2000 mAh con proteccion,1,1,generico,103450,profesor,-,-,En mano (del profesor); medida 50.99 x 33.11 x 9.84 mm,Conector blanco (parece PH2.0); va por detras en la zona de bateria
+-,Adaptador de bateria (conector de la bateria -> PH1.25 2P del RP2350-Plus),1,1,-,-,profesor,-,-,Pendiente (lo hace el profesor),Medir la polaridad con multimetro antes de conectar (rojo = + -> + del BAT)
+J1 J2,"Tira hembra 1x20, paso 2.54 mm, recta",2,2,generico,-,por cotizar,por cotizar,por cotizar,Por confirmar,Para el RP2350-Plus
+J3,"Tira hembra 1x14, paso 2.54 mm, recta",1,1,generico,-,por cotizar,por cotizar,por cotizar,Por confirmar,Para la pantalla
+J5,"Tira hembra 1x6, paso 2.54 mm, recta",1,1,generico,-,por cotizar,por cotizar,por cotizar,Por confirmar,Para el DAC (opcional: el DAC tambien se puede soldar directo para bajar el grosor)
+SW1-SW8,"Pulsador tactil 6x6 mm THT, 4 patas, alto 9.1 mm",8,10,generico,-,DEC,-,-,En mano (DEC); patas 6.5 x 4.5 mm confirmadas,2 de repuesto
+-,Capuchon redondo D10 para pulsador 6x6,8,10,impresion 3D,-,-,-,-,Por disenar e imprimir,Redondos D10: >= 1.5 mm de aire a los modulos (ESPECIFICACION seccion 6)
+SW10,"Interruptor deslizante 1P2T recto, 3 patas, paso 2.54 mm",1,2,Wurth Elektronik (o equivalente),450301014042 (o equivalente),por cotizar,por cotizar,por cotizar,En mano (equivalente metalico pequeno); paso y continuidad medidos (14 y 21-oct),1 de repuesto
+C2 C3,"Condensador ceramico 100 nF, disco, paso 5 mm",2,4,generico,-,por cotizar,por cotizar,por cotizar,En mano; paso medido (21-oct),2 de repuesto
+C4,"Condensador electrolitico 10 uF 25 V, radial D4 mm, paso 1.5 mm",1,2,generico,-,por cotizar,por cotizar,por cotizar,"En mano; medido D4 x 7-8 mm, paso 1.5 (21-oct)",Polaridad: + en el pad cuadrado
+TP1 TP2,Puntos de prueba (pads de la placa),2,0,-,-,-,-,0,No se compran,"TP1 = +3V3, TP2 = GND"
+H1-H4,Tornillo M2 x L + separador M2 + tuerca,4,4,generico,-,por cotizar,por cotizar,por cotizar,Por definir,L segun la carcasa
+-,Cinta doble faz de espuma (fija la bateria),1,1,generico,-,por cotizar,por cotizar,por cotizar,Por comprar,Sugerencia del profesor 4.6
+PCB,"Placa KIDBOX v0.9, 2 capas, 155 x 75 mm, 1.6 mm, HASL sin plomo, verde",1,5,JLCPCB,-,JLCPCB,fabricacion/KIDBOX_gerbers_v0.9_PRELIMINAR.zip,por cotizar,No pedir hasta la prueba 1:1 de la v0.9,5 es el minimo de JLCPCB

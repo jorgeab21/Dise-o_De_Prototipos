@@ -28,8 +28,14 @@ fallos = 0
 
 # ---------------------------------------------------------------- 1. tests ignorados
 tmp = tempfile.mkdtemp()
-for ext in (".kicad_pro", ".kicad_sch", ".kicad_pcb"):
-    shutil.copy(os.path.join(carpeta, nombre + ext), tmp)
+for ext in (".kicad_pro", ".kicad_sch", ".kicad_pcb", ".kicad_dru"):
+    if os.path.exists(os.path.join(carpeta, nombre + ext)):
+        shutil.copy(os.path.join(carpeta, nombre + ext), tmp)
+# libreria propia del proyecto (v0.9): sin ella el DRC no encuentra la huella del DAC
+if os.path.exists(os.path.join(carpeta, "fp-lib-table")):
+    shutil.copy(os.path.join(carpeta, "fp-lib-table"), tmp)
+for lib in glob.glob(os.path.join(carpeta, "*.pretty")):
+    shutil.copytree(lib, os.path.join(tmp, os.path.basename(lib)))
 ruta_pro = os.path.join(tmp, nombre + ".kicad_pro")
 with open(ruta_pro, encoding="utf-8") as f:
     datos = json.load(f)
@@ -95,6 +101,8 @@ for m in re.finditer(r"\(comp\s", texto):
     ref = re.search(r'\(ref "([^"]*)"\)', b).group(1)
     campos = dict(re.findall(r'\(field\s*\(name "([^"]*)"\)\s*(?:"((?:[^"\\]|\\.)*)")?', b))
     props = {k: v for k, v in re.findall(r'\(property\s*\(name "([^"]*)"\)\s*(?:\(value "((?:[^"\\]|\\.)*)"\))?', b)}
+    if "exclude_from_board" in props:
+        continue  # BT1: F8 no crea huella para un simbolo excluido de la placa
     simbolos[ref] = dict(
         valor=re.search(r'\(value "([^"]*)"\)', b).group(1),
         huella=re.search(r'\(footprint "([^"]*)"\)', b).group(1),

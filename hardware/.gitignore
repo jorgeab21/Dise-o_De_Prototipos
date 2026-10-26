@@ -8,3 +8,6 @@ fp-info-cache
 _autosave-*
 *.kicad_prl
 KIDBOX/.history/
+
+# Carpeta de entrega: la arma scripts/gen_entrega.py
+entrega/

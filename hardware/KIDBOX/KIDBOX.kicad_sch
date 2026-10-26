@@ -6,13 +6,136 @@
 	(paper "A3")
 	(title_block
 		(title "KIDBOX")
-		(date "2026-10-14")
-		(rev "v1.0")
+		(date "2026-10-26")
+		(rev "v0.9")
 		(company "Equipo KIDBOX")
 		(comment 1 "Basado en Game*Mite v1.3.2 de Thomas Hugo Williams (CC BY 4.0)")
-		(comment 2 "ESPECIFICACION.md v0.7")
+		(comment 2 "ESPECIFICACION.md v0.9")
 	)
 	(lib_symbols
+		(symbol "Connector:TestPoint"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.762)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "TP"
+				(at 0 6.858 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TestPoint"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 5.08 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 5.08 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "test point"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "test point tp"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "Pin* Test*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "TestPoint_0_1"
+				(circle
+					(center 0 3.302)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TestPoint_1_1"
+				(pin passive line
+					(at 0 0 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Connector_Generic:Conn_01x06"
 			(pin_names
 				(offset 1.016)
@@ -1473,6 +1596,230 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:Battery_Cell"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "BT"
+				(at 2.54 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "Battery_Cell"
+				(at 2.54 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 1.524 90)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 1.524 90)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Single-cell battery"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Sim.Device" "V"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Sim.Type" "DC"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Sim.Pins" "1=+ 2=-"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "battery cell"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Battery_Cell_0_1"
+				(rectangle
+					(start -2.286 1.778)
+					(end 2.286 1.524)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(rectangle
+					(start -1.524 1.016)
+					(end 1.524 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 1.778) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0.762) (xy 0 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.762 3.048) (xy 1.778 3.048)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 3.556) (xy 1.27 2.54)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Battery_Cell_1_1"
+				(pin passive line
+					(at 0 5.08 270)
+					(length 2.54)
+					(name "+"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -2.54 90)
+					(length 2.54)
+					(name "-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:C"
 			(pin_numbers
 				(hide yes)
@@ -2628,7 +2975,7 @@
 			(embedded_fonts no)
 		)
 	)
-	(text "KIDBOX v1.0 — placa portadora (basada en Game*Mite v1.3.2, CC BY 4.0)"
+	(text "KIDBOX v0.9 — placa portadora (basada en Game*Mite v1.3.2, CC BY 4.0)"
 		(exclude_from_sim no)
 		(at 25.4 22.86 0)
 		(effects
@@ -2640,7 +2987,7 @@
 		)
 		(uuid "7c027111-b4eb-5f64-bbe2-aedd8ea58026")
 	)
-	(text "Generado con scripts/gen_esquematico.py desde scripts/kidbox_datos.py (ESPECIFICACION.md v0.7). No editar a mano: editar los datos y regenerar."
+	(text "Generado con scripts/gen_esquematico.py desde scripts/kidbox_datos.py (ESPECIFICACION.md v0.9; los scripts van en la entrega). Para cambiarlo: editar los datos y regenerar (ver README)."
 		(exclude_from_sim no)
 		(at 25.4 27.94 0)
 		(effects
@@ -5451,7 +5798,344 @@
 		)
 		(uuid "3ddc8578-b5e5-56ce-98ef-61aa90b5749d")
 	)
-	(text "DAC GY-PCM5102 (PCM5102A, I2S), cara Bottom"
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 276.86 73.66 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files no)
+		(dnp no)
+		(uuid "1201f227-a2fc-5a27-9431-620da80ba8de")
+		(property "Reference" "TP1"
+				(at 276.86 66.802 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(property "Value" "3V3"
+				(at 276.86 68.58 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm"
+				(at 281.94 73.66 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(property "Datasheet" ""
+				(at 281.94 73.66 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(property "Description" "test point"
+				(at 276.86 73.66 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(pin "1"
+			(uuid "6ce4249c-4990-5906-9913-71cf5a948166")
+		)
+		(instances
+			(project "KIDBOX"
+				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
+					(reference "TP1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 276.86 73.66) (xy 276.86 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4dfacfb7-fac2-5333-b1a6-83bbbddd5815")
+	)
+	(symbol
+		(lib_id "power:+3V3")
+		(at 276.86 76.2 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "837ca493-5cb5-5f8f-8240-ef9ae41a595d")
+		(property "Reference" "#PWR14"
+				(at 276.86 72.39 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(property "Value" "+3V3"
+				(at 276.86 79.756 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(property "Footprint" ""
+				(at 276.86 76.2 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(property "Datasheet" ""
+				(at 276.86 76.2 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(property "Description" "Power symbol creates a global label with name \\\"+3V3\\\""
+				(at 276.86 76.2 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(pin "1"
+			(uuid "e1e30cd3-f73c-50f3-b2f7-0c4dd1942329")
+		)
+		(instances
+			(project "KIDBOX"
+				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
+					(reference "#PWR14")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 287.02 73.66 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files no)
+		(dnp no)
+		(uuid "f7b3c0ea-98ef-5684-94c6-fd268dbc7463")
+		(property "Reference" "TP2"
+				(at 287.02 66.802 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(property "Value" "GND"
+				(at 287.02 68.58 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm"
+				(at 292.1 73.66 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(property "Datasheet" ""
+				(at 292.1 73.66 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(property "Description" "test point"
+				(at 287.02 73.66 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(pin "1"
+			(uuid "066781d9-3dc1-5e06-83ef-b6ada081aaa3")
+		)
+		(instances
+			(project "KIDBOX"
+				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
+					(reference "TP2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 287.02 73.66) (xy 287.02 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8b60ff81-f7f6-5067-bfe4-a14172f01174")
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 287.02 76.2 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "7b8b28ed-258a-5978-a597-2339cc27caf7")
+		(property "Reference" "#PWR15"
+				(at 287.02 82.55 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(property "Value" "GND"
+				(at 287.02 80.01 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(property "Footprint" ""
+				(at 287.02 76.2 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(property "Datasheet" ""
+				(at 287.02 76.2 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(property "Description" "Power symbol creates a global label with name \\\"GND\\\" , ground"
+				(at 287.02 76.2 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(pin "1"
+			(uuid "a50873fd-32a4-590f-8777-1aec68ea3284")
+		)
+		(instances
+			(project "KIDBOX"
+				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
+					(reference "#PWR15")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(text "TP1 (+3V3) y TP2 (GND): puntos de prueba junto a C2"
+		(exclude_from_sim no)
+		(at 259.08 102.87 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "f41c73a3-f4c5-564a-ad13-ad142e23f6bf")
+	)
+	(text "DAC GY-PCM5102 (PCM5102A, I2S), cara Top"
 		(exclude_from_sim no)
 		(at 299.72 55.88 0)
 		(effects
@@ -5505,7 +6189,7 @@
 					)
 				)
 			)
-		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical"
+		(property "Footprint" "Connector_KIDBOX:GY-PCM5102_1x06_P2.54mm"
 				(at 320.04 81.28 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -5586,7 +6270,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "3e28b154-5a3b-5b3c-a1db-0cf54d133011")
-		(property "Reference" "#PWR14"
+		(property "Reference" "#PWR16"
 				(at 316.23 76.2 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -5646,7 +6330,7 @@
 		(instances
 			(project "KIDBOX"
 				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "#PWR14")
+					(reference "#PWR16")
 					(unit 1)
 				)
 			)
@@ -5684,7 +6368,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "bce54cb4-a621-53a9-b1fd-eac62f193f5a")
-		(property "Reference" "#PWR15"
+		(property "Reference" "#PWR17"
 				(at 306.07 78.74 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -5744,7 +6428,7 @@
 		(instances
 			(project "KIDBOX"
 				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "#PWR15")
+					(reference "#PWR17")
 					(unit 1)
 				)
 			)
@@ -5875,7 +6559,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "448fd467-5c07-5074-90e2-60fca025cd72")
-		(property "Reference" "#PWR16"
+		(property "Reference" "#PWR18"
 				(at 306.07 88.9 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -5935,7 +6619,7 @@
 		(instances
 			(project "KIDBOX"
 				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "#PWR16")
+					(reference "#PWR18")
 					(unit 1)
 				)
 			)
@@ -6065,7 +6749,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "c908baff-2d1e-5e00-88a5-ac701dec1d0b")
-		(property "Reference" "#PWR17"
+		(property "Reference" "#PWR19"
 				(at 350.52 76.2 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -6125,7 +6809,7 @@
 		(instances
 			(project "KIDBOX"
 				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "#PWR17")
+					(reference "#PWR19")
 					(unit 1)
 				)
 			)
@@ -6152,7 +6836,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "538a0399-0712-58dc-9d09-3319cdb14e9b")
-		(property "Reference" "#PWR18"
+		(property "Reference" "#PWR20"
 				(at 350.52 96.52 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -6212,7 +6896,7 @@
 		(instances
 			(project "KIDBOX"
 				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "#PWR18")
+					(reference "#PWR20")
 					(unit 1)
 				)
 			)
@@ -6251,7 +6935,7 @@
 					(justify left)
 				)
 			)
-		(property "Footprint" "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm"
+		(property "Footprint" "Capacitor_THT:CP_Radial_D4.0mm_P1.50mm"
 				(at 366.7252 85.09 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -6320,7 +7004,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "95034ca7-989c-5bdd-b576-d3b580d7f72f")
-		(property "Reference" "#PWR19"
+		(property "Reference" "#PWR21"
 				(at 365.76 76.2 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -6380,7 +7064,7 @@
 		(instances
 			(project "KIDBOX"
 				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "#PWR19")
+					(reference "#PWR21")
 					(unit 1)
 				)
 			)
@@ -6407,7 +7091,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "4b07cdbc-b2d6-5249-813a-f433d6d6c30a")
-		(property "Reference" "#PWR20"
+		(property "Reference" "#PWR22"
 				(at 365.76 96.52 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -6467,13 +7151,13 @@
 		(instances
 			(project "KIDBOX"
 				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "#PWR20")
+					(reference "#PWR22")
 					(unit 1)
 				)
 			)
 		)
 	)
-	(text "C3, C4 junto a J5"
+	(text "C3, C4 junto a VIN de J5"
 		(exclude_from_sim no)
 		(at 345.44 99.06 0)
 		(effects
@@ -6483,6 +7167,17 @@
 			(justify left bottom)
 		)
 		(uuid "9f85fdb8-a8aa-5b95-a2d6-0700cd43484a")
+	)
+	(text "VIN = 3V3 probado el 23-oct: VIN 3.26 V, A3V3 3.27 V; FLT/DEMP/FMT = L, XSMT = H"
+		(exclude_from_sim no)
+		(at 299.72 104.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "ce10e07a-e749-58ea-9951-ddc210661d1b")
 	)
 	(text "PWR_FLAG: el 3V3 lo genera el regulador de la RP2350-Plus"
 		(exclude_from_sim no)
@@ -6966,7 +7661,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "152022f0-955a-57a2-bee4-687a79e22afa")
-		(property "Reference" "#PWR21"
+		(property "Reference" "#PWR23"
 				(at 55.88 184.15 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -7026,7 +7721,7 @@
 		(instances
 			(project "KIDBOX"
 				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "#PWR21")
+					(reference "#PWR23")
 					(unit 1)
 				)
 			)
@@ -7163,7 +7858,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "a7807526-1dbd-5628-914c-1a84b5021f08")
-		(property "Reference" "#PWR22"
+		(property "Reference" "#PWR24"
 				(at 96.52 184.15 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -7223,7 +7918,7 @@
 		(instances
 			(project "KIDBOX"
 				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "#PWR22")
+					(reference "#PWR24")
 					(unit 1)
 				)
 			)
@@ -7360,7 +8055,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "4498e31d-23ff-5dce-a438-2101f3bf9bbc")
-		(property "Reference" "#PWR23"
+		(property "Reference" "#PWR25"
 				(at 137.16 184.15 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -7420,7 +8115,7 @@
 		(instances
 			(project "KIDBOX"
 				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "#PWR23")
+					(reference "#PWR25")
 					(unit 1)
 				)
 			)
@@ -7557,7 +8252,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "f2093e1c-0b97-5f1a-adec-23ecd2f8f400")
-		(property "Reference" "#PWR24"
+		(property "Reference" "#PWR26"
 				(at 177.8 184.15 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -7617,7 +8312,7 @@
 		(instances
 			(project "KIDBOX"
 				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "#PWR24")
+					(reference "#PWR26")
 					(unit 1)
 				)
 			)
@@ -7754,7 +8449,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "1899b20c-9aca-59b7-a617-6c75c7e80043")
-		(property "Reference" "#PWR25"
+		(property "Reference" "#PWR27"
 				(at 218.44 184.15 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -7814,7 +8509,7 @@
 		(instances
 			(project "KIDBOX"
 				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "#PWR25")
+					(reference "#PWR27")
 					(unit 1)
 				)
 			)
@@ -7951,7 +8646,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "90b622c7-98c4-583b-be4e-63fd5810350b")
-		(property "Reference" "#PWR26"
+		(property "Reference" "#PWR28"
 				(at 259.08 184.15 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -8011,7 +8706,7 @@
 		(instances
 			(project "KIDBOX"
 				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "#PWR26")
+					(reference "#PWR28")
 					(unit 1)
 				)
 			)
@@ -8148,7 +8843,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "bd364b40-698f-543c-b080-5483727e68b4")
-		(property "Reference" "#PWR27"
+		(property "Reference" "#PWR29"
 				(at 299.72 184.15 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -8208,7 +8903,7 @@
 		(instances
 			(project "KIDBOX"
 				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "#PWR27")
+					(reference "#PWR29")
 					(unit 1)
 				)
 			)
@@ -8345,7 +9040,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "7108f2c8-08a8-5df0-81c9-d93ef1def790")
-		(property "Reference" "#PWR28"
+		(property "Reference" "#PWR30"
 				(at 340.36 184.15 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -8405,7 +9100,7 @@
 		(instances
 			(project "KIDBOX"
 				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "#PWR28")
+					(reference "#PWR30")
 					(unit 1)
 				)
 			)
@@ -8546,7 +9241,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "721d3576-1cc6-5d9a-a66f-e2244efcd3c6")
-		(property "Reference" "#PWR29"
+		(property "Reference" "#PWR31"
 				(at 92.71 223.52 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -8606,7 +9301,7 @@
 		(instances
 			(project "KIDBOX"
 				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
-					(reference "#PWR29")
+					(reference "#PWR31")
 					(unit 1)
 				)
 			)
@@ -8952,6 +9647,129 @@
 			(justify left bottom)
 		)
 		(uuid "f3fc66a3-5628-5dd9-894b-e9dcd76882e4")
+	)
+	(text "Batería (excluida de la placa)"
+		(exclude_from_sim no)
+		(at 279.4 203.2 0)
+		(effects
+			(font
+				(size 1.778 1.778)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "7770c37d-2d85-548f-a432-c2d1a1f2b884")
+	)
+	(symbol
+		(lib_id "Device:Battery_Cell")
+		(at 292.1 220.98 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board no)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "8ca2c13b-dd3f-58f9-8efc-1d5396c07724")
+		(property "Reference" "BT1"
+				(at 294.64 218.44 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+		(property "Value" "LiPo 103450 3.7V 2000mAh"
+				(at 294.64 220.98 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+		(property "Footprint" ""
+				(at 292.1 219.456 90)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(property "Datasheet" ""
+				(at 292.1 219.456 90)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(property "Description" "Single-cell battery"
+				(at 292.1 220.98 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+		(pin "1"
+			(uuid "9057942e-3520-52e0-84db-7f0700e5cae6")
+		)
+		(pin "2"
+			(uuid "756cbee0-a8a9-5579-b3d9-152c7bf7ad3a")
+		)
+		(instances
+			(project "KIDBOX"
+				(path "/991b7356-9e94-5b24-b2e1-ea42da63d907"
+					(reference "BT1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(no_connect
+		(at 292.1 215.9)
+		(uuid "5067f594-d601-516c-8a99-ac92057c095b")
+	)
+	(no_connect
+		(at 292.1 223.52)
+		(uuid "b2a508f5-656c-59c8-a996-74411a3a971d")
+	)
+	(text "BT1 va al conector BAT (PH1.25) del RP2350-Plus con el adaptador, no a esta PCB."
+		(exclude_from_sim no)
+		(at 279.4 236.22 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "6a488381-c96c-5b45-8ec4-4cc2584c16f4")
+	)
+	(text "Medir la polaridad con multímetro antes de conectar (rojo = + -> ⊕ del BAT)."
+		(exclude_from_sim no)
+		(at 279.4 240.03 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "437f86ab-62aa-507b-9e67-b2f8ce874e8d")
 	)
 	(sheet_instances
 		(path "/"

@@ -1,6 +1,7 @@
-# Crea KIDBOX/KIDBOX.kicad_pcb solo con el contorno (Edge.Cuts) de 150 x 65 mm y esquinas de radio 4 mm,
+# Crea KIDBOX/KIDBOX.kicad_pcb solo con el contorno (Edge.Cuts) de 155 x 75 mm (v0.9) y esquinas de radio 4 mm,
 # y escribe en KIDBOX/KIDBOX.kicad_pro las reglas DFM de ESPECIFICACION.md seccion 7 (minimos y net class Default)
-# mas la net class "Potencia" (pista de 0.5 mm) para +3V3 (seccion 8).
+# mas la net class "Potencia" (pista de 0.5 mm) para +3V3 (seccion 8), y KIDBOX/KIDBOX.kicad_dru con las dos reglas
+# de 0.29 mm de la v0.9 (3V3 y cualquier pista contra pads de otra red; sugerencias del profesor 3.1 y 3.2).
 # Origen de la especificacion (esquina superior izquierda = (0,0), Y hacia abajo) = origen absoluto de KiCad.
 # Es el PCB minimo de la Fase 1 para que verificar.py pueda correr; la Fase 2 lo reemplaza.
 # Se niega a sobrescribir un PCB que ya tenga huellas o pistas (usa --forzar si de verdad quieres).
@@ -18,7 +19,20 @@ PROYECTO = "KIDBOX"
 CARPETA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", PROYECTO)
 PCB = os.path.normpath(os.path.join(CARPETA, PROYECTO + ".kicad_pcb"))
 PRO = os.path.normpath(os.path.join(CARPETA, PROYECTO + ".kicad_pro"))
-ANCHO, ALTO, RADIO = 150.0, 65.0, 4.0
+DRU = os.path.normpath(os.path.join(CARPETA, PROYECTO + ".kicad_dru"))
+ANCHO, ALTO, RADIO = 155.0, 75.0, 4.0
+
+# Reglas propias (v0.9). Una violacion de una regla de clearance sale como ERROR en el DRC.
+REGLAS_DRU = """(version 1)
+# 3V3 a >= 0.29 mm de cualquier pad de otra red (sugerencia del profesor 3.1): un puente de estano no debe tocar 3V3
+(rule "3V3_lejos_de_pads"
+	(condition "A.NetName == '+3V3' && B.Type == 'Pad'")
+	(constraint clearance (min 0.29mm)))
+# Cualquier pista a >= 0.29 mm de un pad de otra red (sugerencia del profesor 3.2): margen para soldar a mano
+(rule "pista_lejos_de_pad_ajeno"
+	(condition "A.Type == 'Track' && B.Type == 'Pad'")
+	(constraint clearance (min 0.29mm)))
+"""
 
 # ESPECIFICACION.md seccion 7 ("Mi valor")
 REGLAS = {
@@ -86,6 +100,8 @@ def escribir_reglas():
     with open(PRO, "w", encoding="utf-8", newline="\n") as f:
         json.dump(pro, f, indent=2, ensure_ascii=False)
         f.write("\n")
+    with open(DRU, "w", encoding="utf-8", newline="\n") as f:
+        f.write(REGLAS_DRU)
 
 
 if __name__ == "__main__":
@@ -100,8 +116,8 @@ if __name__ == "__main__":
     board.GetDesignSettings().SetBoardThickness(pcbnew.FromMM(1.6))
     tb = board.GetTitleBlock()
     tb.SetTitle("KIDBOX")
-    tb.SetRevision("v1.0")
-    tb.SetDate("2026-10-13")
+    tb.SetRevision("v0.9")
+    tb.SetDate("2026-10-26")
     tb.SetCompany("Equipo KIDBOX")
     contorno(board)
     pcbnew.SaveBoard(PCB, board)

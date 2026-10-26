@@ -1,4 +1,5 @@
-# Genera KIDBOX/BOM.csv y KIDBOX/netlist.csv a partir del esquematico REAL (kicad-cli sch export netlist),
+# Genera KIDBOX/BOM.csv, KIDBOX/BOM_compra.csv (lista de compra completa, desde COMPRA de kidbox_datos.py) y
+# KIDBOX/netlist.csv a partir del esquematico REAL (kicad-cli sch export netlist),
 # y comprueba que cada red coincide con scripts/kidbox_datos.py (ESPECIFICACION.md seccion 5). Si algo no
 # coincide, lo dice y sale con codigo 1 (el esquematico y la especificacion se han separado).
 #
@@ -14,7 +15,7 @@ import xml.etree.ElementTree as ET
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, AQUI)
-from kidbox_datos import COMPONENTES, PROYECTO  # noqa: E402
+from kidbox_datos import COMPONENTES, COMPRA, PROYECTO  # noqa: E402
 
 CARPETA = os.path.normpath(os.path.join(AQUI, "..", PROYECTO))
 CLI = next(c for c in (os.environ.get("KICAD_CLI"), r"C:\Program Files\KiCad\10.0\bin\kicad-cli.exe",
@@ -25,7 +26,9 @@ DESCRIPCION = {  # (lib_id, prefijo de huella) -> descripcion para la BOM
     "Switch:SW_Push": "Pulsador tactil 6x6 mm, 4 patas",
     "Switch:SW_SPDT_312": "Interruptor deslizante 1 polo 2 posiciones, recto, paso 2.54 mm (Wuerth WS-SLTV 450301014042 o equivalente)",
     "Device:C": "Condensador ceramico de disco, paso 5 mm",
-    "Device:C_Polarized": "Condensador electrolitico radial D5 mm, paso 2 mm",
+    "Device:C_Polarized": "Condensador electrolitico radial D4 mm, paso 1.5 mm",
+    "Connector:TestPoint": "Punto de prueba THT, pad D2.0 mm (no se compra)",
+    "Device:Battery_Cell": "Bateria LiPo de una celda (no va en la placa)",
     "Mechanical:MountingHole": "Agujero de montaje sin metalizar (no se compra)",
 }
 
@@ -93,6 +96,10 @@ for red, nodos in redes.items():
             funcion = f"Pulsador {COMPONENTES[ref]['valor']}, pata {pin}"
         elif ref == "SW10":
             funcion = f"Interruptor ON/OFF, {funcion}"
+        elif ref.startswith("TP"):
+            funcion = f"Punto de prueba {COMPONENTES[ref]['valor']}"
+        elif ref == "BT1":
+            funcion = f"Bateria, polo {funcion} (al conector BAT del RP2350-Plus)"
         elif ref.startswith("C"):
             funcion = f"Condensador {COMPONENTES[ref]['valor']}, pata {funcion}"
         filas.append(("(sin conectar)" if red.startswith("unconnected-") else red, ref, pin, funcion))
@@ -116,7 +123,19 @@ with open(os.path.join(CARPETA, "BOM.csv"), "w", newline="", encoding="utf-8") a
     for (huella, cara, notas, lib), refs in grupos.items():
         valores = list(dict.fromkeys(v for _, v in refs))
         w.writerow([" ".join(r for r, _ in refs), len(refs), "/".join(valores), descripcion(lib, huella), huella,
-                    "NPTH" if lib == "Mechanical:MountingHole" else "THT", cara, notas])
+                    "NPTH" if lib == "Mechanical:MountingHole" else "-" if lib == "Device:Battery_Cell" else "THT",
+                    cara, notas])
+
+# BOM_compra.csv: todo lo que hay que tener para armar una consola (modulos, bateria, capuchones, tornillos...)
+CAMPOS = [("ref", "Referencia"), ("item", "Articulo"), ("por", "Cant. por consola"), ("comprar", "Cant. a comprar"),
+          ("fab", "Fabricante"), ("mpn", "MPN"), ("prov", "Proveedor"), ("cod", "Codigo proveedor / link"),
+          ("precio", "Precio unitario (CLP)"), ("estado", "Estado"), ("notas", "Notas")]
+with open(os.path.join(CARPETA, "BOM_compra.csv"), "w", newline="", encoding="utf-8") as f:
+    w = csv.writer(f)
+    w.writerow([t for _, t in CAMPOS])
+    for fila in COMPRA:
+        w.writerow([fila[k] for k, _ in CAMPOS])
+print(f"ok {os.path.join(CARPETA, 'BOM_compra.csv')} ({len(COMPRA)} filas)")
 
 print(f"ok {os.path.join(CARPETA, 'BOM.csv')} ({len(grupos)} filas)")
 print(f"ok {os.path.join(CARPETA, 'netlist.csv')} ({len(filas)} filas, "
