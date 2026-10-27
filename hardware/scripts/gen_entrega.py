@@ -1,4 +1,4 @@
-# Arma la carpeta de entrega entrega/KIDBOX_PCB_v0.9/ y su zip entrega/KIDBOX_PCB_v0.9.zip con la MISMA estructura
+# Arma la carpeta de entrega entrega/KIDBOX_PCB_v1.0/ y su zip entrega/KIDBOX_PCB_v1.0.zip con la MISMA estructura
 # del repositorio, para que la tabla "Archivos" del README valga tal cual:
 #   README.md, ESPECIFICACION.md, DECISIONES.md
 #   KIDBOX/        proyecto KiCad (.kicad_pro, .kicad_sch, .kicad_pcb, .kicad_dru, fp-lib-table, KIDBOX.pretty/),
@@ -16,7 +16,7 @@ import zipfile
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 RAIZ = os.path.normpath(os.path.join(AQUI, ".."))
-VERSION = "v0.9"
+VERSION = "v1.0"
 NOMBRE = f"KIDBOX_PCB_{VERSION}"
 DESTINO = os.path.join(RAIZ, "entrega", NOMBRE)
 ZIP = os.path.join(RAIZ, "entrega", NOMBRE + ".zip")
@@ -34,7 +34,7 @@ for carpeta in ("KIDBOX", "fabricacion", "scripts"):
 esperados = ["README.md", "ESPECIFICACION.md", "DECISIONES.md", "KIDBOX/KIDBOX.kicad_pro", "KIDBOX/KIDBOX.kicad_sch",
              "KIDBOX/KIDBOX.kicad_pcb", "KIDBOX/KIDBOX.kicad_dru", "KIDBOX/fp-lib-table",
              "KIDBOX/KIDBOX.pretty/GY-PCM5102_1x06_P2.54mm.kicad_mod", "KIDBOX/BOM.csv", "KIDBOX/BOM_compra.csv",
-             "KIDBOX/netlist.csv", f"fabricacion/KIDBOX_gerbers_{VERSION}_PRELIMINAR.zip",
+             "KIDBOX/netlist.csv", f"fabricacion/KIDBOX_gerbers_{VERSION}.zip",
              "fabricacion/KIDBOX_1a1_frente_A4.pdf", "fabricacion/KIDBOX_1a1_reverso_A4.pdf",
              "fabricacion/KIDBOX_1a1_frente_Carta.pdf", "fabricacion/KIDBOX_1a1_reverso_Carta.pdf",
              "scripts/gen_pcb.py", "scripts/verificar.py"]

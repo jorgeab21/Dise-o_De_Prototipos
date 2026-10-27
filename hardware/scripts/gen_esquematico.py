@@ -211,9 +211,9 @@ def colocar(ref, x, y, largo=5.08, anotar=None, codo_gnd=None):
 
 
 # ---------------------------------------------------------------- hoja
-texto("KIDBOX v0.9 — placa portadora (basada en Game*Mite v1.3.2, CC BY 4.0)", 25.4, 22.86, "titulo", 2.54,
+texto("KIDBOX v1.0 — placa portadora (basada en Game*Mite v1.3.2, CC BY 4.0)", 25.4, 22.86, "titulo", 2.54,
       negrita=True)
-texto("Generado con scripts/gen_esquematico.py desde scripts/kidbox_datos.py (ESPECIFICACION.md v0.9; los scripts van en la "
+texto("Generado con scripts/gen_esquematico.py desde scripts/kidbox_datos.py (ESPECIFICACION.md v1.0; los scripts van en la "
       "entrega). Para cambiarlo: editar los datos y regenerar (ver README).", 25.4, 27.94, "subtitulo", 1.524)
 
 # Bloque 1: RP2350-Plus sobre J1 + J2 (cara posterior)
@@ -284,9 +284,9 @@ texto("Medir la polaridad con multímetro antes de conectar (rojo = + -> ⊕ del
 libs = sorted({c["lib"] for c in COMPONENTES.values()} | {"power:GND", "power:+3V3", "power:PWR_FLAG"})
 lib_txt = "\n".join("\t\t" + simbolo_lib(l)["texto"].replace("\n", "\n\t") for l in libs)
 cab = (f'(kicad_sch\n\t(version 20260306)\n\t(generator "eeschema")\n\t(generator_version "10.0")\n\t(uuid "{ROOT}")\n'
-       f'\t(paper "A3")\n\t(title_block\n\t\t(title "KIDBOX")\n\t\t(date "2026-10-26")\n\t\t(rev "v0.9")\n'
+       f'\t(paper "A3")\n\t(title_block\n\t\t(title "KIDBOX")\n\t\t(date "2026-10-27")\n\t\t(rev "v1.0")\n'
        f'\t\t(company "Equipo KIDBOX")\n\t\t(comment 1 "Basado en Game*Mite v1.3.2 de Thomas Hugo Williams (CC BY 4.0)")\n'
-       f'\t\t(comment 2 "ESPECIFICACION.md v0.9")\n\t)\n\t(lib_symbols\n{lib_txt}\n\t)\n')
+       f'\t\t(comment 2 "ESPECIFICACION.md v1.0")\n\t)\n\t(lib_symbols\n{lib_txt}\n\t)\n')
 pie = '\t(sheet_instances\n\t\t(path "/"\n\t\t\t(page "1")\n\t\t)\n\t)\n\t(embedded_fonts no)\n)\n'
 os.makedirs(os.path.dirname(SALIDA), exist_ok=True)
 with open(SALIDA, "w", encoding="utf-8", newline="\n") as f:

@@ -467,3 +467,61 @@ sección 16; el resto de la sección 16 (huella del DAC, C4 P1.50, reglas de 0.2
 `verificar_extra.py`: ERC, DRC, sin conectar y paridad en 0 con los tests ignorados activados; F8 en seco con 0 cambios (22 símbolos, 22 huellas).
 Placa: 103 segmentos, 1219 mm, 0 vías. Taladros: 103 PTH (2 × 0.6, 7 × 0.8, 62 × 1.0, 32 × 1.1) y 4 NPTH × 2.2.
 `BOM_compra.csv`: capuchones Ø9 y "sujeción de la batería en la carcasa" en lugar de la cinta doble faz.
+
+## 18. v1.0 — pistas a 45°, prueba 1:1 y versión de fabricación (27-oct-2026)
+
+Revisión 2 del profesor (26-oct): aprobada salvo dos puntos, las esquinas a 90° y la prueba 1:1 de la 150 × 70. Van en el mismo PR #27.
+
+### Esquinas a 45°
+
+- **Antes:** 82 vértices entre dos pistas; 46 a 45°, **33 a 90°** y 3 colineales. Coincide con el conteo del profesor.
+- **Cómo se corrige:** en `gen_pcb.py`, antes de crear las pistas.
+  - Se reemplaza cada vértice donde se juntan exactamente dos segmentos de la misma red y capa formando 90°. Se tratan también los que vienen
+    de polilíneas distintas: 3 de las 33 esquinas estaban en el centro de un pad, donde la llegada al pulsador se junta con la unión de sus
+    dos pads.
+  - El reemplazo es un chaflán: dos puntos a d = 1.0 mm del codo, o d = largo/2 si un tramo mide menos de 2d.
+  - Si el chaflán queda a menos de 0.29 mm de un pad de otra red, o a menos de 0.30 mm de otra pista, d se achica en ese codo (0.75, 0.5,
+    0.35 o 0.25 veces).
+  - **Supuesto del agente:** el límite de 0.30 mm entre pistas es más exigente que el mínimo del proyecto (0.20). Se puso para no empeorar
+    la separación de la v0.9 (0.305 mm). Con 0.20, un chaflán de I2S_DIN quedaba a 0.245 mm de I2S_BCK, que era legal pero peor.
+  - No se movió ninguna huella.
+- **Después:** 115 vértices; **112 a 45°**, 3 colineales y **0 a 90°**. 33 chaflanes; 12 con d < 1.0 mm:
+  - **por tramo corto:** LRCK en (64.5, 34.94), RIGHT en (28.75, 41.25), PWR_EN y los dos codos de UP junto a J2;
+  - **por holgura:** los codos del haz I2S bajo J2.21 y junto a J5, con d = 0.35–0.945 mm.
+- **`verificar_extra.py`** suma un tercer paso: une los segmentos por red y capa, mide el giro en cada vértice y falla si alguno es de 90°.
+  También falla si una pista llega en T a 90° a otra de la misma red.
+- **Holguras:**
+  - **Pista → pad de otra red:** mínimo **0.295 mm**, en los mismos 14 pares de antes (cruces de J2: SPI ×5, 3V3 y LRCK). Siguen 0.31 mm
+    (3V3 bajo J3.14) y 0.315 mm (UP junto a J2.21–J2.23).
+  - **Pista → pista:** 0.305 mm.
+- **Placa:** 136 segmentos, 1202 mm, 0 vías. Taladros sin cambios: 103 PTH y 4 NPTH.
+
+### Prueba 1:1 (27-oct, hecha por el alumno)
+
+- **Fotos** en `KIDBOX/verificacion/`: `prueba_1a1_v09_frente.jpg`, `prueba_1a1_v09_reverso.jpg`, `prueba_1a1_v09_escala_largo.jpg` y
+  `prueba_1a1_v09_escala_alto.jpg`.
+- **Resultado:**
+  - escala 150 × 70 confirmada con regla;
+  - pantalla, DAC (jack centrado, boca al borde), pulsadores, C3, C4, RP2350-Plus, batería y SW10 calzan.
+- **C2 no aparece** porque se perdió la pieza (es igual a C3). En `BOM_compra.csv` pasa de 4 a 5 condensadores de 100 nF.
+- **Carcasa:** el README anota que la batería se orienta con el cable hacia el conector BAT.
+- **Serigrafía de las fotos:** dice v0.9. La v1.0 tiene la misma geometría; solo cambian las esquinas de las pistas y el número de versión.
+
+### Versión de fabricación
+
+- **Todo pasa a v1.0:** serigrafía ("KIDBOX v1.0 2026" y cajetín "KIDBOX v1.0 - 27-oct-2026"), revisión y fecha de los cajetines del
+  esquemático y del PCB, `ESPECIFICACION.md` (v1.0), README, `BOM_compra.csv`, `fabricacion/KIDBOX_gerbers_v1.0.zip` y la carpeta de entrega
+  `KIDBOX_PCB_v1.0/`.
+- **README:** se quita "PRELIMINAR — NO FABRICAR". Quedan los pendientes de después de la placa:
+  - revisar con lupa los cruces LRCK–RUN y 3V3–RUN en J2;
+  - SW10 en ON/OFF y la corriente en OFF;
+  - TP1–TP2;
+  - carcasa;
+  - alto del jack;
+  - polaridad del adaptador;
+  - puente J1 de la pantalla.
+
+### Verificación
+
+`verificar.py`: ERC 0/0 · DRC 0 errores, 0 avisos (con las reglas de 0.29 mm) · 0 sin conectar · paridad 0 → SIN ERRORES.
+`verificar_extra.py`: ERC, DRC, sin conectar y paridad en 0 con los tests ignorados activados; F8 en seco con 0 cambios; esquinas a 90°: 0.

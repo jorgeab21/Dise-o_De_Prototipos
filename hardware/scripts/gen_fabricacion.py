@@ -3,7 +3,7 @@
 #   - Taladros Excellon en mm, origen absoluto, PTH y NPTH en archivos separados, mapa PDF y reporte
 #   - PDF a escala 1:1 (frente, y reverso espejado) para la prueba de impresion con las piezas reales, en hoja A4 y en
 #     hoja Carta (la placa de 155 x 75 cabe en las dos; la Carta sale de una copia temporal con (paper "USLetter"))
-#   - fabricacion/KIDBOX_gerbers_v0.9_PRELIMINAR.zip con todo lo anterior (sin los PDF) y la lista de su contenido
+#   - fabricacion/KIDBOX_gerbers_v1.0.zip (version de fabricacion) con todo lo anterior (sin los PDF) y la lista de su contenido
 # Comprueba al final que el .kicad_pcb sigue igual (md5) y que hay un archivo por capa.
 #
 # Uso (Python 3.8+ del sistema), desde hardware/:
@@ -21,8 +21,8 @@ RAIZ = os.path.normpath(os.path.join(AQUI, ".."))
 PCB = os.path.join(RAIZ, "KIDBOX", "KIDBOX.kicad_pcb")
 SALIDA = os.path.join(RAIZ, "fabricacion")
 GERBERS = os.path.join(SALIDA, "gerbers")
-VERSION = "v0.9"
-ZIP = os.path.join(SALIDA, f"KIDBOX_gerbers_{VERSION}_PRELIMINAR.zip")
+VERSION = "v1.0"
+ZIP = os.path.join(SALIDA, f"KIDBOX_gerbers_{VERSION}.zip")
 CLI = next(c for c in (os.environ.get("KICAD_CLI"), r"C:\Program Files\KiCad\10.0\bin\kicad-cli.exe",
                        shutil.which("kicad-cli")) if c and os.path.exists(c))
 CAPAS = ["F.Cu", "B.Cu", "F.Mask", "B.Mask", "F.SilkS", "B.SilkS", "Edge.Cuts"]

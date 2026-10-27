@@ -6,11 +6,11 @@
 	(paper "A3")
 	(title_block
 		(title "KIDBOX")
-		(date "2026-10-26")
-		(rev "v0.9")
+		(date "2026-10-27")
+		(rev "v1.0")
 		(company "Equipo KIDBOX")
 		(comment 1 "Basado en Game*Mite v1.3.2 de Thomas Hugo Williams (CC BY 4.0)")
-		(comment 2 "ESPECIFICACION.md v0.9")
+		(comment 2 "ESPECIFICACION.md v1.0")
 	)
 	(lib_symbols
 		(symbol "Connector:TestPoint"
@@ -2975,7 +2975,7 @@
 			(embedded_fonts no)
 		)
 	)
-	(text "KIDBOX v0.9 — placa portadora (basada en Game*Mite v1.3.2, CC BY 4.0)"
+	(text "KIDBOX v1.0 — placa portadora (basada en Game*Mite v1.3.2, CC BY 4.0)"
 		(exclude_from_sim no)
 		(at 25.4 22.86 0)
 		(effects
@@ -2987,7 +2987,7 @@
 		)
 		(uuid "7c027111-b4eb-5f64-bbe2-aedd8ea58026")
 	)
-	(text "Generado con scripts/gen_esquematico.py desde scripts/kidbox_datos.py (ESPECIFICACION.md v0.9; los scripts van en la entrega). Para cambiarlo: editar los datos y regenerar (ver README)."
+	(text "Generado con scripts/gen_esquematico.py desde scripts/kidbox_datos.py (ESPECIFICACION.md v1.0; los scripts van en la entrega). Para cambiarlo: editar los datos y regenerar (ver README)."
 		(exclude_from_sim no)
 		(at 25.4 27.94 0)
 		(effects

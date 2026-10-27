@@ -4,6 +4,7 @@
 # v0.9 (26-oct, DECISIONES.md secciones 16 y 17): placa 150 x 70 simetrica respecto de x = 75; IMAGEN de la pantalla centrada
 # (modulo corrido 4.0 mm hacia J3); RP2350-Plus centrado; DAC ADELANTE con huella propia (Connector_KIDBOX, jack
 # centrado y al borde inferior); controles simetricos; SW10 arriba a la izquierda por detras; TP1/TP2; C4 en P1.50;
+# v1.0 (27-oct, seccion 18): todas las esquinas de pista a 45 grados (chaflanes generados abajo), sin mover huellas.
 # todo re-ruteado: 3V3 sin pasar entre pines de J3, LRCK fuera de J5 (cruza J2 entre los pines 29 y 30).
 # Ajuste tras la prueba 1:1 (seccion 17): 150 x 70, controles compactos (capuchones D9), DAC 5 mm mas arriba, franja de
 # 4.74 mm para un muro colgante de la carcasa entre pantalla y DAC, bateria en la carcasa (zona solo de referencia).
@@ -90,11 +91,11 @@ ds.m_TentViasFront = True  # seccion 7: vias tapadas (no hay vias en este ruteo,
 ds.m_TentViasBack = True
 tb = board.GetTitleBlock()
 tb.SetTitle("KIDBOX")
-tb.SetRevision("v0.9")
-tb.SetDate("2026-10-26")
+tb.SetRevision("v1.0")
+tb.SetDate("2026-10-27")
 tb.SetCompany("Equipo KIDBOX")
 tb.SetComment(0, "Basado en Game*Mite v1.3.2 de Thomas Hugo Williams (CC BY 4.0)")
-tb.SetComment(1, "ESPECIFICACION.md v0.9 - 150 x 70 mm")
+tb.SetComment(1, "ESPECIFICACION.md v1.0 - 150 x 70 mm")
 contorno(board)
 
 NET = {}
@@ -319,17 +320,88 @@ PISTAS = [
     # PWR_EN: de J2.17 directo a la izquierda hasta el comun de SW10 (y >= 8, lejos del borde superior)
     ("PWR_EN", SENAL, [(66.11, 9.54), (47.5, 9.54), (47.5, 8.0)]),
 ]
+# ---------------------------------------------------------------- esquinas a 45 grados (v1.0, revision 2 del profesor)
+# Las polilineas de arriba tienen codos a 90 grados. Antes de crear las pistas, cada vertice donde se juntan exactamente
+# dos segmentos de la misma red y capa formando 90 grados (aunque vengan de polilineas distintas, p. ej. la llegada a un
+# pad y la union de los dos pads del pulsador) se reemplaza por un chaflan a 45 grados: dos puntos a d = 1.0 mm del codo,
+# o d = largo/2 si un tramo mide menos de 2d. Si el chaflan queda a menos de 0.29 mm de un pad de otra red (o a menos de
+# 0.30 mm de otra pista, para no empeorar la separacion de la v0.9), d se achica en ese codo.
+D_CHAFLAN, LIBRE_PAD, LIBRE_PISTA = 1.0, 0.29, 0.30
+SEGS = []  # [red, ancho, capa, (x1, y1), (x2, y2)]
 for item in PISTAS:
     nombre, ancho, pts = item[:3]
     capa = pcbnew.B_Cu if len(item) > 3 else pcbnew.F_Cu
     for a, b in zip(pts, pts[1:]):
-        t = pcbnew.PCB_TRACK(board)
-        t.SetStart(mm(*a))
-        t.SetEnd(mm(*b))
-        t.SetWidth(pcbnew.FromMM(ancho))
-        t.SetLayer(capa)
-        t.SetNet(red(nombre))
-        board.Add(t)
+        SEGS.append([nombre, ancho, capa, tuple(a), tuple(b)])
+
+
+def _clave(p):
+    return round(p[0], 4), round(p[1], 4)
+
+
+def _pista(nombre, ancho, capa, a, b):
+    t = pcbnew.PCB_TRACK(board)
+    t.SetStart(mm(*a))
+    t.SetEnd(mm(*b))
+    t.SetWidth(pcbnew.FromMM(ancho))
+    t.SetLayer(capa)
+    t.SetNet(red(nombre))
+    return t
+
+
+def _holgura_ok(nombre, ancho, capa, a, b, otros):
+    t = _pista(nombre, ancho, capa, a, b)
+    forma = t.GetEffectiveShape(capa)
+    for fp in board.GetFootprints():
+        for p in fp.Pads():
+            if p.IsOnLayer(capa) and p.GetNetCode() != t.GetNetCode():
+                if pcbnew.ToMM(forma.GetClearance(p.GetEffectiveShape(capa))) < LIBRE_PAD + 1e-4:
+                    return False
+    for o in otros:
+        if o[0] != nombre and o[2] == capa:
+            u = _pista(*o)
+            if pcbnew.ToMM(forma.GetClearance(u.GetEffectiveShape(capa))) < LIBRE_PISTA + 1e-4:
+                return False
+    return True
+
+
+CHAFLANES = []
+cambio = True
+while cambio:
+    cambio = False
+    extremos = {}
+    for i, (nombre, ancho, capa, a, b) in enumerate(SEGS):
+        for lado, p in ((3, a), (4, b)):
+            extremos.setdefault((nombre, capa, _clave(p)), []).append((i, lado))
+    for (nombre, capa, nodo), usos in extremos.items():
+        if len(usos) != 2:
+            continue
+        (i, li), (j, lj) = usos
+        vi = [SEGS[i][7 - li][k] - nodo[k] for k in (0, 1)]  # direccion desde el codo por cada segmento
+        vj = [SEGS[j][7 - lj][k] - nodo[k] for k in (0, 1)]
+        largo_i, largo_j = math.hypot(*vi), math.hypot(*vj)
+        if largo_i < 1e-6 or largo_j < 1e-6 or abs(vi[0] * vj[0] + vi[1] * vj[1]) > 1e-6 * largo_i * largo_j:
+            continue  # no es un codo a 90 grados
+        ancho = min(SEGS[i][1], SEGS[j][1])
+        d0 = min(D_CHAFLAN, largo_i / 2, largo_j / 2)
+        for d in (d0, d0 * 0.75, d0 * 0.5, d0 * 0.35, d0 * 0.25):
+            pi = (round(nodo[0] + vi[0] / largo_i * d, 4), round(nodo[1] + vi[1] / largo_i * d, 4))
+            pj = (round(nodo[0] + vj[0] / largo_j * d, 4), round(nodo[1] + vj[1] / largo_j * d, 4))
+            if _holgura_ok(nombre, ancho, capa, pi, pj, SEGS):
+                break
+        else:
+            sys.exit(f"{nombre}: no cabe un chaflan en el codo {nodo}")
+        SEGS[i][li] = pi
+        SEGS[j][lj] = pj
+        SEGS.append([nombre, ancho, capa, pi, pj])
+        CHAFLANES.append((nombre, nodo, round(d, 3)))
+        cambio = True
+        break  # se recalculan los extremos despues de cada chaflan
+for nombre, ancho, capa, a, b in SEGS:
+    if math.dist(a, b) > 1e-4:
+        board.Add(_pista(nombre, ancho, capa, a, b))
+print(f"chaflanes a 45 grados: {len(CHAFLANES)}; con d < 1.0 mm: "
+      + ", ".join(f"{n} {p} d={d}" for n, p, d in CHAFLANES if d < D_CHAFLAN - 1e-9))
 
 # ---------------------------------------------------------------- plano de GND en B.Cu
 z = pcbnew.ZONE(board)
@@ -447,7 +519,7 @@ board.Add(s)
 texto("muro carcasa (colgante, termina >= 4 mm sobre la PCB; ancho ~ 2 mm)", (MURO[0] + MURO[2]) / 2, Y_MURO - 0.8,
       pcbnew.F_Fab, tam=0.6, grosor=0.1)
 # Frente: creditos, en la franja libre entre el DAC y START
-for i, linea_txt in enumerate(("KIDBOX v0.9 2026", "basado en", "Game*Mite de", "Thomas Hugo", "Williams",
+for i, linea_txt in enumerate(("KIDBOX v1.0 2026", "basado en", "Game*Mite de", "Thomas Hugo", "Williams",
                                "(CC BY 4.0)")):
     texto(linea_txt, 93.5, 54.0 + i * 2.0, F)
 
@@ -492,7 +564,7 @@ linea((BATERIA[0] - 0.6, Y_FLECHA), (EJE + 5.5, Y_FLECHA), B)
 linea((EJE + 5.5, Y_FLECHA), (EJE + 6.7, Y_FLECHA - 0.7), B)
 linea((EJE + 5.5, Y_FLECHA), (EJE + 6.7, Y_FLECHA + 0.7), B)
 texto("BAT", EJE + 9.0, Y_FLECHA + 1.6, B)
-texto("KIDBOX v0.9 - 26-oct-2026", 130.0, 66.0, B)
+texto("KIDBOX v1.0 - 27-oct-2026", 130.0, 66.0, B)
 texto("150 x 70 mm - 1.6 mm - 2 capas", 130.0, 68.0, B)
 
 # ---------------------------------------------------------------- comprobaciones de la v0.9

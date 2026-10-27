@@ -1,4 +1,4 @@
-# Datos del proyecto KIDBOX (componentes, pines y redes) segun ESPECIFICACION.md v0.9, secciones 2 a 5.
+# Datos del proyecto KIDBOX (componentes, pines y redes) segun ESPECIFICACION.md v1.0, secciones 2 a 5.
 # No se ejecuta solo: lo importan gen_esquematico.py y gen_bom_netlist.py, para que el esquematico,
 # BOM.csv y netlist.csv salgan de una unica fuente. Si cambia la especificacion, se edita aqui y se regeneran.
 
@@ -144,8 +144,9 @@ COMPRA = [
     dict(ref="SW10", item="Interruptor deslizante 1P2T recto, 3 patas, paso 2.54 mm", por=1, comprar=2,
          fab="Wurth Elektronik (o equivalente)", mpn="450301014042 (o equivalente)", prov=POR, cod=POR, precio=POR,
          estado="En mano (equivalente metalico pequeno); paso y continuidad medidos (14 y 21-oct)", notas="1 de repuesto"),
-    dict(ref="C2 C3", item="Condensador ceramico 100 nF, disco, paso 5 mm", por=2, comprar=4,
-         fab="generico", mpn="-", prov=POR, cod=POR, precio=POR, estado="En mano; paso medido (21-oct)", notas="2 de repuesto"),
+    dict(ref="C2 C3", item="Condensador ceramico 100 nF, disco, paso 5 mm", por=2, comprar=5,
+         fab="generico", mpn="-", prov=POR, cod=POR, precio=POR,
+         estado="En mano C3; C2 se perdio en la prueba 1:1 (27-oct): comprar", notas="3 de repuesto (uno mas por el C2 perdido)"),
     dict(ref="C4", item="Condensador electrolitico 10 uF 25 V, radial D4 mm, paso 1.5 mm", por=1, comprar=2,
          fab="generico", mpn="-", prov=POR, cod=POR, precio=POR, estado="En mano; medido D4 x 7-8 mm, paso 1.5 (21-oct)",
          notas="Polaridad: + en el pad cuadrado"),
@@ -156,7 +157,7 @@ COMPRA = [
     dict(ref="-", item="Sujecion de la bateria en la carcasa (bolsillo impreso con fondo de plastico, traba y canal para el cable)",
          por=1, comprar=1, fab="impresion 3D", mpn="-", prov="-", cod="-", precio="-", estado="Por disenar con la carcasa",
          notas="Reemplaza la cinta doble faz: la bateria no se pega a la PCB (sugerencia del profesor 4.6)"),
-    dict(ref="PCB", item="Placa KIDBOX v0.9, 2 capas, 150 x 70 mm, 1.6 mm, HASL sin plomo, verde", por=1, comprar=5,
-         fab="JLCPCB", mpn="-", prov="JLCPCB", cod="fabricacion/KIDBOX_gerbers_v0.9_PRELIMINAR.zip", precio=POR,
-         estado="No pedir hasta la prueba 1:1 de la v0.9", notas="5 es el minimo de JLCPCB"),
+    dict(ref="PCB", item="Placa KIDBOX v1.0, 2 capas, 150 x 70 mm, 1.6 mm, HASL sin plomo, verde", por=1, comprar=5,
+         fab="JLCPCB", mpn="-", prov="JLCPCB", cod="fabricacion/KIDBOX_gerbers_v1.0.zip", precio=POR,
+         estado="Lista para pedir (prueba 1:1 del 27-oct aprobada)", notas="5 es el minimo de JLCPCB"),
 ]

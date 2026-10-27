@@ -1,6 +1,7 @@
-# ESPECIFICACION.md — Especificación de la PCB KIDBOX (v0.9)
+# ESPECIFICACION.md — Especificación de la PCB KIDBOX (v1.0)
 
-> **Estado: piezas medidas (14–23 oct) y correcciones del profesor aplicadas (26-oct-2026).** Basado en el Game★Mite v1.3.2 (CC BY 4.0) con los cambios acordados con el profesor.
+> **Estado: versión de fabricación v1.0 (27-oct-2026).** Piezas medidas (14–23 oct), correcciones del profesor aplicadas (revisiones 1 y 2)
+> y prueba 1:1 de la 150 × 70 hecha (27-oct). Basado en el Game★Mite v1.3.2 (CC BY 4.0) con los cambios acordados con el profesor.
 > Lo que sigue marcado **[PENDIENTE]** se confirma antes de la **Fase 4 (Gerbers para fabricar)**, no bloquea la Fase 2.
 >
 > **v0.5:** respuestas a la Fase 0 · **v0.6:** datos de hojas oficiales (Waveshare, LCDwiki, ETA6096).
@@ -15,14 +16,16 @@
 > **DAC adelante** con huella propia y el **jack centrado** en el borde inferior; controles simétricos (propuesta P2 del estudio
 > ergonómico); SW10 arriba a la izquierda por detrás; C4 con huella P1.50; TP1/TP2; BT1 en el esquemático; reglas de 0.29 mm.
 > Ver la sección 11, "Cambios v0.9".
+> **v1.0 (27-oct):** revisión 2 del profesor: **todas las esquinas de pista a 45°** (chaflanes en el generador, sin mover huellas);
+> prueba 1:1 de la 150 × 70 aprobada; versión de fabricación. Ver la sección 11, punto 16.
 > **Ajuste v0.9 tras la prueba 1:1 (26-oct):** placa **150 × 70** (eje x = 75), controles compactos con capuchones Ø9, DAC 5 mm más
 > arriba, franja de 4.74 mm para un **muro colgante** de la carcasa entre pantalla y DAC, y **batería en la carcasa** (la zona de la
 > PCB queda solo como referencia). Ver la sección 11, punto 15.
 
 Nombre del proyecto: `KIDBOX`
 
-Autor: `Equipo KIDBOX (J. Becerra, B. Fernández, A. Medina, D. Pizarro)`   Fecha: `26-oct-2026`   Versión del documento: `0.9`
-(Desde la v0.9 la placa se rotula con la misma versión que este documento: **v0.9**. Se reserva **v1.0** para la que se fabrique.)
+Autor: `Equipo KIDBOX (J. Becerra, B. Fernández, A. Medina, D. Pizarro)`   Fecha: `27-oct-2026`   Versión del documento: `1.0`
+(La placa se rotula con la misma versión que este documento: **v1.0**, la que se fabrica.)
 
 ---
 
@@ -275,9 +278,9 @@ Posiciones fijas (centro del cuerpo):
 - F.SilkS: contorno del DAC y del jack (en la huella de J5), "VIN" y "GND" junto a J5, y "3V3" / "GND" junto a TP1 / TP2.
 - B.SilkS: contorno de la RP2350-Plus **con la forma del USB-C**, el **pin 1 marcado en J1 y J2**, la posición de **BOOT/RESET** del módulo y "VISTA POSTERIOR — FILAS ESPEJADAS".
 - B.SilkS: junto a SW10, **"OFF" sobre el pad 2 (GND, x 52.54) y "ON" sobre el pad 3 (x 47.46)**: visto desde atrás, OFF a la izquierda y ON a la derecha. La continuidad está medida (21-oct ✅): la palanca une el común con la pata de su lado.
-- B.SilkS: **contorno de referencia de la batería** con "BATERÍA 103450 / va en la carcasa, no pegar a la PCB" y una flecha hacia el conector BAT del módulo, y el cajetín "KIDBOX v0.9 — 150 × 70 mm — 1.6 mm — 2 capas".
+- B.SilkS: **contorno de referencia de la batería** con "BATERÍA 103450 / va en la carcasa, no pegar a la PCB" y una flecha hacia el conector BAT del módulo, y el cajetín "KIDBOX v1.0 — 150 × 70 mm — 1.6 mm — 2 capas".
 - F.Fab: línea del **muro de la carcasa** al centro de la franja pantalla–DAC (y = 48.73), con su descripción.
-- Texto "KIDBOX v0.9 2026 — basado en Game★Mite de Thomas Hugo Williams (CC BY 4.0)" (o "Game*Mite" si no sale la ★), fuera de los módulos y de la zona de batería (en el frente, entre el DAC y START).
+- Texto "KIDBOX v1.0 2026 — basado en Game★Mite de Thomas Hugo Williams (CC BY 4.0)" (o "Game*Mite" si no sale la ★), fuera de los módulos y de la zona de batería (en el frente, entre el DAC y START).
 
 ## 10. Entregables que espero del agente
 
@@ -285,7 +288,7 @@ Posiciones fijas (centro del cuerpo):
 - [ ] ERC y DRC con 0 errores, mínimos DFM de la sección 7 escritos en el proyecto.
 - [ ] `BOM.csv`, `BOM_compra.csv`, `netlist.csv`, `DECISIONES.md`, `README.md` (con el **orden de soldadura**: primero las piezas de la cara Bottom, J1, J2, SW10, después las de Top).
 - [ ] Imágenes de verificación (`verificacion/`).
-- [ ] Gerbers, taladros, zip y PDF 1:1 (A4 y Carta) con la versión **v0.9**, marcados como **preliminares** hasta la prueba 1:1 del ajuste 150 × 70.
+- [ ] Gerbers, taladros, zip (`KIDBOX_gerbers_v1.0.zip`) y PDF 1:1 (A4 y Carta) de la versión de fabricación **v1.0**.
 - [ ] Carpeta de entrega con la especificación, `DECISIONES.md` y los scripts (`scripts/gen_entrega.py`).
 
 ## 11. Decisiones tomadas y pendientes
@@ -332,16 +335,21 @@ Cambios v0.9 (26-oct-2026, correcciones del profesor del 22-oct y decisiones del
     (J5 en x = 50.1, jack con eje en x = 75 y boca en y = 70); **franja de 4.74 mm para un muro colgante** de la carcasa entre
     pantalla y DAC; RP2350-Plus en 66.11 / 83.89; SW10 en (47.5, 8); **batería en la carcasa** (zona solo de referencia: patas THT
     permitidas, sin componentes altos). El resto de la v0.9 se mantiene.
+Cambios v1.0 (27-oct-2026, revisión 2 del profesor):
+16. **Todas las esquinas de pista a 45°:** `gen_pcb.py` reemplaza cada codo a 90° por un chaflán (dos puntos a 1.0 mm del codo, o la mitad
+    del tramo si es más corto; menos si hace falta para mantener 0.29 mm a los pads y 0.30 mm a otras pistas). No se movió ninguna huella.
+    `verificar_extra.py` cuenta las esquinas y falla si queda alguna a 90°. **Prueba 1:1 de la 150 × 70 hecha el 27-oct** (fotos en
+    `KIDBOX/verificacion/`). La placa pasa a **v1.0** en la serigrafía, el cajetín, el README y el zip (`KIDBOX_gerbers_v1.0.zip`).
 
-Pendientes (antes de fabricar):
-- **Prueba 1:1 del ajuste 150 × 70:** imprimir los PDF nuevos al 100 % (A4 o Carta), medir 150 × 70 mm y apoyar las piezas reales.
+Pendientes (después de la placa; no la cambian):
+- **Al soldar J2:** revisar con lupa los cruces LRCK–RUN (J2.29/J2.30) y 3V3–RUN (J2.30/J2.31).
 - **Carcasa:** muro colgante entre pantalla y DAC (≈ 2 mm, termina ≥ 4 mm sobre la PCB) y bolsillo de la batería con fondo de plástico.
 - **Alto real del jack** sobre la placa del DAC (hoy ≈ 6 mm, provisorio): define la abertura de la carcasa.
 - Pantalla: falta solo revisar el **puente J1** del módulo (alimentación a 3.3 V); no afecta a la PCB.
 - Adaptador y polaridad de la batería (profesor).
 - Con la placa armada (sugerencia del profesor 3.5): medir SW10 en ON/OFF, la corriente de la batería en OFF y TP1–TP2 ≈ 3.3 V.
 
-Cerrados en la v0.9: DAC probado con 3V3 y puentes (23-oct) ✅; medidas del DAC (31.85 × 17.5, columna, jack) ✅; RP2350-Plus 21.0 × 51.55
+Cerrados: prueba 1:1 de la 150 × 70 (27-oct, escala confirmada con regla; C2 no aparece porque se perdió la pieza) ✅; pistas a 45° ✅; DAC probado con 3V3 y puentes (23-oct) ✅; medidas del DAC (31.85 × 17.5, columna, jack) ✅; RP2350-Plus 21.0 × 51.55
 y filas a 17.78 ✅; continuidad de SW10 ✅; C2/C3/C4 medidos ✅.
 
 ## 12. Restricciones adicionales para el agente
@@ -352,4 +360,4 @@ y filas a 17.78 ✅; continuidad de SW10 ✅; C2/C3/C4 medidos ✅.
 - **Zona de batería** (Bottom, x 88.0–123.5, y 4.0–62.0, solo referencia: la batería va en la carcasa): no colocar componentes altos de la cara Bottom; las patas THT se permiten.
 - **Franja del muro** (Top, y 46.36–51.1, x 48.6–80.45): sin componentes ni patas de piezas de la cara Top; solo pistas.
 - Anotar toda decisión no escrita aquí en `DECISIONES.md`.
-- No generar Gerbers "para fabricar" mientras quede un pendiente que afecte a la placa (hoy: la prueba 1:1 del ajuste 150 × 70); hasta entonces van marcados como **preliminares**.
+- Los Gerbers de la v1.0 son para fabricar. Si un cambio posterior afecta a la placa, se sube la versión y se regeneran.
