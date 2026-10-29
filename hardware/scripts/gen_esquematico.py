@@ -213,8 +213,8 @@ def colocar(ref, x, y, largo=5.08, anotar=None, codo_gnd=None):
 # ---------------------------------------------------------------- hoja
 texto("KIDBOX v1.0 — placa portadora (basada en Game*Mite v1.3.2, CC BY 4.0)", 25.4, 22.86, "titulo", 2.54,
       negrita=True)
-texto("Generado con scripts/gen_esquematico.py desde scripts/kidbox_datos.py (ESPECIFICACION.md v0.7). "
-      "No editar a mano: editar los datos y regenerar.", 25.4, 27.94, "subtitulo", 1.524)
+texto("Generado con scripts/gen_esquematico.py desde scripts/kidbox_datos.py (ESPECIFICACION.md v1.0; los scripts van en la "
+      "entrega). Para cambiarlo: editar los datos y regenerar (ver README).", 25.4, 27.94, "subtitulo", 1.524)
 
 # Bloque 1: RP2350-Plus sobre J1 + J2 (cara posterior)
 texto("U1 · Waveshare RP2350-Plus (cara Bottom) sobre J1 + J2", 45.72, 55.88, "t_mod", 1.778, negrita=True)
@@ -233,14 +233,18 @@ texto("Pin LED: transistor S8050 + 1 kΩ en el modulo (≈2,6 mA): directo a GP2
 colocar("J3", 233.68, 86.36)
 colocar("C2", 264.16, 81.28)
 texto("C2 junto a J3", 259.08, 99.06, "t_c2", 1.27)
+colocar("TP1", 276.86, 73.66, anotar=False)
+colocar("TP2", 287.02, 73.66, anotar=False)
+texto("TP1 (+3V3) y TP2 (GND): puntos de prueba junto a C2", 259.08, 102.87, "t_tp", 1.27)
 
-texto("DAC GY-PCM5102 (PCM5102A, I2S), cara Bottom", 299.72, 55.88, "t_dac", 1.778, negrita=True)
+texto("DAC GY-PCM5102 (PCM5102A, I2S), cara Top", 299.72, 55.88, "t_dac", 1.778, negrita=True)
 texto("Orden de pines de J5 confirmado con la serigrafía de la pieza (14-oct)", 299.72, 60.96, "t_dac2", 1.27)
 colocar("J5", 320.04, 81.28)
 texto("SCK a GND: el DAC usa su reloj interno", 299.72, 101.6, "t_dac3", 1.27)
 colocar("C3", 350.52, 81.28)
 colocar("C4", 365.76, 81.28)
-texto("C3, C4 junto a J5", 345.44, 99.06, "t_c34", 1.27)
+texto("C3, C4 junto a VIN de J5", 345.44, 99.06, "t_c34", 1.27)
+texto("VIN = 3V3 probado el 23-oct: VIN 3.26 V, A3V3 3.27 V; FLT/DEMP/FMT = L, XSMT = H", 299.72, 104.14, "t_dac4", 1.27)
 
 # Banderas de alimentacion (J1/J2 son conectores pasivos: el ERC necesita saber de donde viene la energia)
 texto("PWR_FLAG: el 3V3 lo genera el regulador de la RP2350-Plus", 299.72, 119.38, "t_flag", 1.27)
@@ -271,13 +275,18 @@ for i in range(1, 5):
 texto("H1–H4: M2, fijación a la carcasa. La pantalla se sujeta con J3 y la carcasa (sin H5/H6)", 182.88, 236.22,
       "t_h2", 1.27)
 
+texto("Batería (excluida de la placa)", 279.4, 203.2, "t_bt", 1.778, negrita=True)
+colocar("BT1", 292.1, 220.98, anotar=False)
+texto("BT1 va al conector BAT (PH1.25) del RP2350-Plus con el adaptador, no a esta PCB.", 279.4, 236.22, "t_bt2", 1.27)
+texto("Medir la polaridad con multímetro antes de conectar (rojo = + -> ⊕ del BAT).", 279.4, 240.03, "t_bt3", 1.27)
+
 # ---------------------------------------------------------------- archivo
 libs = sorted({c["lib"] for c in COMPONENTES.values()} | {"power:GND", "power:+3V3", "power:PWR_FLAG"})
 lib_txt = "\n".join("\t\t" + simbolo_lib(l)["texto"].replace("\n", "\n\t") for l in libs)
 cab = (f'(kicad_sch\n\t(version 20260306)\n\t(generator "eeschema")\n\t(generator_version "10.0")\n\t(uuid "{ROOT}")\n'
-       f'\t(paper "A3")\n\t(title_block\n\t\t(title "KIDBOX")\n\t\t(date "2026-10-14")\n\t\t(rev "v1.0")\n'
+       f'\t(paper "A3")\n\t(title_block\n\t\t(title "KIDBOX")\n\t\t(date "2026-10-27")\n\t\t(rev "v1.0")\n'
        f'\t\t(company "Equipo KIDBOX")\n\t\t(comment 1 "Basado en Game*Mite v1.3.2 de Thomas Hugo Williams (CC BY 4.0)")\n'
-       f'\t\t(comment 2 "ESPECIFICACION.md v0.7")\n\t)\n\t(lib_symbols\n{lib_txt}\n\t)\n')
+       f'\t\t(comment 2 "ESPECIFICACION.md v1.0")\n\t)\n\t(lib_symbols\n{lib_txt}\n\t)\n')
 pie = '\t(sheet_instances\n\t\t(path "/"\n\t\t\t(page "1")\n\t\t)\n\t)\n\t(embedded_fonts no)\n)\n'
 os.makedirs(os.path.dirname(SALIDA), exist_ok=True)
 with open(SALIDA, "w", encoding="utf-8", newline="\n") as f:

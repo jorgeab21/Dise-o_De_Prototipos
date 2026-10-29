@@ -1,6 +1,13 @@
-# Genera KIDBOX/KIDBOX.kicad_pcb completo (Fase 2) segun ESPECIFICACION.md v0.7, secciones 6 a 9:
-# contorno 150 x 65 mm (r = 4 mm), agujeros, huellas oficiales en sus posiciones (las fijas con "locked"),
-# pistas en F.Cu, plano de GND en B.Cu con alivios termicos, serigrafia, y reglas DFM en el .kicad_pro.
+# Genera KIDBOX/KIDBOX.kicad_pcb completo segun ESPECIFICACION.md v0.9, secciones 6 a 9:
+# contorno 150 x 70 mm (r = 4 mm), agujeros, huellas en sus posiciones (las fijas con "locked"),
+# pistas en F.Cu, plano de GND en B.Cu con alivios termicos, serigrafia, y reglas DFM en el .kicad_pro y .kicad_dru.
+# v0.9 (26-oct, DECISIONES.md secciones 16 y 17): placa 150 x 70 simetrica respecto de x = 75; IMAGEN de la pantalla centrada
+# (modulo corrido 4.0 mm hacia J3); RP2350-Plus centrado; DAC ADELANTE con huella propia (Connector_KIDBOX, jack
+# centrado y al borde inferior); controles simetricos; SW10 arriba a la izquierda por detras; TP1/TP2; C4 en P1.50;
+# v1.0 (27-oct, seccion 18): todas las esquinas de pista a 45 grados (chaflanes generados abajo), sin mover huellas.
+# todo re-ruteado: 3V3 sin pasar entre pines de J3, LRCK fuera de J5 (cruza J2 entre los pines 29 y 30).
+# Ajuste tras la prueba 1:1 (seccion 17): 150 x 70, controles compactos (capuchones D9), DAC 5 mm mas arriba, franja de
+# 4.74 mm para un muro colgante de la carcasa entre pantalla y DAC, bateria en la carcasa (zona solo de referencia).
 # Fase 3: sin H5/H6 (ni KIDBOX.kicad_dru); SW5/SW6 en x = 66.5 / 83.5; DAC horizontal (J5 en columna en x = 59,
 # VIN abajo, jack al borde inferior) con I2S, 3V3, C3 y C4 re-ruteados; huellas con hoja, archivo y filtros del
 # simbolo para que "Actualizar PCB desde esquematico" (F8) no tenga nada que cambiar.
@@ -35,7 +42,10 @@ SCH = os.path.join(CARPETA, PROYECTO + ".kicad_sch")
 NS = uuid.UUID("6b1d0c52-6a1e-4f43-9a8e-4b49d0f2a002")
 
 SENAL, POTENCIA, SILK, TXT = 0.25, 0.50, 0.15, 1.0
-BATERIA = (88.0, 4.0, 123.5, 62.0)  # zona de bateria (Bottom): sin componentes ni patas THT
+TXT_BOTON, SILK_BOTON = 1.2, 0.18  # rotulos de botones (sugerencia del profesor 4.4)
+EJE = ANCHO / 2  # eje de simetria de la placa: x = 75
+# zona de bateria (Bottom), solo referencia: la bateria va en la carcasa. Se permiten patas THT; no componentes altos.
+BATERIA = (88.0, 4.0, 123.5, 62.0)
 
 
 def mm(x, y):
@@ -53,6 +63,8 @@ subprocess.run([CLI, "sch", "export", "netlist", "--format", "kicadxml", "-o", t
 raiz = ET.parse(tmp).getroot()
 COMP = {}
 for c in raiz.find("components"):
+    if any(p.get("name") == "exclude_from_board" for p in c.iter("property")):
+        continue  # BT1: solo esquematico y BOM
     campos = {f.get("name"): (f.text or "") for f in c.iter("field")}
     COMP[c.get("ref")] = dict(valor=c.findtext("value"), huella=c.findtext("footprint"),
                               desc=campos.get("Description", c.findtext("description") or ""),
@@ -66,7 +78,8 @@ for c in raiz.find("components"):
 NODO = {}  # (ref, pad) -> nombre de red exacto
 for n in raiz.iter("net"):
     for x in n.iter("node"):
-        NODO[(x.get("ref"), x.get("pin"))] = n.get("name")
+        if x.get("ref") in COMP:
+            NODO[(x.get("ref"), x.get("pin"))] = n.get("name")
 REDES = sorted(set(NODO.values()))
 
 # ---------------------------------------------------------------- tablero
@@ -79,10 +92,10 @@ ds.m_TentViasBack = True
 tb = board.GetTitleBlock()
 tb.SetTitle("KIDBOX")
 tb.SetRevision("v1.0")
-tb.SetDate("2026-10-14")
+tb.SetDate("2026-10-27")
 tb.SetCompany("Equipo KIDBOX")
 tb.SetComment(0, "Basado en Game*Mite v1.3.2 de Thomas Hugo Williams (CC BY 4.0)")
-tb.SetComment(1, "ESPECIFICACION.md v0.7 - Fase 2")
+tb.SetComment(1, "ESPECIFICACION.md v1.0 - 150 x 70 mm")
 contorno(board)
 
 NET = {}
@@ -100,7 +113,9 @@ def red(nombre):
 # ---------------------------------------------------------------- huellas
 def cargar(ref):
     lib, nombre = COMP[ref]["huella"].split(":")
-    fp = pcbnew.FootprintLoad(os.path.join(FP_DIR, lib + ".pretty"), nombre)
+    # Connector_KIDBOX = libreria propia del proyecto (KIDBOX/KIDBOX.pretty, ver fp-lib-table y gen_huella_dac.py)
+    ruta = os.path.join(CARPETA, "KIDBOX.pretty") if lib == "Connector_KIDBOX" else os.path.join(FP_DIR, lib + ".pretty")
+    fp = pcbnew.FootprintLoad(ruta, nombre)
     if fp is None:
         sys.exit(f"no encuentro la huella {COMP[ref]['huella']}")
     return fp
@@ -130,8 +145,7 @@ def enlazar(fp, ref):
             f.SetText(c["campos"][nombre])
         elif not f.IsMandatory():
             fp.Remove(f)
-    if "exclude_from_bom" in c["props"]:
-        fp.SetExcludedFromBOM(True)
+    fp.SetExcludedFromBOM("exclude_from_bom" in c["props"])  # TP1/TP2: la huella oficial ya viene excluida
     fp.SetExcludedFromPosFiles("exclude_from_pos_files" in c["props"])
 
 
@@ -180,16 +194,32 @@ def columna(x, y0, n, paso=2.54):
     return {str(i + 1): [(x, round(y0 + i * paso, 4))] for i in range(n)}
 
 
-# RP2350-Plus por detras: USB-C en y = 0, modulo y 0-51.55 (centro 25.8). Pin 1 a 1.37 mm del borde de su
-# placa (que empieza en y = 0.55 porque el USB-C sobresale 0.55 mm) -> pin 1 en y = 1.92; filas a 17.78 mm.
+# RP2350-Plus por detras: USB-C en y = 0, modulo y 0-51.55. Pin 1 a 1.37 mm del borde de su placa (que empieza en
+# y = 0.55 porque el USB-C sobresale 0.55 mm) -> pin 1 en y = 1.92; filas a 17.78 mm (medido 21.0 x 51.55, confirmado).
+# v0.9 (150 x 70): modulo centrado en el eje x = 75 -> columnas en x = 66.11 (J2) y 83.89 (J1).
 Y_PIN1 = 1.92
-J1 = colocar("J1", columna(83.89, Y_PIN1, 20), abajo=True)          # pines 1-20, arriba -> abajo
-J2 = colocar("J2", columna(66.11, Y_PIN1 + 19 * 2.54, 20, -2.54), abajo=True)  # pin 21 abajo -> 40 arriba
-J3 = colocar("J3", columna(38.41, 25 - 6.5 * 2.54, 14))             # pin 1 (VCC) arriba, pines y 8.49-41.51
-# J5 (DAC horizontal, por detras): columna vertical junto a J2, VIN (pin 1) abajo en y = 59.8 y SCK (pin 6) arriba
-# en y = 47.1. En x = 56 (Fase 4: 3 mm hacia la cruceta respecto de x = 59, ver DECISIONES.md seccion 12).
-X_J5 = 56.0
-J5 = colocar("J5", {str(i + 1): [(X_J5, round(59.8 - i * 2.54, 4))] for i in range(6)}, abajo=True)
+X_J1, X_J2 = round(EJE + 8.89, 2), round(EJE - 8.89, 2)
+J1 = colocar("J1", columna(X_J1, Y_PIN1, 20), abajo=True)          # pines 1-20, arriba -> abajo
+J2 = colocar("J2", columna(X_J2, Y_PIN1 + 19 * 2.54, 20, -2.54), abajo=True)  # pin 21 abajo -> 40 arriba
+# Pantalla: la IMAGEN (48.96 x 36.72, dato del panel) centrada en x = 75. Medido con la pieza encendida, el centro de la
+# imagen esta 4.0 mm corrido respecto del centro del modulo hacia el lado opuesto a J3 -> modulo centrado en x = 71.
+# Altura igual que en la v0.8 (centro y = 25): la imagen queda arriba y la franja inferior libre para el DAC.
+MOD = (EJE - 4.0 - 77.18 / 2, 25 - 42.72 / 2, EJE - 4.0 + 77.18 / 2, 25 + 42.72 / 2)  # 32.41, 3.64, 109.59, 46.36
+IMAGEN = (EJE - 48.96 / 2, 25 - 36.72 / 2, EJE + 48.96 / 2, 25 + 36.72 / 2)          # 50.52, 6.64, 99.48, 43.36
+X_J3 = round(MOD[0] + 2.0, 2)                                       # J3 a 2.00 mm del borde izquierdo: 34.41
+J3 = colocar("J3", columna(X_J3, 25 - 6.5 * 2.54, 14))             # pin 1 (VCC) arriba, pines y 8.49-41.51
+# DAC ADELANTE, huella propia: jack centrado en x = 75 con la boca al ras del borde inferior (y = 70).
+# Medidas reales: placa 31.85 x 17.5; columna a 1.5 mm del borde corto, centrada a lo ancho; eje del jack a 24.9 mm de la
+# columna; el jack sobresale 1.4 mm del borde largo. Visto de frente: pines a la izquierda, VIN abajo, SCK arriba.
+X_J5 = round(EJE - 24.9, 2)                                          # 50.1
+Y_VIN = round(ALTO - 1.4 - (17.5 - 5 * 2.54) / 2, 2)                # 70 - 1.4 - 2.4 = 66.2
+J5 = colocar("J5", {str(i + 1): [(X_J5, round(Y_VIN - i * 2.54, 2))] for i in range(6)})
+DAC = (X_J5 - 1.5, Y_VIN + 2.4 - 17.5, X_J5 - 1.5 + 31.85, Y_VIN + 2.4)  # 48.6, 51.1, 80.45, 68.6
+JACK = (EJE - 2.35, ALTO - 14.0, EJE + 2.35, ALTO)                   # 72.65, 56, 77.35, 70
+# Franja del muro de la carcasa entre la pantalla y el DAC (4.74 mm): el muro es colgante desde la tapa frontal y termina
+# >= 4 mm sobre la PCB, asi que pasa por encima de las soldaduras de J2.21/J2.22 y J1.19/J1.20 (~2 mm de alto).
+MURO = (DAC[0], MOD[3], DAC[2], DAC[1])
+Y_MURO = round((MOD[3] + DAC[1]) / 2, 2)                             # 48.73
 
 
 def boton(ref, cx, cy, pad1_abajo):
@@ -198,22 +228,29 @@ def boton(ref, cx, cy, pad1_abajo):
     return colocar(ref, {"1": [(cx - 3.25, y1), (cx + 3.25, y1)], "2": [(cx - 3.25, y2), (cx + 3.25, y2)]})
 
 
-SW = {"SW3": boton("SW3", 18, 20, True), "SW1": boton("SW1", 18, 40, True), "SW2": boton("SW2", 8, 30, True),
-      "SW4": boton("SW4", 28, 30, True), "SW8": boton("SW8", 138, 25, True), "SW7": boton("SW7", 128, 35, True),
-      "SW5": boton("SW5", 66.5, 58, False), "SW6": boton("SW6", 83.5, 58, False)}
-# SW10 por detras, centro del cuerpo (134, 8) = pad 1 (central, comun). Pad 2 (GND) queda a la derecha.
-SW10 = colocar("SW10", {"1": [(134, 8)], "2": [(136.54, 8)], "3": [(131.46, 8)]}, abajo=True)
-# C2 y C3: disco D5 x W2.5, paso 5 mm (medido), en vertical con el pad 1 (+3V3) arriba o abajo segun la pieza
+# Controles simetricos respecto de x = 75, compactos (capuchones redondos D9): cruceta con centro (16.5, 39) y brazos de
+# 9 mm; A/B en espejo (punto medio x = 133.5, diagonal de 9 mm); SELECT/START en la franja inferior (38.5 / 111.5, y = 62).
+R_CAP = 4.5
+CENTROS = {"SW3": (16.5, 30), "SW1": (16.5, 48), "SW2": (7.5, 39), "SW4": (25.5, 39),
+           "SW7": (129, 43.5), "SW8": (138, 34.5), "SW5": (38.5, 62), "SW6": (111.5, 62)}
+PAD1_ABAJO = {"SW3": True, "SW1": False, "SW2": True, "SW4": True, "SW7": False, "SW8": True, "SW5": True, "SW6": False}
+SW = {r: boton(r, *CENTROS[r], PAD1_ABAJO[r]) for r in CENTROS}
+# SW10 por detras, arriba a la izquierda (fuera de la zona de los indices): pad 1 (central, comun) en (47.5, 8).
+# Pad 2 (GND = OFF) a la derecha visto de frente, es decir, a la izquierda visto desde atras.
+SW10 = colocar("SW10", {"1": [(47.5, 8)], "2": [(50.04, 8)], "3": [(44.96, 8)]}, abajo=True)
 # C2 vertical a la izquierda de J3: pad 1 (+3V3) a la altura del pin 1 de J3, pad 2 (GND) 5 mm mas abajo
-C2 = colocar("C2", {"1": [(34.6, 8.49)], "2": [(34.6, 13.49)]}, fija=False)
-# C3 vertical entre J5 y SELECT, fuera del contorno del DAC (x 25.65-57.5): pad 1 (+3V3) a la altura de VIN (y 59.8),
-# pad 2 (GND) 5 mm arriba (y 54.8). Cobre en x 58.7-60.3: 1.85 mm al pad de J5 (hasta 56.85) y 1.95 mm al de SW5 (desde 62.25);
-# agujeros fuera del courtyard de SW5 (desde x 61.75). C4 (D5 mm) sigue entre SELECT y START: entre las patas de SW5
-# sus pads caerian dentro del courtyard de SW5 (error pth_inside_courtyard).
-C3 = colocar("C3", {"1": [(59.5, 59.8)], "2": [(59.5, 54.8)]}, abajo=True, fija=False)
-C4 = colocar("C4", {"1": [(74.0, 59.0)], "2": [(76.0, 59.0)]}, abajo=True, fija=False)
+X_C2 = round(X_J3 - 3.81, 2)                                         # 30.6
+C2 = colocar("C2", {"1": [(X_C2, 8.49)], "2": [(X_C2, 13.49)]}, fija=False)
+# TP1 (+3V3) y TP2 (GND) a la izquierda de C2, fuera de los modulos (accesibles con todo montado)
+X_TP = round(X_C2 - 3.3, 2)                                          # 27.3
+TP1 = colocar("TP1", {"1": [(X_TP, 8.49)]}, fija=False)
+TP2 = colocar("TP2", {"1": [(X_TP, 13.49)]}, fija=False)
+# C4 (D4, paso 1.5) a la altura de VIN, entre SELECT y el DAC, con el + (pad cuadrado) del lado de J5.
+# C3 vertical justo encima: pad 1 (+3V3) abajo. (Mismo grupo que antes, corrido -2.5 / -5 mm junto con SELECT y el DAC.)
+C4 = colocar("C4", {"1": [(46.55, Y_VIN)], "2": [(45.05, Y_VIN)]}, fija=False)
+C3 = colocar("C3", {"1": [(45.8, 62.6)], "2": [(45.8, 57.6)]}, fija=False)
 H = {}
-for ref, (x, y) in {"H1": (4, 4), "H2": (146, 4), "H3": (4, 61), "H4": (146, 61)}.items():
+for ref, (x, y) in {"H1": (4, 4), "H2": (ANCHO - 4, 4), "H3": (4, ALTO - 4), "H4": (ANCHO - 4, ALTO - 4)}.items():
     fp = cargar(ref)
     enlazar(fp, ref)
     board.Add(fp)
@@ -226,78 +263,145 @@ for ref, (x, y) in {"H1": (4, 4), "H2": (146, 4), "H3": (4, 61), "H4": (146, 61)
 PISTAS = [
     # SPI y control de la pantalla: de J1 (columna derecha del modulo) cruzan entre los pines de J2
     # (huecos y 13.35-23.51) y llegan a J3 en paralelo, a 2.54 mm. Mismo orden arriba-abajo en ambos extremos.
-    # Con J3 en y 8.49-41.51 sus pines 3-7 quedan 0.22 mm bajo los huecos de J2: un salto corto a 45 grados en x 45.5.
-    ("LCD_CS", SENAL, [(83.89, 1.92), (79.58, 1.92), (68.15, 13.35), (45.5, 13.35), (45.28, 13.57), (38.41, 13.57)]),
-    ("LCD_RST", SENAL, [(83.89, 4.46), (79.54, 4.46), (68.11, 15.89), (45.5, 15.89), (45.28, 16.11), (38.41, 16.11)]),
-    ("LCD_DC", SENAL, [(83.89, 9.54), (76.96, 9.54), (68.07, 18.43), (45.5, 18.43), (45.28, 18.65), (38.41, 18.65)]),
-    ("LCD_MOSI", SENAL, [(83.89, 12.08), (76.92, 12.08), (68.03, 20.97), (45.5, 20.97), (45.28, 21.19),
-                         (38.41, 21.19)]),
-    ("LCD_SCK", SENAL, [(83.89, 22.24), (69.26, 22.24), (67.99, 23.51), (45.5, 23.51), (45.28, 23.73),
-                        (38.41, 23.73)]),
-    ("LCD_LED", SENAL, [(66.11, 24.78), (47.0, 24.78), (45.51, 26.27), (38.41, 26.27)]),
-    # I2S al DAC (J5 en columna, de arriba abajo SCK, BCK, DIN, LCK, GND, VIN). El haz de la cruceta sale de J2
-    # hacia la izquierda por encima de J5, asi que el I2S sale de J2 hacia la DERECHA, baja por dentro del modulo
-    # (entre J2 y SELECT), pasa bajo J2.1 y llega a J5 por la derecha. LCK cruza entre los pines 5 y 4 de J5 y entra
-    # al pin 3 por la izquierda: es el unico orden sin cruces ni vias.
-    ("I2S_BCK", SENAL, [(66.11, 37.48), (67.5, 37.48), (67.5, 51.4), (58.2, 51.4), (58.2, 49.64), (X_J5, 49.64)]),
-    ("I2S_LRCK", SENAL, [(66.11, 34.94), (68.1, 34.94), (68.1, 51.95), (57.4, 51.95), (57.4, 50.91), (54.7, 50.91),
-                         (54.7, 54.72), (X_J5, 54.72)]),
-    ("I2S_DIN", SENAL, [(66.11, 29.86), (68.7, 29.86), (68.7, 52.6), (56.42, 52.6), (X_J5, 52.18)]),
-    # 3V3: J2.16 -> J3.1 -> C2 -> por la izquierda de J3, entre sus pines 9 y 10 (sin uso), -> entra al modulo
-    # entre J2.10 (RUN, sin uso) y J2.9 -> baja por fuera del I2S -> entre C3 y SELECT -> C3 y J5.1 (VIN) -> bajo
-    # SW5 -> C4+. Los huecos de 0.84 mm entre pines (J3 y J2) obligan a 0.40 mm en esos dos tramos.
-    ("+3V3", POTENCIA, [(66.11, 12.08), (42.0, 12.08), (38.41, 8.49)]),
-    ("+3V3", POTENCIA, [(38.41, 8.49), (34.6, 8.49)]),
-    ("+3V3", POTENCIA, [(36.2, 8.49), (36.2, 30.08)]),
-    ("+3V3", 0.40, [(36.2, 30.08), (40.2, 30.08)]),
-    ("+3V3", POTENCIA, [(40.2, 30.08), (60.7, 30.08), (62.19, 28.59), (64.0, 28.59)]),
-    ("+3V3", 0.40, [(64.0, 28.59), (68.0, 28.59)]),
-    ("+3V3", POTENCIA, [(68.0, 28.59), (69.5, 28.59), (69.5, 53.4), (61.3, 53.4), (61.3, 61.5), (62.2, 62.4),
-                        (74.0, 62.4), (74.0, 59.0)]),
-    ("+3V3", POTENCIA, [(61.3, 59.8), (X_J5, 59.8)]),  # pasa por el pad 1 de C3 (59.5, 59.8)
-    # Cruceta (GP16-19, columna izquierda): el haz pasa por encima de J5 (y 44.1-45.6), baja bajo el DAC
-    # (permitido, seccion 8) a y 48.6-51.6 y sigue como antes por debajo de J3, repartiendose de derecha a izquierda.
-    # Las diagonales bajan 3 mm mas a la izquierda que antes porque J5 se corrio 3 mm hacia la cruceta.
-    ("BTN_RIGHT", SENAL, [(66.11, 40.02), (64.0, 40.02), (59.92, 44.1), (51.5, 44.1), (47.0, 48.6), (34.5, 48.6),
-                          (34.5, 35.5), (31.25, 32.25)]),
-    ("BTN_UP", SENAL, [(66.11, 42.56), (64.0, 42.56), (61.96, 44.6), (52.0, 44.6), (47.0, 49.6), (23.4, 49.6),
-                       (23.4, 22.25), (21.25, 22.25)]),
-    ("BTN_LEFT", SENAL, [(66.11, 47.64), (64.5, 47.64), (61.96, 45.1), (52.5, 45.1), (47.0, 50.6), (22.7, 50.6),
-                         (22.7, 35.0), (14.0, 35.0), (11.25, 32.25)]),
-    ("BTN_DOWN", SENAL, [(66.11, 50.18), (64.5, 50.18), (59.92, 45.6), (53.0, 45.6), (47.0, 51.6), (14.75, 51.6),
-                         (14.75, 42.25)]),
-    # SELECT y START bajan por entre las dos filas del modulo
-    ("BTN_SELECT", SENAL, [(83.89, 40.02), (72.5, 40.02), (72.5, 53.0), (69.75, 55.75)]),
-    ("BTN_START", SENAL, [(83.89, 42.56), (78.0, 42.56), (78.0, 53.5), (80.25, 55.75)]),
-    # B y A cruzan la zona de bateria por F.Cu (permitido: solo pistas)
-    ("BTN_B", SENAL, [(83.89, 47.64), (114.36, 47.64), (124.75, 37.25)]),
-    ("BTN_A", SENAL, [(83.89, 50.18), (123.6, 50.18), (134.75, 39.03), (134.75, 27.25)]),
+    # Los pines 3-7 de J3 quedan 0.22 mm bajo los huecos de J2: un salto corto a 45 grados en x 43.
+    ("LCD_CS", SENAL, [(83.89, 1.92), (79.58, 1.92), (68.15, 13.35), (43.0, 13.35), (42.78, 13.57), (34.41, 13.57)]),
+    ("LCD_RST", SENAL, [(83.89, 4.46), (79.54, 4.46), (68.11, 15.89), (43.0, 15.89), (42.78, 16.11), (34.41, 16.11)]),
+    ("LCD_DC", SENAL, [(83.89, 9.54), (76.96, 9.54), (68.07, 18.43), (43.0, 18.43), (42.78, 18.65), (34.41, 18.65)]),
+    ("LCD_MOSI", SENAL, [(83.89, 12.08), (76.92, 12.08), (68.03, 20.97), (43.0, 20.97), (42.78, 21.19),
+                         (34.41, 21.19)]),
+    ("LCD_SCK", SENAL, [(83.89, 22.24), (69.26, 22.24), (67.99, 23.51), (43.0, 23.51), (42.78, 23.73),
+                        (34.41, 23.73)]),
+    ("LCD_LED", SENAL, [(66.11, 24.78), (44.5, 24.78), (43.01, 26.27), (34.41, 26.27)]),
+    # I2S al DAC. J2 tiene DIN, LRCK, BCK (arriba -> abajo) y J5 tiene BCK, DIN, LCK: el orden esta rotado y VIN cierra la
+    # columna por abajo, asi que una de las tres tiene que pasar entre pines. LRCK sale de J2 por la izquierda, sube y
+    # entra al interior del modulo entre J2.30 (RUN, sin uso) y J2.29 (DIN): queda por encima de DIN y las tres llegan a J5
+    # por la derecha, sin pasar entre sus pines (sugerencia del profesor 3.2). Pasan bajo J2.21 y bajo el DAC.
+    ("I2S_BCK", SENAL, [(66.11, 37.48), (68.0, 37.48), (68.0, 52.6), (51.5, 52.6), (51.5, 56.04), (50.1, 56.04)]),
+    ("I2S_DIN", SENAL, [(66.11, 29.86), (68.6, 29.86), (68.6, 53.2), (52.1, 53.2), (52.1, 58.58), (50.1, 58.58)]),
+    ("I2S_LRCK", SENAL, [(66.11, 34.94), (64.5, 34.94), (64.5, 28.59), (69.2, 28.59), (69.2, 53.8), (52.7, 53.8),
+                         (52.7, 61.12), (50.1, 61.12)]),
+    # 3V3: J2.36 -> J3.1 -> C2 -> TP1. Rama al DAC: baja por la izquierda de J3, pasa BAJO J3.14 (sin pasar entre pines
+    # de J3, sugerencia 3.1), sube en diagonal bajo la pantalla, entra al modulo entre J2.31 y J2.30 con 0.25 mm (0.295 mm a
+    # cada pad), baja por el interior y llega a VIN por la derecha; de VIN sigue a C4+ y sube a C3.
+    ("+3V3", POTENCIA, [(66.11, 12.08), (38.0, 12.08), (34.41, 8.49)]),
+    ("+3V3", POTENCIA, [(34.41, 8.49), (X_TP, 8.49)]),
+    ("+3V3", POTENCIA, [(32.7, 8.49), (32.7, 42.92), (36.0, 42.92), (52.87, 26.05), (64.1, 26.05)]),
+    ("+3V3", SENAL, [(64.1, 26.05), (68.1, 26.05)]),
+    ("+3V3", POTENCIA, [(68.1, 26.05), (70.1, 26.05), (70.1, 54.6), (53.6, 54.6), (53.6, Y_VIN), (46.55, Y_VIN)]),
+    ("+3V3", POTENCIA, [(47.9, Y_VIN), (47.9, 62.6), (45.8, 62.6)]),
+    # Cruceta (GP16-19). Con brazos de 9 mm entre las columnas de pads solo quedan 0.5 mm, pero entre las filas quedan dos
+    # canales horizontales de 2.5 mm (y 33.25-35.75 sobre LEFT/RIGHT y y 42.25-44.75 bajo ellos).
+    # RIGHT, LEFT y DOWN salen de J2 por la izquierda, convergen a y 43.6 / 44.2 / 44.8 y van por el canal inferior:
+    # RIGHT sube a su pad este, DOWN baja a su pad superior y LEFT sigue hasta su pad este.
+    ("BTN_RIGHT", SENAL, [(66.11, 40.02), (62.0, 40.02), (58.42, 43.6), (30.1, 43.6), (28.75, 42.25), (28.75, 41.25)]),
+    ("BTN_LEFT", SENAL, [(66.11, 47.64), (65.4, 47.64), (61.96, 44.2), (13.7, 44.2), (10.75, 41.25)]),
+    ("BTN_DOWN", SENAL, [(66.11, 50.18), (64.0, 50.18), (58.62, 44.8), (20.7, 44.8), (19.75, 45.75)]),
+    # UP sale de J2 hacia el interior del modulo, baja pegado a J2 (0.315 mm de sus pads), pasa bajo J2.21 y bajo la
+    # cruceta (y 52), sube por el borde izquierdo (x 2) y entra por el canal superior a su pad oeste.
+    ("BTN_UP", SENAL, [(66.11, 42.56), (67.4, 42.56), (67.4, 52.0), (2.0, 52.0), (2.0, 34.5), (11.0, 34.5),
+                       (13.25, 32.25)]),
+    # SELECT y START bajan por entre las dos filas del modulo. SELECT sigue hasta el borde inferior (bajo J5 y C4) y
+    # entra a su pad 1 por abajo; START sale hacia la derecha bajo J1 y baja en diagonal.
+    ("BTN_SELECT", SENAL, [(83.89, 40.02), (71.7, 40.02), (71.7, 68.6), (41.75, 68.6), (41.75, 64.25)]),
+    ("BTN_START", SENAL, [(83.89, 42.56), (72.7, 42.56), (72.7, 52.5), (101.0, 52.5), (108.25, 59.75)]),
+    # B entra por la izquierda a su fila superior; A pasa bajo B y sube por la derecha de A (x 144) hasta su fila inferior
+    ("BTN_B", SENAL, [(83.89, 47.64), (119.36, 47.64), (125.75, 41.25)]),
+    ("BTN_A", SENAL, [(83.89, 50.18), (144.0, 50.18), (144.0, 38.0), (142.75, 36.75), (141.25, 36.75)]),
     # Pulsadores: los dos pads "1" de la huella oficial son pads distintos (el pulsador los une por dentro);
     # se unen con cobre para que la red quede completa sin depender de la pieza ni modificar la huella.
-    ("BTN_UP", SENAL, [(14.75, 22.25), (21.25, 22.25)]),
-    ("BTN_DOWN", SENAL, [(14.75, 42.25), (21.25, 42.25)]),
-    ("BTN_LEFT", SENAL, [(4.75, 32.25), (11.25, 32.25)]),
-    ("BTN_RIGHT", SENAL, [(24.75, 32.25), (31.25, 32.25)]),
-    ("BTN_SELECT", SENAL, [(63.25, 55.75), (69.75, 55.75)]),
-    ("BTN_START", SENAL, [(80.25, 55.75), (86.75, 55.75)]),
-    ("BTN_B", SENAL, [(124.75, 37.25), (131.25, 37.25)]),
-    ("BTN_A", SENAL, [(134.75, 27.25), (141.25, 27.25)]),
-    # PWR_EN: de J2.17 sube por fuera de J2 y cruza por encima de J2.20 y J1.1 (y = 0.6) hasta SW10.
-    # Es el unico camino en F.Cu que no corta el haz SPI.
-    ("PWR_EN", SENAL, [(66.11, 9.54), (64.3, 9.54), (64.3, 1.3), (65.0, 0.6), (85.0, 0.6), (86.4, 2.0),
-                       (132.0, 2.0), (134.0, 4.0), (134.0, 8.0)]),
+    ("BTN_UP", SENAL, [(13.25, 32.25), (19.75, 32.25)]),
+    ("BTN_DOWN", SENAL, [(13.25, 45.75), (19.75, 45.75)]),
+    ("BTN_LEFT", SENAL, [(4.25, 41.25), (10.75, 41.25)]),
+    ("BTN_RIGHT", SENAL, [(22.25, 41.25), (28.75, 41.25)]),
+    ("BTN_SELECT", SENAL, [(35.25, 64.25), (41.75, 64.25)]),
+    ("BTN_START", SENAL, [(108.25, 59.75), (114.75, 59.75)]),
+    ("BTN_B", SENAL, [(125.75, 41.25), (132.25, 41.25)]),
+    ("BTN_A", SENAL, [(134.75, 36.75), (141.25, 36.75)]),
+    # PWR_EN: de J2.17 directo a la izquierda hasta el comun de SW10 (y >= 8, lejos del borde superior)
+    ("PWR_EN", SENAL, [(66.11, 9.54), (47.5, 9.54), (47.5, 8.0)]),
 ]
+# ---------------------------------------------------------------- esquinas a 45 grados (v1.0, revision 2 del profesor)
+# Las polilineas de arriba tienen codos a 90 grados. Antes de crear las pistas, cada vertice donde se juntan exactamente
+# dos segmentos de la misma red y capa formando 90 grados (aunque vengan de polilineas distintas, p. ej. la llegada a un
+# pad y la union de los dos pads del pulsador) se reemplaza por un chaflan a 45 grados: dos puntos a d = 1.0 mm del codo,
+# o d = largo/2 si un tramo mide menos de 2d. Si el chaflan queda a menos de 0.29 mm de un pad de otra red (o a menos de
+# 0.30 mm de otra pista, para no empeorar la separacion de la v0.9), d se achica en ese codo.
+D_CHAFLAN, LIBRE_PAD, LIBRE_PISTA = 1.0, 0.29, 0.30
+SEGS = []  # [red, ancho, capa, (x1, y1), (x2, y2)]
 for item in PISTAS:
     nombre, ancho, pts = item[:3]
     capa = pcbnew.B_Cu if len(item) > 3 else pcbnew.F_Cu
     for a, b in zip(pts, pts[1:]):
-        t = pcbnew.PCB_TRACK(board)
-        t.SetStart(mm(*a))
-        t.SetEnd(mm(*b))
-        t.SetWidth(pcbnew.FromMM(ancho))
-        t.SetLayer(capa)
-        t.SetNet(red(nombre))
-        board.Add(t)
+        SEGS.append([nombre, ancho, capa, tuple(a), tuple(b)])
+
+
+def _clave(p):
+    return round(p[0], 4), round(p[1], 4)
+
+
+def _pista(nombre, ancho, capa, a, b):
+    t = pcbnew.PCB_TRACK(board)
+    t.SetStart(mm(*a))
+    t.SetEnd(mm(*b))
+    t.SetWidth(pcbnew.FromMM(ancho))
+    t.SetLayer(capa)
+    t.SetNet(red(nombre))
+    return t
+
+
+def _holgura_ok(nombre, ancho, capa, a, b, otros):
+    t = _pista(nombre, ancho, capa, a, b)
+    forma = t.GetEffectiveShape(capa)
+    for fp in board.GetFootprints():
+        for p in fp.Pads():
+            if p.IsOnLayer(capa) and p.GetNetCode() != t.GetNetCode():
+                if pcbnew.ToMM(forma.GetClearance(p.GetEffectiveShape(capa))) < LIBRE_PAD + 1e-4:
+                    return False
+    for o in otros:
+        if o[0] != nombre and o[2] == capa:
+            u = _pista(*o)
+            if pcbnew.ToMM(forma.GetClearance(u.GetEffectiveShape(capa))) < LIBRE_PISTA + 1e-4:
+                return False
+    return True
+
+
+CHAFLANES = []
+cambio = True
+while cambio:
+    cambio = False
+    extremos = {}
+    for i, (nombre, ancho, capa, a, b) in enumerate(SEGS):
+        for lado, p in ((3, a), (4, b)):
+            extremos.setdefault((nombre, capa, _clave(p)), []).append((i, lado))
+    for (nombre, capa, nodo), usos in extremos.items():
+        if len(usos) != 2:
+            continue
+        (i, li), (j, lj) = usos
+        vi = [SEGS[i][7 - li][k] - nodo[k] for k in (0, 1)]  # direccion desde el codo por cada segmento
+        vj = [SEGS[j][7 - lj][k] - nodo[k] for k in (0, 1)]
+        largo_i, largo_j = math.hypot(*vi), math.hypot(*vj)
+        if largo_i < 1e-6 or largo_j < 1e-6 or abs(vi[0] * vj[0] + vi[1] * vj[1]) > 1e-6 * largo_i * largo_j:
+            continue  # no es un codo a 90 grados
+        ancho = min(SEGS[i][1], SEGS[j][1])
+        d0 = min(D_CHAFLAN, largo_i / 2, largo_j / 2)
+        for d in (d0, d0 * 0.75, d0 * 0.5, d0 * 0.35, d0 * 0.25):
+            pi = (round(nodo[0] + vi[0] / largo_i * d, 4), round(nodo[1] + vi[1] / largo_i * d, 4))
+            pj = (round(nodo[0] + vj[0] / largo_j * d, 4), round(nodo[1] + vj[1] / largo_j * d, 4))
+            if _holgura_ok(nombre, ancho, capa, pi, pj, SEGS):
+                break
+        else:
+            sys.exit(f"{nombre}: no cabe un chaflan en el codo {nodo}")
+        SEGS[i][li] = pi
+        SEGS[j][lj] = pj
+        SEGS.append([nombre, ancho, capa, pi, pj])
+        CHAFLANES.append((nombre, nodo, round(d, 3)))
+        cambio = True
+        break  # se recalculan los extremos despues de cada chaflan
+for nombre, ancho, capa, a, b in SEGS:
+    if math.dist(a, b) > 1e-4:
+        board.Add(_pista(nombre, ancho, capa, a, b))
+print(f"chaflanes a 45 grados: {len(CHAFLANES)}; con d < 1.0 mm: "
+      + ", ".join(f"{n} {p} d={d}" for n, p, d in CHAFLANES if d < D_CHAFLAN - 1e-9))
 
 # ---------------------------------------------------------------- plano de GND en B.Cu
 z = pcbnew.ZONE(board)
@@ -363,12 +467,12 @@ def rect(x1, y1, x2, y2, capa):
         linea(a, b, capa)
 
 
-def texto(t, x, y, capa, tam=TXT, ang=0):
+def texto(t, x, y, capa, tam=TXT, ang=0, grosor=SILK):
     s = pcbnew.PCB_TEXT(board)
     s.SetText(t)
     s.SetLayer(capa)
     s.SetTextSize(mm(tam, tam))
-    s.SetTextThickness(pcbnew.FromMM(SILK))
+    s.SetTextThickness(pcbnew.FromMM(grosor))
     s.SetTextAngleDegrees(ang)
     s.SetPosition(mm(x, y))
     if capa == pcbnew.B_SilkS:
@@ -377,93 +481,141 @@ def texto(t, x, y, capa, tam=TXT, ang=0):
 
 
 F, B = pcbnew.F_SilkS, pcbnew.B_SilkS
-# Frente: nombres de los botones (fuera del cuerpo) y referencia dentro del cuerpo
-for ref, nombre, (x, y) in (("SW3", "UP", (18, 15.3)), ("SW1", "DOWN", (18, 44.8)), ("SW2", "LEFT", (8, 25.3)),
-                            ("SW4", "RIGHT", (28, 25.3)), ("SW5", "SELECT", (66.5, 53.4)),
-                            ("SW6", "START", (83.5, 53.4)), ("SW7", "B", (128, 41.0)), ("SW8", "A", (138, 31.0))):
-    texto(nombre, x, y, F)
-for ref, (cx, cy) in {"SW3": (18, 20), "SW1": (18, 40), "SW2": (8, 30), "SW4": (28, 30), "SW5": (66.5, 58),
-                      "SW6": (83.5, 58), "SW7": (128, 35), "SW8": (138, 25)}.items():
+# Frente: nombres de los botones (1.2/0.18, fuera del cuerpo) y referencia dentro del cuerpo
+for ref, nombre, (x, y) in (("SW3", "UP", (16.5, 25.2)), ("SW1", "DOWN", (16.5, 53.0)), ("SW2", "LEFT", (7.5, 34.2)),
+                            ("SW4", "RIGHT", (25.5, 34.2)), ("SW5", "SELECT", (38.5, 57.2)),
+                            ("SW6", "START", (111.5, 57.2)), ("SW7", "B", (129, 49.2)), ("SW8", "A", (138, 40.0))):
+    texto(nombre, x, y, F, tam=TXT_BOTON, grosor=SILK_BOTON)
+for ref, (cx, cy) in CENTROS.items():
     ref_en(SW[ref], cx, cy)
-# Frente: contorno del modulo de pantalla (77.18 x 42.72 centrado en (75, 25)) y pin 1 de J3
-rect(36.41, 3.64, 113.59, 46.36, F)
-texto("PANTALLA TFT 2.4\" (J3)", 53.5, 6.0, F)
-texto("1", 38.41, 6.3, F)
-ref_en(J3, 40.6, 35.0, 90)
-ref_en(C2, 32.3, 10.99, 90)
-# Frente: creditos (fuera de los modulos y de la zona de bateria)
+# Frente: contorno del modulo de pantalla, imagen (48.96 x 36.72 centrada en x = 75) y pin 1 de J3
+rect(*MOD, F)
+rect(*IMAGEN, F)
+texto("PANTALLA TFT 2.4\" (J3)", 50.0, 5.3, F)
+texto("IMAGEN", EJE, 39.8, F)  # entre las dos filas del modulo (fuera de los pads de J1/J2)
+texto("48.96 x 36.72", EJE, 41.8, F)
+texto("1", X_J3, 6.3, F)
+ref_en(J3, X_J3 + 2.19, 35.0, 90)
+ref_en(C2, X_C2, 15.6)
+ref_en(TP1, X_TP, 6.1)
+ref_en(TP2, X_TP, 15.9)
+texto("3V3", X_TP - 3.4, 8.49, F)
+texto("GND", X_TP - 3.4, 13.49, F)
+# Frente: DAC (el contorno del modulo y del jack vienen en la huella de J5), VIN/GND junto a J5, C3 y C4
+texto("DAC PCM5102", 63.5, 58.0, F)
+texto("JACK", EJE, 62.0, F)
+texto("VIN", 56.1, Y_VIN, F)
+texto("GND", 56.1, round(Y_VIN - 2.54, 2), F)
+ref_en(J5, 63.5, 60.0)
+ref_en(C3, 43.7, 60.1, 90)
+ref_en(C4, 42.7, 68.9)
+# Frente (F.Fab): linea del muro de la carcasa al centro de la franja pantalla-DAC
+s = pcbnew.PCB_SHAPE(board, pcbnew.SHAPE_T_SEGMENT)
+s.SetStart(mm(MURO[0], Y_MURO))
+s.SetEnd(mm(MURO[2], Y_MURO))
+s.SetLayer(pcbnew.F_Fab)
+s.SetWidth(pcbnew.FromMM(0.1))
+board.Add(s)
+texto("muro carcasa (colgante, termina >= 4 mm sobre la PCB; ancho ~ 2 mm)", (MURO[0] + MURO[2]) / 2, Y_MURO - 0.8,
+      pcbnew.F_Fab, tam=0.6, grosor=0.1)
+# Frente: creditos, en la franja libre entre el DAC y START
 for i, linea_txt in enumerate(("KIDBOX v1.0 2026", "basado en", "Game*Mite de", "Thomas Hugo", "Williams",
                                "(CC BY 4.0)")):
-    texto(linea_txt, 136.5, 44.0 + i * 2.0, F)
+    texto(linea_txt, 93.5, 54.0 + i * 2.0, F)
 
-# Detras: RP2350-Plus (x 64.5-85.5, placa y 0.55-51.55) con el USB-C, pin 1 de J1 y J2, BOOT/RESET.
+# Detras: RP2350-Plus (placa x 64.5-85.5, y 0.55-51.55) con el USB-C, pin 1 de J1 y J2, BOOT/RESET.
 # Los lados se dibujan 0.5 mm por fuera para no pisar la serigrafia de las tiras J1/J2; arriba lo marca el USB-C.
-linea((64.0, 0.55), (64.0, 52.0), B)
-linea((86.0, 0.55), (86.0, 52.0), B)
-linea((64.0, 52.0), (86.0, 52.0), B)
-rect(70.7, 0.5, 79.6, 7.3, B)
-texto("USB-C", 75.15, 8.6, B)
-texto("1", 87.0, 1.92, B)
-texto("1", 63.0, 50.18, B)
-texto("BOOT/RST", 75, 23.0, B)  # botones del modulo a ~23 mm del extremo del USB-C; marcas por fuera
-linea((62.6, 23.0), (63.8, 23.0), B)
-linea((86.2, 23.0), (87.4, 23.0), B)
-texto("VISTA POSTERIOR", 75, 30.0, B)
-texto("FILAS ESPEJADAS", 75, 32.0, B)
-texto("RP2350-Plus", 75, 36.0, B)
-ref_en(J1, 87.2, 26.0, 90)
-ref_en(J2, 62.9, 15.0, 90)
-# Detras: DAC horizontal 31.85 x 17.78 (columna J5 a 1.5 mm del lado corto derecho y centrada en el): placa en
-# x 25.65-57.5, y 44.2-61.98. Jack (estimado de fotos) con la boca al borde inferior y centro en x = 30.
-DAC = (X_J5 + 1.5 - 31.85, 44.2, X_J5 + 1.5, 44.2 + 17.78)
-rect(*DAC, B)
-rect(27.0, 52.0, 33.0, 64.3, B)
-texto("JACK", 30.0, 58.0, B)
-texto("DAC PCM5102", 42.0, 53.0, B)
-texto("VIN", 52.9, 59.8, B)
-texto("GND", 52.9, 57.26, B)
-ref_en(J5, 53.0, 48.4)
-ref_en(C3, 59.5, 61.7)
-ref_en(C4, 75.0, 63.0)
-# Detras: interruptor y zona de bateria
-ref_en(SW10, 134.0, 4.6)
-# Posiciones de la palanca junto a su pad: OFF en el pad 2 (GND, x 136.54) y ON en el pad 3 (x 131.46).
-# Visto desde atras (texto espejado) se lee OFF a la izquierda y ON a la derecha.
-texto("OFF", 136.54, 11.3, B)
-texto("ON", 131.46, 11.3, B)
+# USB-C segun el plano oficial: 8.95 mm de ancho, 6.2 mm desde el borde izquierdo del modulo visto desde el frente.
+X_MOD_RP = EJE - 10.5
+linea((X_MOD_RP - 0.5, 0.55), (X_MOD_RP - 0.5, 52.0), B)
+linea((X_MOD_RP + 21.5, 0.55), (X_MOD_RP + 21.5, 52.0), B)
+linea((X_MOD_RP - 0.5, 52.0), (X_MOD_RP + 21.5, 52.0), B)
+USB = (X_MOD_RP + 6.2, 0.5, X_MOD_RP + 6.2 + 8.95, 7.3)
+rect(*USB, B)
+texto("USB-C", (USB[0] + USB[2]) / 2, 8.6, B)
+texto("1", X_J1 + 3.11, 1.92, B)
+texto("1", X_J2 - 3.11, 50.18, B)
+texto("BOOT/RST", EJE, 23.0, B)  # botones del modulo a ~23 mm del extremo del USB-C; marcas por fuera
+linea((X_J2 - 3.51, 23.0), (X_J2 - 2.31, 23.0), B)
+linea((X_J1 + 2.31, 23.0), (X_J1 + 3.51, 23.0), B)
+texto("VISTA POSTERIOR", EJE, 30.0, B)
+texto("FILAS ESPEJADAS", EJE, 32.0, B)
+texto("RP2350-Plus", EJE, 36.0, B)
+ref_en(J1, X_J1 + 3.31, 26.0, 90)
+ref_en(J2, X_J2 - 3.21, 15.0, 90)
+# Detras: interruptor, referencia de la bateria y cajetin
+ref_en(SW10, 47.5, 4.6)
+# Posiciones de la palanca junto a su pad: OFF en el pad 2 (GND, x 50.04) y ON en el pad 3 (x 44.96).
+# Visto desde atras (texto espejado) se lee OFF a la izquierda y ON a la derecha (medido: la palanca une el comun con la
+# pata de su lado).
+texto("OFF", 50.04, 11.3, B)
+texto("ON", 44.96, 11.3, B)
+# Bateria: va en la CARCASA (bolsillo con fondo de plastico), no pegada a la PCB. La zona es solo una referencia de donde
+# queda, al lado derecho del RP2350-Plus; se permiten patas THT, pero no componentes altos de la cara Bottom.
 rect(*BATERIA, B)
-texto("BATERÍA 103450", 105.75, 33.0, B, tam=1.5, ang=90)
-texto("sin patas THT", 109.0, 33.0, B, ang=90)
+X_BAT = (BATERIA[0] + BATERIA[2]) / 2  # 105.75
+texto("BATERÍA 103450", X_BAT, 33.0, B, tam=1.5, ang=90)
+texto("va en la carcasa, no pegar a la PCB", X_BAT + 3.25, 33.0, B, ang=90)
 # Lugar para el numero de pedido de JLCPCB ("Order number: Specify a location"): centrado en la zona de bateria
-# (y = 33), simetrico con "sin patas THT" respecto del texto BATERIA (x 105.75 -/+ 3.25), sin tocarlo.
-texto("JLCJLCJLCJLC", 102.5, 33.0, B, ang=90)
+texto("JLCJLCJLCJLC", X_BAT - 3.25, 33.0, B, ang=90)
+# Flecha hacia el conector BAT del modulo (extremo inferior del RP2350-Plus, junto a los pines 20/21)
+Y_FLECHA = 54.0
+linea((BATERIA[0] - 0.6, Y_FLECHA), (EJE + 5.5, Y_FLECHA), B)
+linea((EJE + 5.5, Y_FLECHA), (EJE + 6.7, Y_FLECHA - 0.7), B)
+linea((EJE + 5.5, Y_FLECHA), (EJE + 6.7, Y_FLECHA + 0.7), B)
+texto("BAT", EJE + 9.0, Y_FLECHA + 1.6, B)
+texto("KIDBOX v1.0 - 27-oct-2026", 130.0, 66.0, B)
+texto("150 x 70 mm - 1.6 mm - 2 capas", 130.0, 68.0, B)
 
-# ---------------------------------------------------------------- comprobacion de la zona de bateria
+# ---------------------------------------------------------------- comprobaciones de la v0.9
 avisos = []
+# Bateria en la carcasa: en su zona se permiten patas THT, pero ninguna pieza de la cara Bottom (salvo el propio
+# RP2350-Plus, J1/J2, que queda al lado) puede tener el cuerpo dentro.
 for fp in board.GetFootprints():
-    for p in fp.Pads():
-        if not p.HasHole():
-            continue
-        (x, y) = xy(p.GetPosition())
-        r = pcbnew.ToMM(p.GetSize(pcbnew.F_Cu).x) / 2
-        x1, y1, x2, y2 = BATERIA
-        if x1 <= x <= x2 and y1 <= y <= y2:
-            sys.exit(f"{fp.GetReference()} pad {p.GetNumber()} ({x:.2f}, {y:.2f}) DENTRO de la zona de bateria")
-        if x1 - r < x < x2 + r and y1 - r < y < y2 + r:
-            avisos.append(f"{fp.GetReference()} pad {p.GetNumber()} en ({x:.2f}, {y:.2f}): el cobre del pad "
-                          f"(r = {r:.2f}) entra en el margen de la zona de bateria")
+    if not fp.IsFlipped() or fp.GetReference() in ("J1", "J2"):
+        continue
+    cy = fp.GetCourtyard(pcbnew.B_CrtYd).BBox()
+    x1, y1 = pcbnew.ToMM(cy.GetLeft()), pcbnew.ToMM(cy.GetTop())
+    x2, y2 = pcbnew.ToMM(cy.GetRight()), pcbnew.ToMM(cy.GetBottom())
+    if x1 < BATERIA[2] and x2 > BATERIA[0] and y1 < BATERIA[3] and y2 > BATERIA[1]:
+        sys.exit(f"{fp.GetReference()} (cara Bottom) dentro de la zona de bateria: ahi no van componentes altos")
 
-# ---------------------------------------------------------------- nada bajo el DAC (seccion 6)
-# Ningun agujero (de ninguna cara) dentro del contorno del DAC salvo los de J5, y el de J3 mas cercano a >= 1.5 mm
+# Nada bajo el DAC (seccion 6): ningun agujero dentro del contorno del modulo salvo los de J5
 for fp in board.GetFootprints():
     for p in fp.Pads():
         (x, y) = xy(p.GetPosition())
         r = pcbnew.ToMM(p.GetSize(pcbnew.F_Cu).x) / 2
         if fp.GetReference() != "J5" and DAC[0] - r < x < DAC[2] + r and DAC[1] - r < y < DAC[3] + r:
             sys.exit(f"{fp.GetReference()} pad {p.GetNumber()} ({x:.2f}, {y:.2f}) bajo el contorno del DAC")
-borde_j3 = DAC[1] - max(xy(p.GetPosition())[1] for p in J3.Pads())
-if borde_j3 < 1.5:
-    sys.exit(f"ultimo pin de J3 a {borde_j3:.2f} mm del borde superior del DAC (minimo 1.5)")
+
+# Franja del muro: >= 4.5 mm y ninguna pieza de la cara Top con patas dentro (las soldaduras de J1/J2, cara Bottom,
+# quedan bajo el muro colgante, que termina >= 4 mm sobre la PCB)
+if MURO[3] - MURO[1] < 4.5:
+    sys.exit(f"franja del muro de {MURO[3] - MURO[1]:.2f} mm (minimo 4.5)")
+for fp in board.GetFootprints():
+    if fp.IsFlipped():
+        continue
+    for p in fp.Pads():
+        (x, y) = xy(p.GetPosition())
+        r = pcbnew.ToMM(p.GetSize(pcbnew.F_Cu).x) / 2
+        if MOD[0] - r < x < MOD[2] + r and MURO[1] - r < y < MURO[3] + r and fp.GetReference() != "J5":
+            sys.exit(f"{fp.GetReference()} pad {p.GetNumber()} ({x:.2f}, {y:.2f}) en la franja del muro")
+
+
+def dist_rect(p, r):
+    return math.hypot(max(r[0] - p[0], 0, p[0] - r[2]), max(r[1] - p[1], 0, p[1] - r[3]))
+
+
+# Capuchones redondos D9: >= 1.5 mm de aire al contorno de la pantalla y del DAC; simetria respecto de x = 75
+for ref, (cx, cy) in CENTROS.items():
+    for nombre_mod, caja in (("pantalla", MOD), ("DAC", DAC)):
+        aire = dist_rect((cx, cy), caja) - R_CAP
+        if aire < 1.5:
+            sys.exit(f"capuchon de {ref} a {aire:.2f} mm del {nombre_mod} (minimo 1.5)")
+if abs((16.5 + 133.5) / 2 - EJE) > 1e-9 or abs((CENTROS["SW5"][0] + CENTROS["SW6"][0]) / 2 - EJE) > 1e-9:
+    sys.exit("los controles no quedan simetricos respecto de x = 75")
+if abs((IMAGEN[0] + IMAGEN[2]) / 2 - EJE) > 1e-9 or abs((JACK[0] + JACK[2]) / 2 - EJE) > 1e-9:
+    sys.exit("la imagen o el jack no quedan centrados en x = 75")
 
 # ---------------------------------------------------------------- relleno, guardado y UUID deterministas
 # KiCad ordena las huellas por UUID al guardar: con UUID deterministas el archivo sale siempre igual

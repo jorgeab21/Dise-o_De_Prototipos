@@ -1,8 +1,9 @@
 # Fase 4: genera el paquete de fabricacion para JLCPCB (2 capas) en hardware/fabricacion/ SIN tocar el .kicad_pcb:
 #   - Gerbers (kicad-cli, extensiones Protel, X2): F.Cu, B.Cu, F.Mask, B.Mask, F.SilkS, B.SilkS, Edge.Cuts
 #   - Taladros Excellon en mm, origen absoluto, PTH y NPTH en archivos separados, mapa PDF y reporte
-#   - PDF a escala 1:1 (frente, y reverso espejado) para la prueba de impresion con las piezas reales
-#   - fabricacion/KIDBOX_gerbers_PRELIMINAR.zip con todo lo anterior (sin los PDF) y la lista de su contenido
+#   - PDF a escala 1:1 (frente, y reverso espejado) para la prueba de impresion con las piezas reales, en hoja A4 y en
+#     hoja Carta (la placa de 155 x 75 cabe en las dos; la Carta sale de una copia temporal con (paper "USLetter"))
+#   - fabricacion/KIDBOX_gerbers_v1.0.zip (version de fabricacion) con todo lo anterior (sin los PDF) y la lista de su contenido
 # Comprueba al final que el .kicad_pcb sigue igual (md5) y que hay un archivo por capa.
 #
 # Uso (Python 3.8+ del sistema), desde hardware/:
@@ -12,6 +13,7 @@ import os
 import shutil
 import subprocess
 import sys
+import tempfile
 import zipfile
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
@@ -19,7 +21,8 @@ RAIZ = os.path.normpath(os.path.join(AQUI, ".."))
 PCB = os.path.join(RAIZ, "KIDBOX", "KIDBOX.kicad_pcb")
 SALIDA = os.path.join(RAIZ, "fabricacion")
 GERBERS = os.path.join(SALIDA, "gerbers")
-ZIP = os.path.join(SALIDA, "KIDBOX_gerbers_PRELIMINAR.zip")
+VERSION = "v1.0"
+ZIP = os.path.join(SALIDA, f"KIDBOX_gerbers_{VERSION}.zip")
 CLI = next(c for c in (os.environ.get("KICAD_CLI"), r"C:\Program Files\KiCad\10.0\bin\kicad-cli.exe",
                        shutil.which("kicad-cli")) if c and os.path.exists(c))
 CAPAS = ["F.Cu", "B.Cu", "F.Mask", "B.Mask", "F.SilkS", "B.SilkS", "Edge.Cuts"]
@@ -52,10 +55,21 @@ cli("pcb", "export", "drill", "-o", GERBERS + os.sep, "--format", "excellon", "-
 # Fuera del zip: no son para el fabricante. Con escala exactamente 1 KiCad deja la placa en su posicion absoluta,
 # pegada a la esquina de la hoja (la impresora recorta ~4 mm y el reverso espejado se sale de la hoja); con 1.0001
 # la centra. El error es 0.015 mm en 150 mm, muy por debajo de la precision de una impresora.
-for nombre_pdf, capas, extra in (("KIDBOX_1a1_frente.pdf", "F.Cu,F.SilkS,Edge.Cuts", []),
-                                 ("KIDBOX_1a1_reverso.pdf", "B.SilkS,Edge.Cuts", ["--mirror"])):
-    cli("pcb", "export", "pdf", "--mode-single", "-o", os.path.join(SALIDA, nombre_pdf), "--layers", capas,
-        "--scale", "1.0001", "--black-and-white", "--drill-shape-opt", "2", *extra, PCB)
+tmp = tempfile.mkdtemp()
+with open(PCB, encoding="utf-8") as f:
+    texto_pcb = f.read()
+assert texto_pcb.count('(paper "A4")') == 1
+hojas = {"A4": PCB, "Carta": os.path.join(tmp, "KIDBOX_carta.kicad_pcb")}
+with open(hojas["Carta"], "w", encoding="utf-8", newline="\n") as f:
+    f.write(texto_pcb.replace('(paper "A4")', '(paper "USLetter")'))
+for viejo in [a for a in os.listdir(SALIDA) if a.startswith("KIDBOX_1a1_") or a.startswith("KIDBOX_gerbers_")]:
+    os.remove(os.path.join(SALIDA, viejo))  # salidas de versiones anteriores (las genera este mismo script)
+for hoja, origen in hojas.items():
+    for lado, capas, extra in (("frente", "F.Cu,F.SilkS,Edge.Cuts", []),
+                               ("reverso", "B.SilkS,Edge.Cuts", ["--mirror"])):
+        cli("pcb", "export", "pdf", "--mode-single", "-o", os.path.join(SALIDA, f"KIDBOX_1a1_{lado}_{hoja}.pdf"),
+            "--layers", capas, "--scale", "1.0001", "--black-and-white", "--drill-shape-opt", "2", *extra, origen)
+shutil.rmtree(tmp, ignore_errors=True)
 
 archivos = sorted(os.listdir(GERBERS))
 faltan = [c for c in CAPAS if not any(a.endswith(EXT[c]) for a in archivos)]

@@ -1,0 +1,9 @@
+(version 1)
+# 3V3 a >= 0.29 mm de cualquier pad de otra red (sugerencia del profesor 3.1): un puente de estano no debe tocar 3V3
+(rule "3V3_lejos_de_pads"
+	(condition "A.NetName == '+3V3' && B.Type == 'Pad'")
+	(constraint clearance (min 0.29mm)))
+# Cualquier pista a >= 0.29 mm de un pad de otra red (sugerencia del profesor 3.2): margen para soldar a mano
+(rule "pista_lejos_de_pad_ajeno"
+	(condition "A.Type == 'Track' && B.Type == 'Pad'")
+	(constraint clearance (min 0.29mm)))

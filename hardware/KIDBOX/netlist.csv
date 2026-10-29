@@ -5,6 +5,7 @@ Red,Componente,Pin,Funcion
 +3V3,J2,16,RP2350-Plus pin 36 (3V3)
 +3V3,J3,1,Pantalla VCC
 +3V3,J5,1,DAC VIN
++3V3,TP1,1,Punto de prueba 3V3
 BTN_A,J1,20,RP2350-Plus pin 20 (GP15)
 BTN_A,SW8,1,"Pulsador A, pata 1"
 BTN_B,J1,19,RP2350-Plus pin 19 (GP14)
@@ -44,6 +45,7 @@ GND,SW6,2,"Pulsador START, pata 2"
 GND,SW7,2,"Pulsador B, pata 2"
 GND,SW8,2,"Pulsador A, pata 2"
 GND,SW10,2,"Interruptor ON/OFF, C (OFF)"
+GND,TP2,1,Punto de prueba GND
 I2S_BCK,J2,6,RP2350-Plus pin 26 (GP20)
 I2S_BCK,J5,5,DAC BCK
 I2S_DIN,J2,9,RP2350-Plus pin 29 (GP22)
@@ -64,6 +66,8 @@ LCD_SCK,J1,9,RP2350-Plus pin 9 (GP6)
 LCD_SCK,J3,7,Pantalla SCK
 PWR_EN,J2,17,RP2350-Plus pin 37 (3V3_EN)
 PWR_EN,SW10,1,"Interruptor ON/OFF, comun (B)"
+(sin conectar),BT1,1,"Bateria, polo + (al conector BAT del RP2350-Plus)"
+(sin conectar),BT1,2,"Bateria, polo - (al conector BAT del RP2350-Plus)"
 (sin conectar),J1,6,RP2350-Plus pin 6 (GP4)
 (sin conectar),J1,7,RP2350-Plus pin 7 (GP5)
 (sin conectar),J1,10,RP2350-Plus pin 10 (GP7)

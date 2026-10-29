@@ -329,3 +329,199 @@ Resultado: `verificar.py` SIN ERRORES y `verificar_extra.py` en 0 (F8 con 0 camb
 - **Coincide con el diseño**, sin cambios: OFF junto al pad 2 (GND, x 136.54) y ON junto al pad 3 (x 131.46). Visto desde atrás, OFF queda a la
   izquierda y ON a la derecha (sección 9, ronda 3.1).
 - Se cierra el pendiente en la sección 11 de la especificación, en el recuadro del README y en la nota de SW10 de `BOM.csv`. **El PCB no cambia.**
+
+## 16. v0.9 — 155 × 75, simetría, imagen centrada, DAC adelante y correcciones del profesor (26-oct-2026)
+
+Fuentes: informe del profesor del 22-oct (`G5_SUGERENCIAS.md` y `G5_ESTUDIO_ERGONOMICO.md`, carpeta de documentación del curso) y
+decisiones del equipo del 23–26 oct. El plan de coordenadas se aprobó antes de implementarlo; la especificación pasa a la v0.9.
+
+### Qué cambió
+
+| Elemento | v0.8 | v0.9 |
+| :--- | :--- | :--- |
+| Placa | 150 × 65, agujeros en (4, 4), (146, 4), (4, 61), (146, 61) | **155 × 75**, agujeros en (4, 4), (151, 4), (4, 71), (151, 71); eje x = 77.5 |
+| Pantalla | módulo centrado en (75, 25), J3 en x = 38.41 | **imagen** centrada en (77.5, 25); módulo en (73.5, 25), x 34.91–112.09; **J3 en x = 36.91** |
+| RP2350-Plus | columnas 66.11 / 83.89 | **68.61 / 86.39**; USB-C x 73.2–82.15 (plano oficial) |
+| Zona de batería | x 88.0–123.5, y 4–62 | **x 90.5–126.0**, y 4–62 |
+| DAC | atrás, J5 en x = 56, jack en x ≈ 30 | **adelante**, huella propia, J5 en x = 52.6 (VIN y = 71.2), módulo x 51.1–82.95 × y 56.1–73.6, **jack x 75.15–79.85, boca en y = 75** |
+| Cruceta | centro (18, 30) | **centro (18, 44)**, brazos de 10 mm |
+| A / B | (138, 25) / (128, 35) | **(142, 39) / (132, 49)** (espejo de la cruceta) |
+| SELECT / START | (66.5, 58) / (83.5, 58) | **(41, 67) / (114, 67)** |
+| SW10 | atrás, (134, 8) | atrás, **(50, 8)**; pad 2 (GND = OFF) en x = 52.54 |
+| C2 | (34.6, 8.49 / 13.49) | (33.1, 8.49 / 13.49) |
+| C3 | atrás, (59.5, 59.8 / 54.8) | **adelante**, + en (48.3, 67.6), GND en (48.3, 62.6) |
+| C4 | atrás, `CP_Radial_D5.0mm_P2.00mm` en (74, 59) | **adelante, `CP_Radial_D4.0mm_P1.50mm`**, + en (49.05, 71.2) a la altura de VIN |
+| TP1 / TP2 | — | **(29.8, 8.49) +3V3 / (29.8, 13.49) GND** |
+| BT1 | — | símbolo `Device:Battery_Cell` "LiPo 103450 3.7V 2000mAh", excluido de la placa |
+
+### Decisiones y supuestos del agente
+
+- **26-oct · Librería de la huella del DAC con nombre `Connector_KIDBOX`** (carpeta `KIDBOX/KIDBOX.pretty`, tal como se pidió). Por qué: el
+  símbolo `Conn_01x06` filtra huellas con `Connector*:*_1x??_*` y `verificar_extra.py` activa ese test como error; con una librería
+  llamada `KIDBOX` el test fallaría. La huella se llama `GY-PCM5102_1x06_P2.54mm`. Si está mal: solo cambia el nombre (sin efecto eléctrico).
+- **26-oct · Pads de la huella del DAC iguales a los de la tira oficial** (1.7 mm, taladro 1.0, pad 1 cuadrado). El contorno de la boca del
+  jack (lo que sobresale 1.4 mm) va solo en F.Fab: en F.SilkS llegaría al borde de la placa.
+- **26-oct · Ruteo del I2S.** J2 tiene DIN, LRCK, BCK de arriba abajo y J5 tiene BCK, DIN, LCK. El orden está rotado y VIN cierra la columna
+  de J5 por abajo, así que sin vías una de las tres tiene que pasar entre pines (se comprobó con las cuatro combinaciones de entrada por la
+  izquierda o la derecha de J5). Se eligió **LRCK entre J2.30 (RUN, sin uso) y J2.29 (DIN)**, aceptado por el alumno. El riesgo es un
+  puente LRCK–RUN, que reiniciaría el módulo: está en el README.
+- **26-oct · 3V3 al DAC.** Baja por la izquierda de J3, pasa **bajo J3.14** (sin pasar entre pines de J3), sube en diagonal bajo la pantalla y
+  entra al interior del módulo **entre J2.31 (LCD_LED) y J2.30 (RUN)** con un tramo de 0.25 mm × 4 mm (0.295 mm a cada pad, unos 3 mΩ más).
+  Llega a VIN por la derecha y sigue a C4+ y a C3. Largo total de +3V3: 194 mm de 0.5 mm, unos 0.2 Ω, 6 mV a 30 mA.
+- **26-oct · TP1/TP2 excluidos de la BOM y de los archivos de posición**, igual que la huella oficial `TestPoint_THTPad`, para que F8 no
+  cambie nada. Figuran en `BOM_compra.csv` con costo 0.
+- **26-oct · Alturas (sección 6):** tira hembra de 8.5 mm (estándar) y alto del jack ≈ 6 mm (provisorio, dato del alumno) → DAC con socket
+  ≈ 18.6 mm; grosor sin carcasa ≈ 32 mm. Si el jack mide distinto, cambia la abertura de la carcasa, no la placa.
+- **26-oct · Imagen dibujada con el dato del panel (48.96 × 36.72).** Las medidas 19 + 11 mm suman 1.8 mm más que el módulo con un área de 49 mm;
+  el centro (desfase de 4.0 mm) no depende de eso.
+- **26-oct · `BOM_compra.csv`:** precio, proveedor y código quedan "por cotizar" donde el equipo no los fijó. No se inventaron.
+- **26-oct · Paquete de entrega** (`scripts/gen_entrega.py`): `entrega/KIDBOX_PCB_v0.9/` copia la misma estructura del repositorio (README,
+  especificación, DECISIONES, `KIDBOX/`, `fabricacion/`, `scripts/`) más un zip. Así la tabla de archivos del README vale para los dos. La
+  carpeta `entrega/` no se versiona en git porque se regenera con el script.
+
+### Holguras logradas (medidas con `pcbnew`)
+
+| Qué | Mínimo pedido | Logrado |
+| :--- | :--- | :--- |
+| Capuchón Ø10 → contorno de la pantalla | 1.5 mm | **1.91 mm** (RIGHT); el resto ≥ 11.9 mm |
+| Capuchón Ø10 → contorno del DAC | 1.5 mm | **5.10 mm** (SELECT) |
+| DAC → pantalla (en planta) | — | 9.74 mm |
+| Pista → pad de otra red (regla `pista_lejos_de_pad_ajeno`) | 0.29 mm | **0.295 mm**, solo en los cruces entre pines de J2 (SPI ×5, +3V3, LRCK); el resto ≥ 0.40 mm |
+| 3V3 → pad de otra red (regla `3V3_lejos_de_pads`) | 0.29 mm | **0.295 mm** en J2.31/J2.30. Los dos pads de C4 quedan a 0.30 mm entre sí (paso 1.5 mm, Ø1.2 de la huella oficial) |
+| BCK → J2.21 | 0.29 mm | 0.845 mm |
+| Pista → pista | 0.20 mm | 0.35 mm |
+| Cobre → borde | 0.30 mm | 1.07 mm (J1.1 / J2.20, igual que antes); PWR_EN a 7.9 mm del borde superior |
+| Patas THT → zona de batería | fuera | B a 1.75 mm (x), START a 1.75 mm (y) |
+| Courtyards C3 / C4 / SELECT / DAC | sin solaparse | SELECT ≤ 45.80 · C3 46.76–49.84 · C4 46.00–50.59 · DAC ≥ 50.80 (x) |
+
+Cuando el mínimo de las reglas se sube a 0.40 mm (prueba en una copia), el DRC marca exactamente los 7 cruces de J2 y los pads de C4.
+Eso demuestra que las reglas están activas.
+
+### Verificación
+
+`verificar.py`: ERC 0/0 · DRC 0 errores, 0 avisos (con las reglas de 0.29 mm) · 0 sin conectar · paridad 0 → SIN ERRORES.
+`verificar_extra.py`: ERC, DRC, sin conectar y paridad en 0 con los tests ignorados activados; F8 en seco con 0 cambios (22 símbolos, 22 huellas).
+Placa: 101 segmentos, 1192 mm, 0 vías. Taladros PTH: 2 × 0.6 (C4), 7 × 0.8 (C2, C3, SW10), 62 × 1.0 (J1, J2, J3, J5, TP1, TP2) y
+32 × 1.1 (pulsadores) = 103; NPTH 4 × 2.2. Archivos: Gerbers, taladros, `fabricacion/KIDBOX_gerbers_v0.9_PRELIMINAR.zip` y PDF 1:1 en
+A4 y Carta.
+
+## 17. v0.9 — ajuste tras la prueba 1:1: 150 × 70, controles Ø9, muro DAC–pantalla, batería en carcasa (26-oct-2026)
+
+Decisiones del equipo tras imprimir la v0.9 a escala real. Sigue siendo la v0.9 y va en el mismo PR #27. Reemplaza las coordenadas de la
+sección 16; el resto de la sección 16 (huella del DAC, C4 P1.50, reglas de 0.29 mm, LRCK y 3V3 por J2, TP, serigrafía) se mantiene.
+
+| Elemento | v0.9 (sección 16) | Ajuste |
+| :--- | :--- | :--- |
+| Placa | 155 × 75, eje x = 77.5 | **150 × 70**, eje **x = 75**; agujeros en (4, 4), (146, 4), (4, 66), (146, 66) |
+| Pantalla | módulo x 34.91–112.09, J3 en x = 36.91 | módulo **x 32.41–109.59**, **J3 en x = 34.41** (misma altura); imagen en x 50.52–99.48 |
+| RP2350-Plus | 68.61 / 86.39 | **66.11 / 83.89**; USB-C x 70.7–79.65 |
+| DAC | J5 en x = 52.6, VIN en y = 71.2, módulo y 56.1–73.6 | **J5 en x = 50.1, VIN en y = 66.2**, módulo **x 48.6–80.45, y 51.1–68.6**, jack x 72.65–77.35, boca en y = 70 |
+| Cruceta | centro (18, 44), brazos de 10 | **centro (16.5, 39), brazos de 9**: UP (16.5, 30), DOWN (16.5, 48), LEFT (7.5, 39), RIGHT (25.5, 39) |
+| A / B | (142, 39) / (132, 49) | **(138, 34.5) / (129, 43.5)** (punto medio x = 133.5, diagonal de 9 mm) |
+| SELECT / START | (41, 67) / (114, 67) | **(38.5, 62) / (111.5, 62)** |
+| Capuchones | redondos Ø10 | **redondos Ø9** (mínimo 1.5 mm de aire a los módulos) |
+| SW10 | (50, 8) | **(47.5, 8)**; pad 2 (GND = OFF) en x = 50.04 |
+| C2 / TP1 / TP2 | x 33.1 / 29.8 | **x 30.6 / 27.3** (igual respecto de J3) |
+| C3 / C4 | + en (48.3, 67.6) / (49.05, 71.2) | **+ en (45.8, 62.6) / (46.55, 66.2)** (grupo corrido −2.5 / −5 junto con SELECT y el DAC) |
+| Batería | zona sin patas THT en x 90.5–126.0 | **va en la carcasa**: zona solo de referencia en x 88.0–123.5, y 4–62, con una flecha hacia el conector BAT. Patas THT permitidas (caen las de START); sin componentes altos de la cara Bottom |
+| Muro | — | **franja de 4.74 mm** (y 46.36–51.1, x 48.6–80.45) sin piezas de la cara Top; línea "muro carcasa" en F.Fab en y = 48.73 |
+
+### Decisiones y supuestos
+
+- **26-oct · Muro colgante (decisión del alumno).** La franja de 4.74 mm entre la pantalla y el DAC no puede quedar libre de patas: las
+  últimas patas del RP2350-Plus (J2.21/J2.22 en x = 66.11 y J1.19/J1.20 en x = 83.89, cobre en y 46.79–51.03) caen dentro. Para que el muro
+  pasara entero por debajo de J2 habría hecho falta bajar el DAC 4.43 mm, y la placa no da. Por eso el muro cuelga de la tapa frontal, mide
+  ≈ 2 mm, tiene una altura útil de 9 a 18 mm sobre la PCB y termina ≥ 4 mm sobre ella: pasa por encima de las soldaduras (≈ 2 mm). El
+  generador comprueba que ninguna pieza de la cara Top tenga patas en la franja.
+- **26-oct · J2.21 junto al DAC.** El cobre de J2.21 queda a 0.07 mm del contorno del DAC, por fuera.
+  - No hay violación en el DRC: J2 está en la cara Bottom y J5 en la Top, y el agujero de J2.21 (hasta y 50.68) queda 0.13 mm fuera del
+    courtyard de J5 (desde y 50.81).
+  - Tampoco hay choque físico: la soldadura mide ≈ 2 mm y la placa del DAC está a ≈ 11 mm.
+- **26-oct · Ruteo de la cruceta con brazos de 9 mm.** Entre las columnas de pads de la cruceta solo quedan 0.5 mm, y una pista de 0.25
+  necesita 0.83 mm con la regla de 0.29. Por eso el ruteo usa los dos canales horizontales de 2.5 mm que quedan entre las filas.
+  - RIGHT, LEFT y DOWN salen de J2 por la izquierda y van por el canal inferior (y 43.6 / 44.2 / 44.8).
+  - **UP sale de J2 hacia el interior del módulo**, baja a 0.315 mm de J2.21–J2.23, pasa bajo la cruceta (y = 52), sube por el borde
+    izquierdo (x = 2) y entra por el canal superior (y = 34.5) a su pad oeste. Es la única forma sin vías ni cambio de pines: en J2,
+    RIGHT está por encima de UP y la cruceta ya no deja pasar una pista entre sus columnas.
+  - UP mide ≈ 110 mm; para un pulsador eso no importa.
+- **26-oct · A** pasa bajo B y sube por la derecha de A (x = 144), porque entre B y A también quedan 0.5 mm.
+- **26-oct · Zona de batería.** Ahora es solo una referencia en B.SilkS. `gen_pcb.py` ya no prohíbe patas THT ahí; prohíbe el cuerpo
+  (courtyard) de cualquier pieza de la cara Bottom salvo J1/J2.
+
+### Holguras logradas (medidas con `pcbnew`)
+
+| Qué | Mínimo | Logrado |
+| :--- | :--- | :--- |
+| Capuchón Ø9 → pantalla | 1.5 mm | **2.41 mm** (RIGHT); el resto ≥ 11.1 mm |
+| Capuchón Ø9 → DAC | 1.5 mm | **5.60 mm** (SELECT) |
+| Capuchón Ø9 → borde de la placa | — | 3.0 mm (LEFT); 3.5 mm (SELECT y START) |
+| Franja del muro (pantalla → DAC) | 4.5 mm | **4.74 mm** |
+| Pista → pad de otra red | 0.29 mm | 0.295 mm solo en los cruces de J2 (SPI ×5, 3V3, LRCK); después 0.31 (3V3 bajo J3.14) y 0.315 (UP junto a J2.21–J2.23) |
+| Pista → pista | 0.20 mm | 0.305 mm (3V3 bajo J3.14 / RIGHT) |
+| Cobre → borde | 0.30 mm | 1.07 mm (J1.1 / J2.20); SELECT a 1.275 mm del borde inferior; UP a 1.875 mm del borde izquierdo |
+| Courtyards | sin solaparse | sin solapes (cruceta, A/B, C3/C4/SELECT/DAC) |
+
+### Verificación
+
+`verificar.py`: ERC 0/0 · DRC 0 errores, 0 avisos (con las reglas de 0.29 mm) · 0 sin conectar · paridad 0 → SIN ERRORES.
+`verificar_extra.py`: ERC, DRC, sin conectar y paridad en 0 con los tests ignorados activados; F8 en seco con 0 cambios (22 símbolos, 22 huellas).
+Placa: 103 segmentos, 1219 mm, 0 vías. Taladros: 103 PTH (2 × 0.6, 7 × 0.8, 62 × 1.0, 32 × 1.1) y 4 NPTH × 2.2.
+`BOM_compra.csv`: capuchones Ø9 y "sujeción de la batería en la carcasa" en lugar de la cinta doble faz.
+
+## 18. v1.0 — pistas a 45°, prueba 1:1 y versión de fabricación (27-oct-2026)
+
+Revisión 2 del profesor (26-oct): aprobada salvo dos puntos, las esquinas a 90° y la prueba 1:1 de la 150 × 70. Van en el mismo PR #27.
+
+### Esquinas a 45°
+
+- **Antes:** 82 vértices entre dos pistas; 46 a 45°, **33 a 90°** y 3 colineales. Coincide con el conteo del profesor.
+- **Cómo se corrige:** en `gen_pcb.py`, antes de crear las pistas.
+  - Se reemplaza cada vértice donde se juntan exactamente dos segmentos de la misma red y capa formando 90°. Se tratan también los que vienen
+    de polilíneas distintas: 3 de las 33 esquinas estaban en el centro de un pad, donde la llegada al pulsador se junta con la unión de sus
+    dos pads.
+  - El reemplazo es un chaflán: dos puntos a d = 1.0 mm del codo, o d = largo/2 si un tramo mide menos de 2d.
+  - Si el chaflán queda a menos de 0.29 mm de un pad de otra red, o a menos de 0.30 mm de otra pista, d se achica en ese codo (0.75, 0.5,
+    0.35 o 0.25 veces).
+  - **Supuesto del agente:** el límite de 0.30 mm entre pistas es más exigente que el mínimo del proyecto (0.20). Se puso para no empeorar
+    la separación de la v0.9 (0.305 mm). Con 0.20, un chaflán de I2S_DIN quedaba a 0.245 mm de I2S_BCK, que era legal pero peor.
+  - No se movió ninguna huella.
+- **Después:** 115 vértices; **112 a 45°**, 3 colineales y **0 a 90°**. 33 chaflanes; 12 con d < 1.0 mm:
+  - **por tramo corto:** LRCK en (64.5, 34.94), RIGHT en (28.75, 41.25), PWR_EN y los dos codos de UP junto a J2;
+  - **por holgura:** los codos del haz I2S bajo J2.21 y junto a J5, con d = 0.35–0.945 mm.
+- **`verificar_extra.py`** suma un tercer paso: une los segmentos por red y capa, mide el giro en cada vértice y falla si alguno es de 90°.
+  También falla si una pista llega en T a 90° a otra de la misma red.
+- **Holguras:**
+  - **Pista → pad de otra red:** mínimo **0.295 mm**, en los mismos 14 pares de antes (cruces de J2: SPI ×5, 3V3 y LRCK). Siguen 0.31 mm
+    (3V3 bajo J3.14) y 0.315 mm (UP junto a J2.21–J2.23).
+  - **Pista → pista:** 0.305 mm.
+- **Placa:** 136 segmentos, 1202 mm, 0 vías. Taladros sin cambios: 103 PTH y 4 NPTH.
+
+### Prueba 1:1 (27-oct, hecha por el alumno)
+
+- **Fotos** en `KIDBOX/verificacion/`: `prueba_1a1_v09_frente.jpg`, `prueba_1a1_v09_reverso.jpg`, `prueba_1a1_v09_escala_largo.jpg` y
+  `prueba_1a1_v09_escala_alto.jpg`.
+- **Resultado:**
+  - escala 150 × 70 confirmada con regla;
+  - pantalla, DAC (jack centrado, boca al borde), pulsadores, C3, C4, RP2350-Plus, batería y SW10 calzan.
+- **C2 no aparece** porque se perdió la pieza (es igual a C3). En `BOM_compra.csv` pasa de 4 a 5 condensadores de 100 nF.
+- **Carcasa:** el README anota que la batería se orienta con el cable hacia el conector BAT.
+- **Serigrafía de las fotos:** dice v0.9. La v1.0 tiene la misma geometría; solo cambian las esquinas de las pistas y el número de versión.
+
+### Versión de fabricación
+
+- **Todo pasa a v1.0:** serigrafía ("KIDBOX v1.0 2026" y cajetín "KIDBOX v1.0 - 27-oct-2026"), revisión y fecha de los cajetines del
+  esquemático y del PCB, `ESPECIFICACION.md` (v1.0), README, `BOM_compra.csv`, `fabricacion/KIDBOX_gerbers_v1.0.zip` y la carpeta de entrega
+  `KIDBOX_PCB_v1.0/`.
+- **README:** se quita "PRELIMINAR — NO FABRICAR". Quedan los pendientes de después de la placa:
+  - revisar con lupa los cruces LRCK–RUN y 3V3–RUN en J2;
+  - SW10 en ON/OFF y la corriente en OFF;
+  - TP1–TP2;
+  - carcasa;
+  - alto del jack;
+  - polaridad del adaptador;
+  - puente J1 de la pantalla.
+
+### Verificación
+
+`verificar.py`: ERC 0/0 · DRC 0 errores, 0 avisos (con las reglas de 0.29 mm) · 0 sin conectar · paridad 0 → SIN ERRORES.
+`verificar_extra.py`: ERC, DRC, sin conectar y paridad en 0 con los tests ignorados activados; F8 en seco con 0 cambios; esquinas a 90°: 0.

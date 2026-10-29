@@ -1,5 +1,5 @@
 Drill report for KIDBOX.kicad_pcb
-Created on 2026-10-21T15:12:10
+Created on 2026-10-27T09:46:37
 
 Copper Layer Stackup:
     =============================================================
@@ -10,11 +10,12 @@ Copper Layer Stackup:
 Drill file 'KIDBOX-PTH.drl' contains
     plated through holes:
     =============================================================
-    T1  0.800mm  0.0315"  (9 holes))
-    T2  1.000mm  0.0394"  (60 holes))
-    T3  1.100mm  0.0433"  (32 holes))
+    T1  0.600mm  0.0236"  (2 holes))
+    T2  0.800mm  0.0315"  (7 holes))
+    T3  1.000mm  0.0394"  (62 holes))
+    T4  1.100mm  0.0433"  (32 holes))
 
-    Total plated holes count 101
+    Total plated holes count 103
 
 
 Drill file 'KIDBOX-NPTH.drl' contains
